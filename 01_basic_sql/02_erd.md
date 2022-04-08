@@ -22,6 +22,10 @@ An **entity relationship diagram** (**ERD**) is a common way to view data in a d
 
 You can think of each of the boxes in the diagram as a spreadsheet. Therefore, each spreadsheet is represented on a table. At the top, you will see the name of the table, and then below, each column name is listed.
 
+Note: `glossy_qty` is incorrect, it is actually **gloss_qty** in the database
+
+Please refer to the `postgresql` database created in the first [module](../00_psql_setup/05_parch_posey.md)
+
 ### What to Notice
 
 In the Parch & Posey database there are five tables (essentially 5 spreadsheets):
