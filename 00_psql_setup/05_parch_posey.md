@@ -1,6 +1,6 @@
 # Parch & Posey sample Data Base
 
-In this section we create a new database called `parch_posey`. To create and populate the tables in the `parch_posey` database we'll execute an external sql script `parch-and-posey.sql`.
+In this section we create a new database called `parch_posey`. To create and populate the tables in the `parch_posey` database we'll execute an external sql script `parch-and-posey.sql`. You can fine the file [here](../data).
 
 ## Create a Database with a new user
 
