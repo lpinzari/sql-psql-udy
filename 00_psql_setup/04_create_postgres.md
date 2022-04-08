@@ -47,7 +47,6 @@ An equivalent statement:
 
 ```console
 CREATE ROLE usertest
-CREATEDB
 LOGIN
 PASSWORD 'usertest';
 ```
