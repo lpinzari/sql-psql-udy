@@ -1,5 +1,26 @@
 # SELECT & FROM
 
+By far the most used SQL's verbs is **SELECT**. Since the most common operation performed on a database is to examine its data, it should not be surprising that the SQL statement that performs this task is the workhorse of the language. In any real database, of course, other SQL statements should have to be used first to create the database's tables and fill them with records. For most SQL users, however, this task will already have been performed, and so we begin with SELECT.
+
+## Selecting Specific Columns in a Table
+
+To see the values of certain columns for all of a table's records, you must give both the names of those columns and the name of the table. The general form is
+
+```console
+SELECT <column names>
+  FROM <table>;
+```
+
+where `<column names>` is replaced by the names of the desired columns, separated by commas, and `<table>` is replaced by the name of a table that contains those columns.
+
+**Note**: **Throughout this notes, words flanked by < and > represent placeholders for a type of thing and replaced by specific instances of those things in actual SQL queries.**
+
+In general, if you specify a column that is not defined for that table, you will get some kind of error message depending on exactly what system you are using. Otherwise, the results of your query, a list of the desired values, will appear.
+
+**To show these result visually**, the query diagram contains a representation of the table being queried with a **check mark next to each column selected by the query**.
+
+## Example Parch & Posey
+
 First, we are going to generate a list of all of the **orders** that Parch and Posey has ever received.
 
 Parch and Posey records their orders in a table called **orders**. That table contains all the columns you see here.
@@ -79,12 +100,7 @@ SELECT id, occurred_at
   FROM orders;
 ```
 
-:white_check_mark: X
-
-| orders          | |
-|:-----------------:|---: |
-|id               |   X |
-|occurred_at       |   X |
+![select 1](./images/10_select.png)
 
 Let’s examine the SELECT statement in more detail:
 
@@ -115,28 +131,30 @@ parch_posey->  LIMIT 3;
 
 
 
-**select all columns**
+### Selecting all columns in a table
 
-:white_check_mark: X
+It is often useful to see the value of every field for every record in a table. One way to do this is by listing the names of every column in that table, similar to the example we have just seen. Because this is just a frequent operation, however, SQL provides a shorthand way to list all values in a table.
 
-| orders          | |
-|:-----------------:|---: |
-|id               |   X |
-|account_id       |   X |
-|occurred_at      |   X |
-|standard_qty     |   X |
-|gloss_qty        |   X |
-|poster_qty       |   X |
-|total            |   X |
-|standard_amt_usd |   X |
-|gloss_amt_usd    |   X |
-|poster_amt_usd   |   X |
-|total_amt_usd    |   X |
+Instead of actually listing all column names, you can type an asterisk `*` instead. The general form is:
+
+```console
+SELECT *
+  FROM <table>;
+```
+
+where `<table>` is replaced by the name of a table. Unsurprisingly, the query diagram for this shows the table with a check by every column name.
+
+#### Example
 
 ```console
 SELECT *
   FROM orders;
 ```
+
+![select 2](./images/11_select.png)
+
+
+
 PostgreSQL evaluates the FROM clause before the SELECT clause in the SELECT statement.
 
 > Note that the SQL keywords are case-insensitive. It means that SELECT is equivalent to select or Select. By convention, **we will use all the SQL keywords in uppercase to make the queries easier to read**.
