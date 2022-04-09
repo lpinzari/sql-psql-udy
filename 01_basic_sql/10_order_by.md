@@ -68,6 +68,8 @@ id | account_id |     occurred_at
 
 You'll notice that this table `appears` to be sorted by `account_id`. It starts at 1001 and goes to 1011, 1021 ... However, the order of the rows in the table has no significance to SQL.
 
+### Using PostgreSQL ORDER BY clause to sort rows by one column
+
 Let's add an `ORDER BY` clause to **reorder** the results **based on the date the order was placed**, which you can see in the `occurred_at` column.
 
 ```console
@@ -122,14 +124,16 @@ By the **default**, `ORDER BY` goes from:
 
 This is referred to as **ascending** order. You'll notice that that's happening in the result of our last query. The **earliest date** is `2013-12-04 04:22:44` and the client `2861` is the first client that placed an order.
 
+## Using PostgreSQL ORDER BY clause to sort rows by one column in descending order
+
 If you want to order the other way, you can add `DESC` option, short for **descending**, to the **end of the** `ORDER BY` clause. This will get us the data set that we're after, which **shows the 10 most recent orders** with the most recent at the top.
 
 ```console
 SELECT account_id,
-parch_posey-#        occurred_at
-parch_posey-#   FROM orders
-parch_posey-#  ORDER BY occurred_at DESC
-parch_posey-#  LIMIT 10;
+       occurred_at
+  FROM orders
+  ORDER BY occurred_at DESC
+  LIMIT 10;
 ```
 
 ![13 orderby](./images/13_orderby.png)
@@ -156,6 +160,90 @@ parch_posey-#  LIMIT 10;
 ```
 The last order was placed the `2017-01-02 00:02:40`.
 
+### Using PostgreSQL ORDER BY clause to sort rows by multiple columns
+
+Let's say you want to **order results by** `account`, and **within each account**, have **orders sorted** from **largest to smallest**, so you'll be able to quickly see
+
+- what the largest orders were for each account.
+
+You can use an `ORDER BY` clause **over multiple columns** to achieve this, and the **sorting** will happen in **the order that you specify the columns**.
+
+```console
+SELECT account_id
+       total_amt_usd
+  FROM orders
+ ORDER BY account_id,
+          total_amt_usd DESC
+```
+![14 orderby](./images/14_orderby.png)
+
+so, let's start by ordering by `account_id` first, and then `total_amt_usd`, which we'll make **descending**, so the largest values will be first.
+
+```console
+parch_posey=# SELECT account_id,
+parch_posey-#        total_amt_usd
+parch_posey-#   FROM orders
+parch_posey-#  ORDER BY account_id,
+parch_posey-#           total_amt_usd DESC;
+account_id | total_amt_usd
+------------+---------------
+      1001 |       9426.71
+      1001 |       9230.67
+      1001 |       9134.31
+      1001 |       8963.91
+      1001 |       8863.24
+      1001 |       8757.18
+      .... |        ......
+      .... |        ......
+      .... |        ......
+      1011 |       2734.59
+      1021 |       2945.73
+      1021 |       2944.24
+      1021 |       2936.92
+      1021 |       2747.11
+      .... |       .......
+```
+
+So, I run this, you can see that the first account we get is `1001` and then the orders descends from `9426` all the way down to `2734.59`. And then after that, we have `1021` and that account's largest orders and so forth.
+
+Now, what happens if I flip the columns in the `ORDER BY` clause.
+
+```console
+SELECT account_id
+       total_amt_usd
+  FROM orders
+ ORDER BY total_amt_usd DESC,
+          account_id;
+```
+
+So, the amount will be first and then we sort by account_id.
+
+![orderby 15](./images/15_orderby.png)
+
+```console
+parch_posey=# SELECT account_id,
+parch_posey-#        total_amt_usd
+parch_posey-#   FROM orders
+parch_posey-#  ORDER BY total_amt_usd DESC,
+parch_posey-#           account_id
+parch_posey-#  LIMIT 50;
+ account_id | total_amt_usd
+------------+---------------
+       4251 |     232207.07
+       4161 |     112875.18
+       4211 |     107533.55
+       2861 |      95005.82
+       4101 |      93547.84
+       4111 |      93505.69
+       1301 |      93106.81
+       1521 |      92991.05
+       1341 |      84099.62
+       4151 |      82163.71
+       .... |      ........
+```
+
+What's happening here is that we're starting with the highest amount and sorting descending. So, this is the largest order of all time at `$ 232207.07` and that went to account `4251`. Now, it doesn't seem to be sorting by `account_id`. The reason for that is that, all of these amounts **are so precise** that there aren't multiple rows of the same amount. So, if there were two rows in the set with the exact same amount, you might notice that account_id within that is sorted from smallest to largest. So the secondary sorting by account ID **is difficult to see here**, since only if there were two orders with equal total dollar amounts would there need to be any sorting by account ID.
+
 ## Summary
 
 The `ORDER BY` statement **allows us to sort our results using the data in any column**. If you are familiar with *Excel* or *Google Sheets*, using `ORDER BY` is similar to sorting a sheet using a column. A key difference, however, is that **using ORDER BY in a SQL query only has temporary effects**, for the results of that query, unlike sorting a sheet by column in Excel or Sheets.
@@ -167,6 +255,8 @@ The **ORDER BY** statement always comes in a query after the **SELECT** and **FR
 If you are using the **LIMIT** statement, it **will always appear last**. As you learn additional commands, the order of these statements will matter more.
 
 Remember `DESC` can be added after the column in your `ORDER BY` statement to sort in descending order, as the default is to sort in ascending order.
+
+Lastly, we saw that we can `ORDER BY` **more than one column at a time**. When you **provide a list of columns** in an ORDER BY command, **the sorting occurs using the leftmost column in your list first**, then the next column from the left, and so on. We still have the ability to flip the way we order using DESC.
 
 ## Exercises
 
