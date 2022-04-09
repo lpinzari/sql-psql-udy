@@ -21,7 +21,7 @@ Let's use the **LIMIT** to **look at just the first 10 rows** of `web_traffic`.
 ```console
 SELECT *
   FROM web_events
-  LIMIT 10;
+ LIMIT 10;
 ```
 
 **LIMIT** gets written in at **the end of the query with the number**. this will limit the number of rows returned. For example, `LIMIT 10` will return the first 10 rows of results and omit the rest. `LIMIT 100000` will return the first 100000 rows. Since there aren't that many, it simply returns all the rows in the table.
@@ -31,7 +31,7 @@ Let's execute this query from the `psql` prompt. See the previous lessons to con
 ```console
 parch_posey=# SELECT *
 parch_posey-#   FROM web_events
-parch_posey-#   LIMIT 10;
+parch_posey-#  LIMIT 10;
  id | account_id |     occurred_at     | channel
 ----+------------+---------------------+---------
   1 |       1001 | 2015-10-06 17:13:58 | direct
@@ -73,7 +73,7 @@ The LIMIT command is always the very last part of a query. An example of showing
 ```console
 SELECT *
   FROM orders
-  LIMIT 10;
+ LIMIT 10;
 ```
 
 We could also change the number of rows by changing the 10 to any other number of rows.

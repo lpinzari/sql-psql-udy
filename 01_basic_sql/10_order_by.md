@@ -11,7 +11,7 @@ The general form of a `SELECT` **statement using** `ORDER BY` is:
 ```console
 SELECT <column names>
   FROM <table>
-  ORDER BY <column names>;
+ ORDER BY <column names>;
 ```
 
 As before, `<column names>` after `SELECT` and `<table>` indicate the columns that should be selected from the named table. Most importantly for our purposes, the `<column names>` following `ORDER BY` indicate the column(s) whose values should be used to order the selected records. The default order is **ascending order** or `ASC`.
@@ -21,7 +21,7 @@ SQL also allows records to be listed in **reverse order** or **descending order*
 ```console
 SELECT <column names>
   FROM <table>
-  ORDER BY <column names> DESC;
+ ORDER BY <column names> DESC;
 ```
 
 The **query diagram** for `ORDER BY` is shows the selected table with a **box indicating the column on which the ordering is based**. If two or more columns are used, both are included in the `ORDER BY` box.
@@ -74,8 +74,8 @@ Let's add an `ORDER BY` clause to **reorder** the results **based on the date th
 SELECT account_id,
        occurred_at
   FROM orders
-  ORDER BY occurred_at
-  LIMIT 20;
+ ORDER BY occurred_at
+ LIMIT 20;
 ```
 
 Notice that the `ORSER BY` clause goes between the `FROM` and `LIMIT` clauses. Remember the `ORDER BY` **must appear after** `FROM` **and before** `LIMIT` **clauses**. **You must write the clauses in this order, or the query will not run**.
@@ -87,8 +87,8 @@ Notice that the `ORSER BY` clause goes between the `FROM` and `LIMIT` clauses. R
 parch_posey=# SELECT account_id,
 parch_posey-#        occurred_at
 parch_posey-#   FROM orders
-parch_posey-#   ORDER BY occurred_at
-parch_posey-#   LIMIT 20;
+parch_posey-#  ORDER BY occurred_at
+parch_posey-#  LIMIT 20;
  account_id |     occurred_at
 ------------+---------------------
        2861 | 2013-12-04 04:22:44
@@ -128,8 +128,8 @@ If you want to order the other way, you can add `DESC` option, short for **desce
 SELECT account_id,
 parch_posey-#        occurred_at
 parch_posey-#   FROM orders
-parch_posey-#   ORDER BY occurred_at DESC
-parch_posey-#   LIMIT 10;
+parch_posey-#  ORDER BY occurred_at DESC
+parch_posey-#  LIMIT 10;
 ```
 
 ![13 orderby](./images/13_orderby.png)
@@ -138,8 +138,8 @@ parch_posey-#   LIMIT 10;
 parch_posey=# SELECT account_id,
 parch_posey-#        occurred_at
 parch_posey-#   FROM orders
-parch_posey-#   ORDER BY occurred_at DESC
-parch_posey-#   LIMIT 10;
+parch_posey-#  ORDER BY occurred_at DESC
+parch_posey-#  LIMIT 10;
  account_id |     occurred_at
 ------------+---------------------
        3841 | 2017-01-02 00:02:40
@@ -177,8 +177,8 @@ SELECT id,
        occurred_at,
        total_amt_usd
   FROM orders
-  ORDER BY occurred_at
-  LIMIT 10;
+ ORDER BY occurred_at
+ LIMIT 10;
 ```
 
 2. Write a query to return **the top 5** `orders` in terms of largest `total_amt_usd`. Include the `id`, `account_id`, and `total_amt_usd`.
@@ -188,8 +188,8 @@ SELECT id,
        account_id,
        total_amt_usd
   FROM orders
-  ORDER BY total_amt_usd DESC
-  LIMIT 5;
+ ORDER BY total_amt_usd DESC
+ LIMIT 5;
 ```
 
 3. Write a query to return **the lowest 20** `orders` in terms of smallest `total_amt_usd`. Include the `id`, `account_id`, and `total_amt_usd`.
@@ -199,8 +199,8 @@ SELECT id,
        account_id,
        total_amt_usd
   FROM orders
-  ORDER BY total_amt_usd
-  LIMIT 20;
+ ORDER BY total_amt_usd
+ LIMIT 20;
 ```
 
 
