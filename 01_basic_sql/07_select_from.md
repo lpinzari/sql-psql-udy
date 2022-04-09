@@ -159,7 +159,10 @@ PostgreSQL evaluates the FROM clause before the SELECT clause in the SELECT stat
 
 > Note that the SQL keywords are case-insensitive. It means that SELECT is equivalent to select or Select. By convention, **we will use all the SQL keywords in uppercase to make the queries easier to read**.
 
-Notice that we added a semicolon (`;`) **at the end of the** `SELECT` statement. The **semicolon is not a part of the SQL statement**. It is used to signal PostgreSQL the end of an SQL statement. The semicolon is also used to separate two SQL statements.
+Notice that we added a semicolon (`;`) **at the end of the** `SELECT` statement. The **semicolon is not a part of the SQL statement**.
+
+- **It is used to signal PostgreSQL the end of an SQL statement**.
+- **The semicolon is also used to separate two SQL statements**.
 
 **Both the SELECT and FROM clauses are mandatory**.
 
