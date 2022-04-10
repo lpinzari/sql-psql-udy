@@ -147,7 +147,7 @@ There are 13 rows in the query output. When using SQL entire rows of data **pres
 
 **All the information in one row is about one order of paper**.
 
-For instance, in the previous query we included the column `account_id` in the `SELECT` statement. However, we see that this value appears in all the rows and therefore is redundant. A more clever query is to **always include the primary key** so that we can retrieve all the values of the other columns for each record in the table with a `WHERE` clause.
+For instance, in the previous query we included the column `account_id` in the `SELECT` statement. However, we see that this value appears in all the rows and therefore is redundant. A more clever query is to **include the primary key** so that we can retrieve all the values of the other columns for each record in the table with a `WHERE` clause.
 
 ```console
 parch_posey=# SELECT id,
