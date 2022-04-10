@@ -128,3 +128,31 @@ parch_posey-#  LIMIT 5;
        1001 | 2016-02-01 19:27:27 |          108 |        29 |         28 |              57
 (5 rows)
 ```
+
+## Summary
+
+Creating a new column that is a combination of existing columns is known as a **derived column** (or "**calculated**" or "**computed**" column). Usually you want to give a name, or "**alias**," to your new column using the `AS` keyword.
+
+This derived column, and its alias, are generally only temporary, existing just for the duration of your query. The next time you run a query and access this table, the new column will not be there.
+
+If you are deriving the new column from existing columns using a mathematical expression, then these familiar mathematical operators will be useful:
+
+1. `*` (Multiplication)
+2. `+` (Addition)
+3. `-` (Subtraction)
+4. `/` (Division)
+
+Consider this example:
+
+```console
+SELECT id,
+       (standard_amt_usd/total_amt_usd)*100 AS std_percent,
+       total_amt_usd
+  FROM orders
+ LIMIT 10;
+```
+
+Here we divide the standard paper dollar amount by the total order amount to find the standard paper percent for the order, and use the `AS` keyword to name this new column "`std_percent`."
+
+### Order of Operations
+math [class](https://www.purplemath.com/modules/orderops.htm) to help remember the order of operations. The same order of operations applies when using arithmetic operators in SQL.
