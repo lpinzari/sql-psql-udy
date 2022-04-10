@@ -24,6 +24,31 @@ SELECT <column names>
  ORDER BY <column names> DESC;
 ```
 
+The following illustrates the syntax of the ORDER BY clause:
+
+```cosnole
+SELECT <column names>
+  FROM <table>
+ ORDER BY <column name> (ASC | DESC),
+          <column name> (ASC | DESC),
+            ...            ...
+          <column name> (ASC | DESC);
+```
+this syntax:
+
+First, specify a column that you want to sort after the ORDER BY keywords. If you want to sort the result set based on multiple columns you need to place a comma (,) between two columns or expressions to separate them.
+Second, you use the `ASC` option to sort rows in ascending order and the `DESC` option to sort rows in descending order. If you omit the `ASC` or `DESC` option, the `ORDER BY` **uses** `ASC` **by default**.
+
+PostgreSQL evaluates the clauses in the SELECT statment in the following order: FROM, SELECT, and ORDER BY:
+
+```console
+FROM -> SELECT -> ORDER BY
+```
+
+Due to the order of evaluation, if you have a column `alias` in the SELECT clause, you can use it in the ORDER BY clause. But we'll talk about alias in the following lessons.
+
+Let’s take some examples of using the PostgreSQL ORDER BY clause.
+
 The **query diagram** for `ORDER BY` is shows the selected table with a **box indicating the column on which the ordering is based**. If two or more columns are used, both are included in the `ORDER BY` box.
 
 ## Ordering Data example
