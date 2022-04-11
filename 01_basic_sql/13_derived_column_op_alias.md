@@ -1,5 +1,10 @@
 # Arithmetic operations - Derived columns - Alias
 
+Retrieving the information stored in a table is undoubtedly useful. Sometimes, though, the stored information is not exactly what we are interested in. Suppose, for example, that we wish to know how much each employee's salary would be if we gave everyone a flat $1000 raise. Or perhaps we would like to see what the new salaries would be after an across-the-board 10 percent increase. For these kind of queries, SQL provides the four basic arithmetic operations of addition, subtraction, multiplication and division. (While addition and subtraction are represented in queries by the familiar `+` and `-` symbols, multiplication and division use the symbols `*` and `/`, respectively). Within a query, for instance, we can add a fixed amount to every value in a column or multiply each of a column's values by some amount. It is even possible to add two columns together or subtract the values of one column in a record from those of another.
+
+
+## Doing arithmetic with SELECTION
+
 Before we calculate **how much non-standard paper was sold**, let's check out the order quantities in each column of the orders.
 
 ```console
