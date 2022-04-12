@@ -201,3 +201,11 @@ ALTER TABLE
 parch_posey=> ALTER TABLE sales_reps ADD PRIMARY KEY (id);
 ALTER TABLE
 ```
+
+## Removing a Primary Key
+
+We can remove an existing primary key by using the `DROP CONSTRAINT` keyword in the alter table syntax.
+
+```console
+ALTER TABLE table_name DROP CONSTRAINT primary_key_constraint;
+```
