@@ -21,3 +21,11 @@ The notion of a table, with its rows and columns, is illustrated below.
 Stored in the table as values for the various fields in the records is the actual data. **Note that the order of the records in a table is not significant**. It is not meaningful to ask whether a particular record occurs before or after another.
 
 A very simple database might contain only one table, but most databases will contain several.
+
+For instance, imagine a sales manager who would like to determine how each of her salespeople is performing.
+
+The database she accesses might hold in **one table** the amount of each product sold by each member of her sales force while **another table** contains personnel information about the salespeople, such as their length of service with the company. Still other tables in this database will contain other related information.
+
+Some queries against this database, such as determining which salesperson sold the most of a particular product, can be answered by examining a single table.
+
+Others, such as requesting the total sales last month by each sales person with the results ranked by length of service, might require accessing more than one table.
