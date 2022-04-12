@@ -299,9 +299,9 @@ To add a foreign key constraint to the existing table, you use the following for
 
 ```console
 ALTER TABLE child_table
-      ADD CONSTRAINT constraint_name
-      FOREIGN KEY (fk_columns)
-      REFERENCES parent_table (parent_key_columns);
+ADD CONSTRAINT constraint_name
+FOREIGN KEY (fk_columns)
+REFERENCES parent_table (parent_key_columns);
 ```
 
 When you add a foreign key constraint with **ON DELETE CASCADE option** to an existing table, you need to follow these steps:
@@ -310,17 +310,17 @@ First, drop existing foreign key constraints:
 
 ```console
 ALTER TABLE child_table
-      DROP CONSTRAINT constraint_fkey;
+DROP CONSTRAINT constraint_fkey;
 ```
 
 First, add a new foreign key constraint with  **ON DELETE CASCADE** action:
 
 ```console
 ALTER TABLE child_table
-      ADD CONSTRAINT constraint_fk
-      FOREIGN KEY (fk_columns)
-      REFERENCES parent_table(parent_key_columns)
-      ON DELETE CASCADE;
+ADD CONSTRAINT constraint_fk
+FOREIGN KEY (fk_columns)
+REFERENCES parent_table(parent_key_columns)
+ON DELETE CASCADE;
 ```
 
 ## Many-to-Many Relationship
