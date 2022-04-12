@@ -4,7 +4,7 @@ The Teacher table example.
 
 ![table 2](./images/02_table.png)
 
-The figure above shows the content of a table called `teachers`. This table contains six rows, each record describing a particular teacher. The information stored about each is described by the names assigned to the table's four columns:
+The figure above shows the content of a table called `teachers`. This table contains many rows, each record describing a particular teacher. The information stored about each is described by the names assigned to the table's four columns:
 
  - `teacher_id`
  - `teacher_name`
