@@ -30,11 +30,11 @@ Please refer to the `postgresql` database created in the first [module](../00_ps
 
 In the Parch & Posey database there are five tables (essentially 5 spreadsheets):
 
-1. **web_events**
-2. **accounts**
-3. **orders**
-4. **sales_reps**
-5. **region**
+1. **web_events**: all web event data for P&P's accounts
+2. **accounts**: all accounts from P&P
+3. **orders**: all orders made from 2014-12-08 to 2017-01-01
+4. **sales_reps**: information on P&P's sales reps
+5. **region**: the 4 regions in the US where P&P operates.
 
 You can think of each of these tables as an individual spreadsheet. Then the columns in each spreadsheet are listed below the table name. For example, the **region** table has two columns: `id` and `name`. Alternatively the **web_events** table has *four columns*.
 
