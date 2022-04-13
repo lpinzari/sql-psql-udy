@@ -63,7 +63,7 @@ GRANT
 postgres=> \list     
 ```
 
-The Access privileges column: ` | usertest=CTc/usertest`
+The Access privileges column: ` | Tc/usertest + usertest=CTc/usertest`
 
 ## Create and populate tables in the parch and posey database
 
