@@ -17,6 +17,8 @@ Technically, a **primary key constraint** is the combination of
 - a **not-null constraint** and
 - a **UNIQUE constraint**.
 
+Recall that the values to be used as keys in a table must be unique. Also, it makes no sense to allow `NULL` values within keys. Therefore, if a column's values are to be used as keys, that column should be declared `NOT NULL` and included in a `UNIQUE` clause constraint when the table is created. In other words, no key column should be allowed to contain duplicate values, and the value `NULL` should never appear in that column. An easy way and clean way to define both constraints is to use the **primary key constraint**.
+
 Find more information about [not-null constraint](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-not-null-constraint/) and [unique constraint](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-unique-constraint/).
 
 A **table can have one and only one primary key**.
@@ -28,7 +30,7 @@ It is a good practice to **add a primary key to every table**. When you add a pr
 Normally, we add the primary key to a table when we define the table’s structure using [CREATE TABLE](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-create-table/) statement.
 
 ```console
-CREATE TABLE TABLE example1 (
+CREATE TABLE example1 (
 	column_1 data_type PRIMARY KEY,
 	column_2 data_type,
 	…
@@ -37,10 +39,21 @@ CREATE TABLE TABLE example1 (
 
 The `column_1` is the primary key of the table **example1**, which uniquely identifies the row in the table.
 
+The `PRIMARY KEY` constraint is equivalent to the following verbose statement:
+
+```console
+CREATE TABLE example1 (
+	column_1 data_type NOT NULL,
+	column_2 data_type,
+	...
+	UNIQUE(column)
+);
+```
+
 In case the primary key consists of two or more columns, you define the primary key constraint as follows:
 
 ```console
-CREATE TABLE TABLE example2 (
+CREATE TABLE example2 (
 	column_1 data_type,
 	column_2 data_type,
 	…
