@@ -85,6 +85,14 @@ A simple diagram for the `CREATE TABLE` statement is illustrated below:
 
 ![fk create table](./images/10_fk_uniy.png)
 
+A more explicit diagram for the **sections** `child` table is illustrated below:
+
+![fk create table2](./images/12_fk_uniy.png)
+
+A diagram for the **courses** `parent` table:
+
+![fk create table3](./images/13_fk_uniy.png)
+
 Let's first check the attributes of the existing **courses** and **teachers** tables in the database.
 
 **courses**
