@@ -104,8 +104,8 @@ The `customer_id` column in the **contacts table** is the **foreign key column**
 The following statements create the `customers` and `contacts` tables:
 
 ```console
-DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS contacts;
+DROP TABLE IF EXISTS customers;
 
 CREATE TABLE customers(
    customer_id INT GENERATED ALWAYS AS IDENTITY,
@@ -132,10 +132,24 @@ The following foreign key constraint `fk_customer` in the **contacts table** def
 
 ```console
 CONSTRAINT fk_customer
-   FOREIGN KEY(customer_id)
-   REFERENCES customers(customer_id)
+   FOREIGN KEY (customer_id)
+   REFERENCES customers (customer_id)
 ```
 Because the foreign key constraint does not have the `ON DELETE` and `ON UPDATE` action, they default to `NO ACTION`.
+
+If you want to include the foreign key constraint without giving a name to the constraint is better to follow this less verbose syntax:
+
+```console
+CREATE TABLE contacts(
+   contact_id INT GENERATED ALWAYS AS IDENTITY,
+   customer_id INT REFERENCES customers (customer_id),
+   contact_name VARCHAR(255) NOT NULL,
+   phone VARCHAR(15),
+   email VARCHAR(100),
+   PRIMARY KEY(contact_id)
+);
+```
+I prefer to write all the table constraints at the end for readability and the column constraints right to the right of the column name.
 
 ## NO ACTION
 
@@ -323,7 +337,7 @@ First, add a new foreign key constraint with  **ON DELETE CASCADE** action:
 ALTER TABLE child_table
 ADD CONSTRAINT constraint_fk
 FOREIGN KEY (fk_columns)
-REFERENCES parent_table(parent_key_columns)
+REFERENCES parent_table (parent_key_columns)
 ON DELETE CASCADE;
 ```
 
@@ -361,13 +375,13 @@ Now, let's create a bridge table called `article_tag`
 CREATE TABLE article_tag (
   article_id INT,
   tag_id INT,
-  PRIMARY KEY(article_id, tag_id)
+  PRIMARY KEY(article_id, tag_id),
   CONSTRAINT fk_article
-     FOREIGN KEY(article_id)
-     REFERENCES article(id)
+     FOREIGN KEY (article_id)
+     REFERENCES article (id),
   CONSTRAINT fk_tag  
-     FOREIGN KEY(tag_id)
-     REFERENCES tag(id)
+     FOREIGN KEY (tag_id)
+     REFERENCES tag (id)
 );
 ```
 
@@ -376,3 +390,5 @@ We have applied two foreign key constraints, one for `article_id` and one for `t
 ## Summary
 
 In this tutorial, you have learned about PostgreSQL foreign keys and how to use the foreign key constraint to create foreign keys for a table. In the next lesson, we are going to add the foreign key constraint to The Parch & Posey database.
+
+- PostgreSql documentation [foreign key](https://www.postgresql.org/docs/current/ddl-constraints.html)
