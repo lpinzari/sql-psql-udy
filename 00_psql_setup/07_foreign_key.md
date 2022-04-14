@@ -28,6 +28,10 @@ The **foreign key constraint helps maintain the** `referential integrity of data
 
 A **foreign key constraint** indicates that
 
+| **child** |    | **parent**|
+|:---------:|:--:|:---------:|
+|**The values in a column** or a **group of columns** in the `child table`| **=**|**The values in a column** or a **group of columns** of the `parent table`|
+
 - **values in a column** or a **group of columns** in the `child table`
 
 **EQUAL THE VALUES**

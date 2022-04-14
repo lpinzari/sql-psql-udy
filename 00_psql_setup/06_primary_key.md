@@ -161,6 +161,8 @@ It is rare to define a primary key for existing table. In case you have to do it
 
 - `ALTER TABLE table_name ADD PRIMARY KEY (column_1, column_2);`
 
+Using the `ALTER TABLE` statement, you can change a table's structure once it is created. This statement enables adding or deleting columns in an existing table or adding, removing table and column constraints. For more information see [ALTER TABLE](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-alter-table/). 
+
 In the case of the **web_events** table:
 
 ```console

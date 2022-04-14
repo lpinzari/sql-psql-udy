@@ -32,7 +32,13 @@ The answer lies in the foreign key definition.
 
 A **foreign key** is a **column** or a **group of columns** in a `table` that **reference** the **primary key** of `another table`.
 
-For instance, the `student_id` column in the **enrolls** table references the primary key column `student_id` in the **students** table. In this example, it's clear that the values in the `student_id` column of the **enrolls** table are drawn from the column of the same name in the **students** table. Consequently, the **students** table is the `parent`, while the **enrolls** table is the `child`.
+Thus, in a **foreign key constraint**:
+
+| **child** |    | **parent**|
+|:---------:|:--:|:---------:|
+|**The values in a column** or a **group of columns** in the `child table`| **=**|**The values in a column** or a **group of columns** of the `parent table`|
+
+For instance, the `student_id` **foreign key column** in the **enrolls** table references the **primary key column** `student_id` in the **students** table. In this example, it's clear that the values in the `student_id` column of the **enrolls** table are drawn from the column of the same name in the **students** table. Consequently, the **students** table is the `parent`, while the **enrolls** table is the `child`.
 
 ![uniY table4](../00_basic_intro/images/08_uniY.png)
 
@@ -62,6 +68,7 @@ CREATE TABLE <table> (
 ```
 
 The first two words of the statement, **CREATE TABLE**, tell SQL **what we are doing**. Next comes `<table>`, the name we want to give this newly created table(as always, expression wrapped in < and > are replaced by actual words in SQL statements). Finally comes the `<column descriptions>`, a parenthesized list giving the name and type of each column we want to be in the table.
+
 
 In **PostgreSql** the basic syntax of the **CREATE** statement is:
 
@@ -164,6 +171,8 @@ uniy(>   gender CHAR (1)
 uniy(> );
 CREATE TABLE
 ```
+Unlike `SELECT`, execution of a `CREATE` does not return results to the user. Because `CREATE` does not choose values from existing tables but instead creates an entirely new table, there are no results to return. Most implementations of SQL will respond, however, with an indication that the specified table was cerated. In the case of PostgrSql the message is `CREATE TABLE`.
+
 
 Now let's list the tables in our database.
 
