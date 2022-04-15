@@ -2,7 +2,7 @@
 
 Hi developers, Data analysts and Data Scientists :smile: !
 
-Welcome to the course of **SQL & PostgreSQL** :wave:
+Welcome to the course of **SQL & PostgreSQL**  :elephant: :wave:
 
 This course is the result of personal notes and collection of various sources. The main reference is the official PostgresSQL [manual](https://www.postgresql.org/docs/), but it also includes notes from Udacity course on [SQL for Data analysis](https://www.udacity.com/course/sql-for-data-analysis--ud198) and the book [A Visual Introduction to SQL](https://www.amazon.com/Visual-Introduction-SQL-David-Chappell/dp/0471412767).
 
