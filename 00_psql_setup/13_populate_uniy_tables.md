@@ -313,4 +313,4 @@ DELETE 1
 
 Note that if an `INSERT` statement does not specify a *value* for a field whose column was declared `NOT NULL` when the table was created, **SQL will not allow the record to be recorded**.
 
-There is only an exception to this rule. It is when the **PRIMARY KEY** column is a `SERIAL` pseudo-type. To see an example go to the next lesson.
+There is only an exception to this rule. It is when the **PRIMARY KEY** column is a `SERIAL` pseudo-type. To see an example go to the next [lesson](./15_populate_uniy_tables.md).
