@@ -222,3 +222,95 @@ Follow the links below to insert a value into a column with:
 
 
 ### Adding Records with Values Only for Some Columns
+
+What happens if we do not specify values for all the fields in a newly added record?
+
+Let's insert a new record in the **students** table.
+
+```console
+uniy=> \d students
+                    Table "public.students"
+    Column    |     Type      | Collation | Nullable | Default
+--------------+---------------+-----------+----------+---------
+ student_id   | smallint      |           | not null |
+ student_name | character(18) |           |          |
+ address      | character(20) |           |          |
+ city         | character(10) |           |          |
+ state        | character(2)  |           |          |
+ zip          | character(5)  |           |          |
+ gender       | character(1)  |           |          |
+Indexes:
+    "students_pkey" PRIMARY KEY, btree (student_id)
+Referenced by:
+    TABLE "enrolls" CONSTRAINT "enrolls_fkey_student" FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE
+```
+
+What is the result, for instance, of saying:
+
+```console
+INSERT INTO students
+       (student_id, student_name, city, state, gender)
+VALUES (558,
+        'Val Shipp',
+        'Chicago',
+        'IL',
+        'F');       
+```
+
+As the list of column names indicates, we are specifying values only for the `student_id`, `student_name`,`city`,`state` and `gender` fields of this new record.
+
+What values are placed in `address` and `zip`, the **fields for which we have not specified values**?
+
+The answer should not be a surprise. Because every field in every record must have some *value*, and because we have not specified a *value* for those fileds, SQL will place **DEFAULT VALUESE** in both of them.  
+
+When a new row is created and no values are specified for some of the columns, those columns will be filled with their respective **default values**. When the the default values is not explicitly defined in the `CREATE` statement of the table, the default value for that column is **NULL**.
+
+In this case, the value of the `address` and `zip` columns will be set to **NULL**. If you want to set a `DEFAUL` value when creating a table you can simply use the following syntax:
+
+- `[column name] DEFAULT [value]`
+
+For instance, if you want a DEFAULT value for the `zip` column set to `'01234'`, then the syntax is as follow `zip CHAR (5) DEFAULT '01234'`.
+
+```console
+CREATE TABLE students (
+  student_id SMALLINT NOT NULL,
+  student_name CHAR (18),
+  address CHAR (20),
+  city CHAR (10),
+  state CHAR (2),
+  zip CHAR (5) DEFAULT '00123',
+  gender CHAR (1),
+  UNIQUE(student_id)
+);
+```
+
+Let's execute the last `INSERT` example in the prompt.
+
+```console
+uniy=> INSERT INTO students
+uniy->        (student_id, student_name, city, state, gender)
+uniy-> VALUES (558,
+uniy(>        'Val Shipp',
+uniy(>        'Chicago',
+uniy(>        'IL',
+uniy(>        'F')
+uniy-> RETURNING *;
+ student_id |    student_name    | address |    city    | state | zip | gender
+------------+--------------------+---------+------------+-------+-----+--------
+        558 | Val Shipp          |         | Chicago    | IL    |     | F
+(1 row)
+
+INSERT 0 1
+```
+
+Let's delete the last insertion.
+
+```console
+uniy=> DELETE FROM students
+uniy->       WHERE student_id = 558;
+DELETE 1
+```
+
+Note that if an `INSERT` statement does not specify a *value* for a field whose column was declared `NOT NULL` when the table was created, **SQL will not allow the record to be recorded**.
+
+There is only an exception to this rule. It is when the **PRIMARY KEY** column is a `SERIAL` pseudo-type. To see an example go to the next lesson.
