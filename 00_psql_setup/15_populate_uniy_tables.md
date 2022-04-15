@@ -94,3 +94,14 @@ uniy=> DELETE FROM teachers
 uniy->       WHERE teacher_id IS NOT NULL;
 DELETE 2
 ```
+
+**Now, we have almost all the instruments to create** the `.sql` file to create and populate the tables in the `uniy` database.
+
+In the next lessons we'll introduce few more concepts:
+
+- **Adding Records** Using `SELECT`
+- `DELETE` statement
+- `UPDATE` statement
+- `DROP TABLE`
+
+Finally, we'll populate the `uniy` database.
