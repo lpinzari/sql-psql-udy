@@ -71,7 +71,9 @@ In this syntax:
 
 4. `[ON DELETE delete action]`, `[ON UPDATE update action]`: Finally, specify the delete and update actions in the ON DELETE and ON UPDATE clauses.
 
-The delete and update actions determine the behaviors when the primary key in the parent table is deleted and updated. Since the primary key is rarely updated, the `ON UPDATE` action is not often used in practice. We’ll focus on the `ON DELETE` action.
+The delete and update actions determine the behaviors when the primary key in the parent table is deleted and updated.
+
+**Since the primary key is rarely updated**, the `ON UPDATE` **action is not often used in practice**. We’ll focus on the `ON DELETE` action.
 
 PostgreSQL supports the following actions:
 
