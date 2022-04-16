@@ -10,7 +10,7 @@ INSERT INTO <table>
       WHERE <predicate>;
 ```
 
-In place of the word `VALUE` and a list of values, this second form of `INSERT` includes a `SELECT` statement. This `SELECT` can be as **simple** or as **complex** as desired.
+In place of the word `VALUES` and a list of values, this second form of `INSERT` includes a `SELECT` statement. This `SELECT` can be as **simple** or as **complex** as desired.
 
 With this second style of `INSERT`, the user does not directly specify new values for a table. Instead, they must be drawn from one or more tables that already exist in the database.
 
@@ -81,6 +81,8 @@ SELECT DISTINCT student_id, student_name
  WHERE students.student_id = enrolls.student_id AND
        grade = 4;
 ```
+
+![insert2](./images/15_insert.png)
 
 Next, this query must be embedded within the `INSERT`, such as:
 

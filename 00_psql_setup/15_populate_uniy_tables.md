@@ -97,7 +97,7 @@ DELETE 2
 
 **Now, we have almost all the instruments to create** the `.sql` file to create and populate the tables in the `uniy` database.
 
-In the next lessons we'll introduce few more concepts:
+In the next lessons we'll introduce a few more concepts:
 
 - **Adding Records** Using `SELECT`
 - `DELETE` statement
