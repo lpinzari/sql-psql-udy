@@ -100,8 +100,9 @@ DELETE 2
 In the next lessons we'll introduce a few more concepts:
 
 - **Adding Records** Using `SELECT`
-- `DELETE` statement
-- `UPDATE` statement
-- `DROP TABLE`
+- `UPDATE` statement and (forign key cascade effect)
+- `DELETE` statement and (foreign key cascade effect)
+- `DROP TABLE` statement and (foreign key cascade effect)
+- **Transactions**
 
 Finally, we'll populate the `uniy` database.
