@@ -47,7 +47,7 @@ INSERT INTO products
 
 Don't worry if you do not understand the following example. It'll become clear when we introduce the **join** operation between tables.
 
-![p&p ERD](../01_basic_sql/images/03_erd_parchposey.png)
+![p&p ERD](../00_basic_intro/images/07_uniY.png)
 
 For example, supposed we wished to promote all *students* who had recieved an `A` in any class to *teachers*.
 
