@@ -332,3 +332,121 @@ uniy-> RETURNING *;
 
 UPDATE 3
 ```
+
+### Example: Updating a record using a subquery
+
+If a `WHERE` clause is used, it can be as complex as desired.
+
+|teacher_id |    teacher_name    |   phone    |  salary  |
+|:---------:|:------------------:|:----------:|:--------:|
+|303        | Dr. Horn           | 257-3049   | 27540.00 |
+|290        | Dr. Lowe           | 257-2390   | 31450.00 |
+|430        | Dr. Engle          | 256-4621   | 38200.00 |
+|180        | Dr. Cooke          | 257-8088   | 29560.00 |
+|560        | Dr. Olsen          | 257-8086   | 31778.00 |
+|784        | Dr. Scango         | 257-3046   | 32098.00 |
+|213        | Dr. Wright         | 257-3393   | 35000.00 |
+
+For instance, suppose we wish to give `7.5` **percent** rise to **all teachers who are earning** `less than` **the average salary**.
+
+To determine the average salary, it is easiest to use SQL's `AVG` **function**.
+
+```console
+SELECT AVG(salary)
+  FROM teachers;
+```
+The result of this function is `32232.285714285714`. Therefore, the `salary < 32232.28`.
+
+|teacher_id |    teacher_name    |   phone    |  salary  |
+|:---------:|:------------------:|:----------:|:--------:|
+|`303`        | `Dr. Horn`           | `257-3049`   | **27540.00** |
+|`290`        | `Dr. Lowe`           | `257-2390`   | **31450.00** |
+|430        | Dr. Engle          | 256-4621   | 38200.00 |
+|`180`        | `Dr. Cooke`          | `257-8088`   | **29560.00** |
+|`560`        | `Dr. Olsen`          | `257-8086`   | **31778.00** |
+|`784`        | `Dr. Scango`         | `257-3046`   | **32098.00** |
+|213        | Dr. Wright         | 257-3393   | 35000.00 |
+
+Because **aggregates** such as `AVG` **cannot be used directly in a** `WHERE` clause, however, we **must specify** an appropriate **subquery** such as:
+
+```console
+UPDATE teachers
+   SET salary = salary * 1.075
+   WHERE salary <
+         (
+           SELECT AVG(salary)
+             FROM teachers
+         );
+```
+
+![update 19](./images/19_update.png)
+
+|teacher_id |    teacher_name    |   phone    |  salary |
+|:---------:|:------------------:|:----------:|:--------:
+|303        | Dr. Horn           | 257-3049   | `29605.50`|
+|290        | Dr. Lowe           | 257-2390   | `33808.75`|
+|180        | Dr. Cooke          | 257-8088   | `31777.00`|
+|560        | Dr. Olsen          | 257-8086   | `34161.35`|
+|784        | Dr. Scango         | 257-3046   | `34505.35`|
+
+Let's execute the `UPDATE` in the psql prompt.
+
+```console
+uniy=> INSERT INTO teachers
+uniy->        (teacher_id, teacher_name, phone, salary)
+uniy-> VALUES
+uniy->        (303, 'Dr. Horn', '257-3049', 27540),
+uniy->        (290, 'Dr. Lowe', '257-2390', 31450.00),
+uniy->        (430, 'Dr. Engle', '256-4621', 38200.00),
+uniy->        (180, 'Dr. Cooke', '257-8088', 29560.00),
+uniy->        (560, 'Dr. Olsen', '257-8086', 31778.00),
+uniy->        (784, 'Dr. Scango', '257-3046', 32098.00),
+uniy->        (213, 'Dr. Wright', '257-3393', 35000.00)
+uniy-> RETURNING *;
+ teacher_id |    teacher_name    |   phone    |  salary
+------------+--------------------+------------+----------
+        303 | Dr. Horn           | 257-3049   | 27540.00
+        290 | Dr. Lowe           | 257-2390   | 31450.00
+        430 | Dr. Engle          | 256-4621   | 38200.00
+        180 | Dr. Cooke          | 257-8088   | 29560.00
+        560 | Dr. Olsen          | 257-8086   | 31778.00
+        784 | Dr. Scango         | 257-3046   | 32098.00
+        213 | Dr. Wright         | 257-3393   | 35000.00
+(7 rows)
+
+INSERT 0 7
+```
+
+Let's execute the `AVG` function.
+
+```console
+uniy=> SELECT AVG(salary)
+uniy->   FROM teachers;
+        avg
+--------------------
+ 32232.285714285714
+(1 row)
+```
+
+Let's execute the `UPDATE`:
+
+```console
+uniy=> UPDATE teachers
+uniy->    SET salary = salary * 1.075
+uniy->    WHERE salary <
+uniy->          (
+uniy(>            SELECT AVG(salary)
+uniy(>              FROM teachers
+uniy(>          )
+uniy-> RETURNING *;
+ teacher_id |    teacher_name    |   phone    |  salary
+------------+--------------------+------------+----------
+        303 | Dr. Horn           | 257-3049   | 29605.50
+        290 | Dr. Lowe           | 257-2390   | 33808.75
+        180 | Dr. Cooke          | 257-8088   | 31777.00
+        560 | Dr. Olsen          | 257-8086   | 34161.35
+        784 | Dr. Scango         | 257-3046   | 34505.35
+(5 rows)
+
+UPDATE 5
+```
