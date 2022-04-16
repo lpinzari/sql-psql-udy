@@ -282,11 +282,11 @@ So far, every example has contained a `WHERE` clause. As mentioned earlier, howe
 
 For example, suppose we have the following instance of the teachers table.
 
- |teacher_id |    teacher_name    |   phone    |  salary  |
- |:---------:|:------------------:|:----------:|:--------:|
-      |  303 | Dr. Bill Horn      | 257-3080   | 28450.00 |
-      |  290 | Dr. Lowe           | 257-2390   | 31450.00 |
-      |430 | Dr. Engle          | 256-4621   | 38200.00 |
+|teacher_id |    teacher_name    |   phone    |  salary  |
+|:---------:|:------------------:|:----------:|:--------:|
+|  303      | Dr. Bill Horn      | 257-3080   | 28450.00 |
+|  290      | Dr. Lowe           | 257-2390   | 31450.00 |
+|430        | Dr. Engle          | 256-4621   | 38200.00 |
 
 
 For example, to **give all teachers** a `5 percent` cost of living increase and a `$1,000` merit raise, the command is:
@@ -298,11 +298,12 @@ UPDATE teachers
 
 ![18 update](./images/18_update.png)
 
-|teacher_id |    teacher_name    |   phone    |  salary|
-|:---------:|:------------------:|:----------:|:-------:|
-       |303 | Dr. Bill Horn      | 257-3080   | **30872.50**|
-       |290 | Dr. Lowe           | 257-2390   | **34022.50**|
-       |430 | Dr. Engle          | 256-4621   | **41110.00**|
+|teacher_id |    teacher_name    |   phone    |  salary     |
+|:---------:|:------------------:|:----------:|:-----------:|
+|303        | Dr. Bill Horn      | 257-3080   | **30872.50**|
+|290        | Dr. Lowe           | 257-2390   | **34022.50**|
+|430        | Dr. Engle          | 256-4621   | **41110.00**|
+
 
 Because no `WHERE` clause is specified to limit the records affected, this `UPDATE` modifies the `salary` field of every record in the **teachers** table.
 
