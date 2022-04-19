@@ -209,7 +209,7 @@ Consequently, deleting the `Grand Luxury`'s record in the table **product_segeme
 |:--|:------------:|--------:|
 |1  | Grand Luxury |     0.05|
 
-Will not have any action on the corresponding **products** table. The obvious reason is that the referential integrity that maintains the correspondence between the primary key record,(`id: 1`), in the **product_segments** table and the records in the **products** table is preserved.
+Will not have any action on the corresponding **products** table. The obvious reason is that the **referential integrity** that maintains the correspondence between the primary key record,(`id: 1`), in the **product_segments** table and the records in the **products** table is preserved. The **referential integrity** ensures that the information stored in a database is **internally consistent**.
 
 ```console
 uniy=> DELETE FROM product_segments
@@ -293,7 +293,7 @@ Indexes:
 Foreign-key constraints:
     "products_segment_id_fkey" FOREIGN KEY (segment_id) REFERENCES product_segments(id)
 ```
-
+The output of the command shows that the `products_segmant_id_fkey` constraint does not have any action when we delete a ecord in the parent table. In this case the **responsibility for ensuring this integrity rests with the users of the database**.
 A solution to this problem is to add a foreign key constraint with **ON DELETE OPTION** to the **products** `child` table.
 
 First, drop existing foreign key constraints "`products_segment_id_fkey`":
