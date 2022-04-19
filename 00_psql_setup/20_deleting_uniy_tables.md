@@ -6,6 +6,8 @@ In this sectionwe'll show you that the `ON DELETE CASCADE` action can impact mor
 
 ## Deleting records in more than a single child
 
+![uniY tables3](../00_basic_intro/images/07_uniY.png)
+
 ![uniY table4](../00_basic_intro/images/08_uniY.png)
 
 For example, the Uniy sample database shows that the **enrolls** table is the `grandchild` of the **course** and **teachers** tables. Similarly, the **sections** table is the child of the **course** and **teachers** tables.
@@ -219,3 +221,165 @@ uniy=> SELECT * FROM enrolls;
 ```
 
 All the students enrolled in the `English Compostion` course have been deleted.
+
+## Deleting all Records From a Table
+
+SQL also provides a very easy way to delete all records from a table: Simply omit the `WHERE` clause.
+
+### Using PostgreSQL DELETE to delete all rows from the table
+
+![uniY tables3](../00_basic_intro/images/07_uniY.png)
+
+
+If, for example, we wished to delete the record of every student in the uniY sample database, we could type:
+
+```console
+DELETE FROM students;
+```
+
+While to delete all the **teachers** table records, the command is:
+
+```console
+DELETE FROM teachers;
+```
+
+Let's list the the records of the **teachers** and **sections** tables:
+
+```console
+uniy=> SELECT * FROM teachers;
+ teacher_id |    teacher_name    |   phone    |  salary
+------------+--------------------+------------+----------
+        213 | Dr. Wright         | 257-3393   | 35000.00
+        303 | Dr. Horn           | 257-3049   | 29605.50
+        290 | Dr. Lowe           | 257-2390   | 33808.75
+        180 | Dr. Cooke          | 257-8088   | 31777.00
+        560 | Dr. Olsen          | 257-8086   | 34161.35
+        784 | Dr. Scango         | 257-3046   | 34505.35
+(6 rows)
+
+uniy=> SELECT * FROM sections;
+ course_id | section_id | teacher_id | num_students
+-----------+------------+------------+--------------
+       450 |          1 |        303 |            2
+       730 |          1 |        290 |            6
+       480 |          1 |        180 |            3
+       450 |          2 |        560 |            2
+       480 |          2 |        784 |            2
+(5 rows)
+```
+
+Let's delete all the records of the **teachers** table:
+
+```console
+uniy=> DELETE FROM teachers;
+DELETE 6
+```
+
+All 6 records in the **teachers** table have been deleted.
+
+```console
+uniy=> SELECT * FROM sections;
+ course_id | section_id | teacher_id | num_students
+-----------+------------+------------+--------------
+       450 |          1 |            |            2
+       730 |          1 |            |            6
+       480 |          1 |            |            3
+       450 |          2 |            |            2
+       480 |          2 |            |            2
+(5 rows)
+```
+
+The values in the `teacher_id` column have been set ot `NULL`.
+
+## Deleting Records with JOIN and Subquery
+
+```console
+uniy=> SELECT * FROM enrolls;
+ course_id | section_id | student_id | grade
+-----------+------------+------------+-------
+       730 |          1 |        148 |     3
+       450 |          2 |        210 |     3
+       730 |          1 |        210 |     1
+(3 rows)
+
+uniy=> SELECT * FROM courses;
+ course_id |     course_name      |    department    | num_credits
+-----------+----------------------+------------------+-------------
+       450 | Western Civilization | History          |           3
+       730 | Calculus IV          | Math             |           4
+       480 | Compiler Writing     | Computer Science |           3
+       550 | Art History          | History          |           3
+(4 rows)
+```
+
+In the previous example, all the values of the `teacher_id` column in the **sections** table have been set to `NULL`. Suppose, we wanted to delete all the courses in the **courses** table without a teacher and enrolled students.
+
+```console
+uniy=> SELECT courses.course_id
+uniy->   FROM courses, enrolls
+uniy->  WHERE courses.course_id = enrolls.course_id;
+ course_id
+-----------
+       730
+       450
+       730
+(3 rows)
+```
+
+The last command clearly shows that the only courses to be listed in the **courses** table must be `730` and `450`. On the other hand, the courses `480` and `550` can be discarded. In other words, we want to delete all records in the **courses** table that has no matching in the **enrolls** table.
+
+```console
+uniy=> DELETE FROM courses c
+uniy->       WHERE NOT EXISTS
+uniy->             ( SELECT course_id
+uniy(>                 FROM enrolls e
+uniy(>                WHERE c.course_id = e.course_id)
+uniy-> RETURNING *;
+ course_id |     course_name      |    department    | num_credits
+-----------+----------------------+------------------+-------------
+       480 | Compiler Writing     | Computer Science |           3
+       550 | Art History          | History          |           3
+(2 rows)
+
+DELETE 2
+uniy=>
+```
+
+![delete 23](./images/23_delete.png)
+
+Let's list the **courses**, **sections** and **enrolls** tables.
+
+**courses**
+
+```console
+uniy=> SELECT * FROM courses;
+ course_id |     course_name      |    department    | num_credits
+-----------+----------------------+------------------+-------------
+       450 | Western Civilization | History          |           3
+       730 | Calculus IV          | Math             |           4
+(2 rows)
+```
+
+**sections**
+
+```console
+uniy=> SELECT * FROM sections;
+ course_id | section_id | teacher_id | num_students
+-----------+------------+------------+--------------
+       450 |          1 |            |            2
+       730 |          1 |            |            6
+       450 |          2 |            |            2
+(3 rows)
+```
+
+**enrolls**
+
+```console
+uniy=> SELECT * FROM enrolls;
+ course_id | section_id | student_id | grade
+-----------+------------+------------+-------
+       730 |          1 |        148 |     3
+       450 |          2 |        210 |     3
+       730 |          1 |        210 |     1
+(3 rows)
+```
