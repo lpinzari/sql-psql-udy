@@ -204,7 +204,7 @@ uniy=> SELECT * FROM sections;
 (5 rows)
 ```
 
-As expected, the `English Composition` course taught by `Dr. Engle` has been deleted.
+As expected, the `English Composition` course taught has been deleted.
 
 Let's list the records in the **enrolls** table:
 
@@ -218,4 +218,4 @@ uniy=> SELECT * FROM enrolls;
 (3 rows)
 ```
 
-All the students enrolled in the `English Compostion` course taight by `Dr. Engle` have been deleted.
+All the students enrolled in the `English Compostion` course have been deleted.
