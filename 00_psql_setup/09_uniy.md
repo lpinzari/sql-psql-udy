@@ -5,5 +5,5 @@ In this lesson we create a new database called `uniy`. To create and populate th
 In the following sections we'll:
 
 1. **Create** the **uniy** database in PostgrSql.
-2. **Implement** the **uniy's ERD** in the `uni.sql` file.
+2. **Implement** the **uniy's ERD** in the `uni-db.sql` file.
 3. **Execute** the **uniy.sql** file to create and populate the uniy's tables.

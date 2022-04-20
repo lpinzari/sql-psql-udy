@@ -7,13 +7,13 @@ In this lesson we'll show you how to destroy all the tables in the uniY sample d
 
 ## uniY: Dropping all tables
 
-In the lesson [11](./11_create_uniy_tables.md), we illustrated how to create all the tables in the uniY sample database. In this lesson we'll show you a *recommended order* to **destroy all the tables in a database schema**, although you can choose any arbitrary order.
+In lesson [11](./11_create_uniy_tables.md), we illustrated how to create all the tables in the uniY sample database. In this lesson we'll show you a *recommended order* to **destroy all the tables in a database schema**, although you can choose any arbitrary order.
 
 ![uniY tables3](../00_basic_intro/images/07_uniY.png)
 
 ![uniY table4](../00_basic_intro/images/08_uniY.png)
 
-The *recommended order** is illustrated in the picture above.
+The *recommended order* is illustrated in the picture above.
 
 1. The picture above shows that the only `parent` tables are:
   - **students**
