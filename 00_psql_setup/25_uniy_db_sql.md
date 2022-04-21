@@ -6,7 +6,7 @@ In this lesson we'll implement those operations in a simple script named `uniy_d
 
 ## uniY sample database script
 
-In the previous lessons we executed the sql statements directly in the `psql` prompt. In this lesson, we'll execute the same commands by external file `uniy-db.sql`. Note that the extension `.sql` serves only to indicate the text file includes SQL statements, the file could be named `uniy-db.txt` or whatever...
+In the previous lessons we executed the sql statements directly in the `psql` prompt. In this lesson, we'll execute the same commands by external file `uniy-db.sql`. Note that the extension `.sql` serves only to indicate the text file includes SQL statements, the file could be named `uniy-db.txt` or whatever. However, when editing your file in the text ediotor is better to have the right extension in order to highlight the keywords of the SQL language. 
 
 In the `uniy-db.sql` file a **single line comment** in PostgreSql is indicated with the symbol `--`.
 
