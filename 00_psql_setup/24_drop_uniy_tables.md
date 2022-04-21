@@ -11,7 +11,16 @@ In lesson [11](./11_create_uniy_tables.md), we illustrated how to create all the
 
 ![uniY tables3](../00_basic_intro/images/07_uniY.png)
 
-![uniY table4](../00_basic_intro/images/08_uniY.png)
+![uniY table4](./images/11_hierarchy.png)
+
+| tables  | referenced_by    | references                 |
+|:-------:|:----------------:|:--------------------------:|
+|students |        enrolls   |                            |
+|courses  | enrolls, sections|                            |
+|teachers | sections         |                            |
+|sections | enrolls          | courses,teachers           |
+|enrolls  |                  | students, courses, sections|
+
 
 The *recommended order* is illustrated in the picture above.
 

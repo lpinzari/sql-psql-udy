@@ -8,7 +8,16 @@ In this sectionwe'll show you that the `ON DELETE CASCADE` action can impact mor
 
 ![uniY tables3](../00_basic_intro/images/07_uniY.png)
 
-![uniY table4](../00_basic_intro/images/08_uniY.png)
+![uniY table4](./images/11_hierarchy.png)
+
+| tables  | referenced_by    | references                 |
+|:-------:|:----------------:|:--------------------------:|
+|students |        enrolls   |                            |
+|courses  | enrolls, sections|                            |
+|teachers | sections         |                            |
+|sections | enrolls          | courses,teachers           |
+|enrolls  |                  | students, courses, sections|
+
 
 For example, the Uniy sample database shows that the **enrolls** table is the `grandchild` of the **course** and **teachers** tables. Similarly, the **sections** table is the child of the **course** and **teachers** tables.
 
