@@ -163,7 +163,7 @@ The table's primary keys are used to create **relationships between tables**. Fo
 |349        | Joe Adams  | 473 Emmerson Street  | Newark   | DE | 19702 | M|
 |354        | Janet Ladd | 441 10th Street | Pennsburg  | PA    | 18073 | F|
 |410        | Bill Jones | 120 South Harrison | Newport | CA    | 92660 | M|
-|<font color='red'>473</font>        | <font color='blue'>Carol Dean</font> | <font color='blue'>983 Park Avenue</font> | <font color='blue'>Boston</font>     | <font color='blue'>MA</blue>    | <font color='blue'>02169</font> | <font color='blue'>F</font>|
+|**473**        | **Carol Dean** | **983 Park Avenue** | **Boston**     | **MA**    | **02169** | **F**|
 |548        | Allen Thomas| 238 West Ox Road | Chicago  | IL    | 60624 | M|
 |558        | Val Shipp   | 238 Westport Road| Chicago  | IL    | 60556 | F|
 |649        | John Anderson| 473 Emmory Street | New York| NY   | 10008 | M|
