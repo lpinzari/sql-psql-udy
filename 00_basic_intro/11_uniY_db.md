@@ -72,6 +72,248 @@ The picture of the database shown in the figure above is a useful summary of the
 
 ![uniY tables3](./images/07_uniY.png)
 
-One addition has been made to the version of the first figure: **Lines now connect certain columns in the tables**. These lines show graphically which columns contain the same kinds of information, such as **student_id's**, and thus can be **used to navigate through the data**. This idea is explained more fully in the chapter ...
+One addition has been made to the version of the first figure: **Lines now connect certain columns in the tables**. These lines show graphically which columns contain the same kinds of information, such as **student_id's**, and thus can be **used to navigate through the data**. This graph becomes clear if we look at the records stored in the database tables.
 
-For now, these lines can be safely ignored.
+### students table
+
+|student_id |student_name  |address |city| state | zip  | gender|
+|:----------|:------------:|:--------:|:---:|:----:|:----:|:-----:|
+|148        | Susan Powell | 534 East River Dr.| Haverford | PA | 19041 | F|
+|210        | Bob Dawson   | 120 South Jefferson | Newport | RI | 02891 | M|
+|298        | Howard Mansfield | 290 Wynkoop Drive | Vienna | VA| 22180 | M|
+|348        | Susan Pugh | 534 East Hampton Dr. | Hartford | CT | 06107 | F|
+|349        | Joe Adams  | 473 Emmerson Street  | Newark   | DE | 19702 | M|
+|354        | Janet Ladd | 441 10th Street | Pennsburg  | PA    | 18073 | F|
+|410        | Bill Jones | 120 South Harrison | Newport | CA    | 92660 | M|
+|473        | Carol Dean | 983 Park Avenue | Boston     | MA    | 02169 | F|
+|548        | Allen Thomas| 238 West Ox Road | Chicago  | IL    | 60624 | M|
+|558        | Val Shipp   | 238 Westport Road| Chicago  | IL    | 60556 | F|
+|649        | John Anderson| 473 Emmory Street | New York| NY   | 10008 | M|
+|654        | Janet Thomas | 441 6th Street  | Erie     | PA    | 16510 | F|
+
+### courses table
+
+|course_id |     course_name      |    department    | num_credits|
+|:---------|:--------------------:|:----------------:|:----------:|
+|450       | Western Civilization | History          |           3|
+|730       | Calculus IV          | Math             |           4|
+|290       | English Composition  | English          |           3|
+|480       | Compiler Writing     | Computer Science |           3|
+|550       | Art History          | History          |           3|
+
+### teachers table
+
+|teacher_id |    teacher_name    |   phone    |  salary|
+|:----------|:------------------:|:----------:|--------:|
+|303        | Dr. Horn           | 257-3049   | 27540.00|
+|290        | Dr. Lowe           | 257-2390   | 31450.00|
+|430        | Dr. Engle          | 256-4621   | 38200.00|
+|180        | Dr. Cooke          | 257-8088   | 29560.00|
+|560        | Dr. Olsen          | 257-8086   | 31778.00|
+|784        | Dr. Scango         | 257-3046   | 32098.00|
+|213        | Dr. Wright         | 257-3393   | 35000.00|
+
+
+### sections table:
+
+|course_id | section_id | teacher_id | num_students|
+|:---------|:----------:|:----------:|:-----------:|
+|450       |          1 |        303 |            2|
+|730       |          1 |        290 |            6|
+|290       |          1 |        430 |            3|
+|480       |          1 |        180 |            3|
+|450       |          2 |        560 |            2|
+|480       |          2 |        784 |            2|
+
+### enrolls table:
+
+|course_id | section_id | student_id | grade|
+|:---------|:----------:|:----------:|:----:|
+|730       |          1 |        148 |     3|
+|450       |          2 |        210 |     3|
+|730       |          1 |        210 |     1|
+|290       |          1 |        298 |     3|
+|480       |          2 |        298 |     3|
+|730       |          1 |        348 |     2|
+|290       |          1 |        349 |     4|
+|480       |          1 |        410 |     2|
+|450       |          1 |        473 |     2|
+|730       |          1 |        473 |     3|
+|480       |          2 |        473 |     0|
+|290       |          1 |        548 |     2|
+|730       |          1 |        558 |     3|
+|730       |          1 |        649 |     4|
+|480       |          1 |        649 |     4|
+|450       |          1 |        654 |     4|
+|450       |          2 |        548 |      |
+
+## Foreign keys
+
+The table's primary keys are used to create **relationships between tables**. For example, let's look at the records of the **students** and **enrolls** tables:
+
+
+### students table
+
+|<font color='red'>student_id</font> |student_name  |address |city| state | zip  | gender|
+|:----------|:------------:|:--------:|:---:|:----:|:----:|:-----:|
+|148        | Susan Powell | 534 East River Dr.| Haverford | PA | 19041 | F|
+|210        | Bob Dawson   | 120 South Jefferson | Newport | RI | 02891 | M|
+|298        | Howard Mansfield | 290 Wynkoop Drive | Vienna | VA| 22180 | M|
+|348        | Susan Pugh | 534 East Hampton Dr. | Hartford | CT | 06107 | F|
+|349        | Joe Adams  | 473 Emmerson Street  | Newark   | DE | 19702 | M|
+|354        | Janet Ladd | 441 10th Street | Pennsburg  | PA    | 18073 | F|
+|410        | Bill Jones | 120 South Harrison | Newport | CA    | 92660 | M|
+|<font color='red'>473</font>        | <font color='blue'>Carol Dean</font> | <font color='blue'>983 Park Avenue</font> | <font color='blue'>Boston</font>     | <font color='blue'>MA</blue>    | <font color='blue'>02169</font> | <font color='blue'>F</font>|
+|548        | Allen Thomas| 238 West Ox Road | Chicago  | IL    | 60624 | M|
+|558        | Val Shipp   | 238 Westport Road| Chicago  | IL    | 60556 | F|
+|649        | John Anderson| 473 Emmory Street | New York| NY   | 10008 | M|
+|654        | Janet Thomas | 441 6th Street  | Erie     | PA    | 16510 | F|
+
+The <font color='red'>student_id</font> column is the **primary key** of the `students` table. The values in this column uniquely identify a row in the table. For example, the **student_id** <font color='red'>473</font> identifies a particular student in this table, (<font color='blue'>Carol Dean</font>).
+
+- **(**<font color='blue'>Carol Dean</font>,<font color='blue'>983 Park Avenue</font>, <font color='blue'>Boston</font>,<font color='blue'>MA</font>,<font color='blue'>02169</font>,<font color='blue'>F</font>**)**
+
+### enrolls table:
+
+|course_id | section_id | <font color='red'>student_id</font> | grade|
+|:---------|:----------:|:----------:|:----:|
+|730       |          1 |        148 |     3|
+|450       |          2 |        210 |     3|
+|730       |          1 |        210 |     1|
+|290       |          1 |        298 |     3|
+|480       |          2 |        298 |     3|
+|730       |          1 |        348 |     2|
+|290       |          1 |        349 |     4|
+|480       |          1 |        410 |     2|
+|<font color='blue'>450</font>|<font color='blue'>1</font> |<font color='red'>473</font> |<font color='blue'>2</font>|
+|<font color='blue'>730</font>|<font color='blue'>1</font>|<font color='red'>473</font>|<font color='blue'>3</font>|
+|<font color='blue'>480</font>|<font color='blue'>2</blue>|<font color='red'>473</font>|<font color='blue'>0</blue>|
+|290       |          1 |        548 |     2|
+|730       |          1 |        558 |     3|
+|730       |          1 |        649 |     4|
+|480       |          1 |        649 |     4|
+|450       |          1 |        654 |     4|
+|450       |          2 |        548 |      |
+
+In the **enrolls** table, the  `student_id` <font color='red'>473</font> appears in three records. It follows that **Carol Dean** is enrolled in three courses (<font color='blue'>450</font>,<font color='blue'>730</font>,<font color='blue'>480</font>) and corresponding sections (<font color='blue'>1</font>,<font color='blue'>1</font>,<font color='blue'>2</font>), grades (<font color='blue'>2</font>,<font color='blue'>3</font>,<font color='blue'>0</font>).
+
+Similarly, if we want to find the name of the student who got the worst grade in the course <font color='blue'>480</font> section <font color='blue'>2</font>, (the minimum grade: <font color='blue'>0</font>), then we see that the record:
+
+- **(**<font color='blue'>480</font>,<font color='blue'>2</font>,<font color='red'>473</font>,<font color='blue'>0</font>**)**
+
+**references** a unique record in the **students** table:
+
+- **(**<font color='red'>473</font>,<font color='blue'>Carol Dean</font>,<font color='blue'>983 Park Avenue</font>, <font color='blue'>Boston</font>,<font color='blue'>MA</font>,<font color='blue'>02169</font>,<font color='blue'>F</font>**)**
+
+In this example, the `student_id` column in the **enrolls** is called **foreign key** because it **refers** to the **primary key** of the **students** table. In general a foreign key may refers to other tables as well. The **foreign key** always **refers to one record** in other tables.
+
+A **foreign key** is a **column** or a **group of columns** in a `table` that **reference** the **primary key** of `another table`.
+
+How about the other way around?
+
+- Does a referenced primary key have always one or more records in other tables?
+
+The answer is no. For example, the `student_id` <font color='red'>354</font> does not appear in any records of the **enrolls** table.
+
+The reltionship between the **students** and **enrolls** tables can be stated as follow:
+
+- A student can be enrolled to zero or more courses: a record in the **students** table is **referenced by**  `zero or more` records in the **enrolls** table.
+- A student enrolled in a course must have a record in the **students** table. A record in the **enrolls** table **must references** a record in the **students** table.
+
+
+## UniY Relationships
+
+Below is a summary of the relationships in the **UniY** sample database tables.
+
+| tables  | referenced_by    | references                 |
+|:-------:|:----------------:|:--------------------------:|
+|students |        enrolls   |                            |
+|courses  | enrolls, sections|                            |
+|teachers | sections         |                            |
+|sections | enrolls          | **courses**,**teachers**           |
+|enrolls  |                  | **students**, **courses**, **sections**|
+
+The `sections` and `enrolls` tables are the only ones to have foreign keys since they reference at least one table in the database. On the other hand the `students`, `courses` and `teachers` do not reference any other tables in the database.
+
+The `table` that **contains** the **foreign key** is called the referencing table or <font color='blue'>child</font> **table**.
+
+And the `table` **referenced by** the **foreign key** is called the referenced table or <font color='red'>parent</font> **table**.
+
+The picture below illustrates the `referenced_by` **relationship** between tables, or <font color='red'>parent</font> **relationship** graph :smile::
+
+![uniY table4](../00_psql_setup/images/11_hierarchy.png)
+
+The <font color='red'>courses</font> and <font color='red'>teachers</font> tables are **referenced by** the <font color='blue'>sections</font> table. The <font color='red'>students</font>, <font color='red'>courses</font> and <font color='red'>sections</font> tables are **referenced by** the <font color='blue'>enrolls</font> table.
+
+The picture below illustrates the `references` **relationship** between tables, or <font color='blue'>child</font> **relationship** graph :smile::
+
+![uniY table5](./images/10_uniY.png)
+
+The <font color='blue'>sections</font> table **references** the <font color='red'>courses</font> and <font color='red'>teachers</font> tables. The <font color='blue'>enrolls</font> table **references** the <font color='red'>students</font>, <font color='red'>courses</font> and <font color='red'>sections</font> tables.
+
+Let's describe all the **(**<font color='red'>parent</font>,<font color='blue'>child</font>**)** **relationships** in the UniY sample database.
+
+**(**<font color='red'>students</font>,<font color='blue'>enrolls</font>**)**
+
+
+The reltionship between the <font color='red'>students</font> and <font color='blue'>enrolls</font> tables can be stated as follow:
+
+- **referenced by**: A student can be enrolled to zero or more courses: a record in the <font color='red'>students</font> table is **referenced by**  `zero or more` records in the <font color='blue'>enrolls</font> table.
+- **references**: A student enrolled in a course must references a record in the students table. A record in the <font color='blue'>enrolls</font> table **must references** a record in the <font color='red'>students</font> table.
+
+**(**<font color='red'>courses</font>,<font color='blue'>enrolls</font>**)**
+
+- **referenced by**: A course can have zero or more students enrolled: a record in the <font color='red'>courses</font> table is **referenced by**  `zero or more` records in the <font color='blue'>enrolls</font> table.
+- **references**: A student enrolled in a course must references a record in the courses table. A record in the <font color='blue'>enrolls</font> table **must references** a record in the <font color='red'>students</font> table.
+
+For example, the course_id <font color='red'>550</font> in the <font color='red'>courses</font> table does not appear in any records of the <font color='blue'>enrolls</font> table. It seems that students in this university are not much interested in `Art history` :smile:
+
+**(**<font color='red'>sections</font>,<font color='blue'>enrolls</font>**)**
+
+- **referenced by**: A section can have one or more students enrolled: a record in the <font color='red'>sections</font> table is **referenced by**  `one or more` records in the <font color='blue'>enrolls</font> table.
+- **references**: A student enrolled in a course must references a record in the sections table. A record in the <font color='blue'>enrolls</font> table **must references** a record in the <font color='red'>sections</font> table.
+
+In this particular instance of the uniY sample database a record in the <font color='red'>sections</font> table has actually more than a single record in the <font color='blue'>enrolls</font> table. However, in the general design of the database we assume that a section must have at least one record. Why is not `zero or more`? To answer at this question we must analyze the relationship between the `sections` and `courses` tables.
+
+**(**<font color='red'>courses</font>,<font color='blue'>sections</font>**)**
+
+- **referenced by**: A course can have zero or more sections: a record in the <font color='red'>courses</font> table is **referenced by**  `zero or more` records in the <font color='blue'>sections</font> table.
+- **references**: A section must references a record in the courses table. A record in the <font color='blue'>sections</font> table **must references** a record in the <font color='red'>courses</font> table.
+
+For example, the course_id <font color='red'>550</font> in the <font color='red'>courses</font> table does not appear in any records of the <font color='blue'>sections</font> table.
+
+**(**<font color='red'>teachers</font>,<font color='blue'>sections</font>**)**
+
+- **referenced by**: A teacher can have zero or more sections: a record in the <font color='red'>teachers</font> table is **referenced by**  `zero or more` records in the <font color='blue'>sections</font> table.
+- **references**: A section must references a record in the teachers table. A record in the <font color='blue'>sections</font> table **must references** a record in the <font color='red'>teachers</font> table.
+
+For example, the teacher_id <font color='red'>213</font> in the <font color='red'>teachers</font> table does not appear in any records of the <font color='blue'>sections</font> table.
+
+
+## UniY Entity Relationship Diagram
+
+To visualize the cardinality of relationships between tables in a database the symbols below are often used:
+
+![foreign key 2](../00_psql_setup/images/04_relationship.png)
+
+Now, we can visualize the relationships between the uniY database tables using an **ERD**, which stands for **Entity Relationship Diagram**.
+
+An **entity relationship diagram** (**ERD**) is a common way to view data in a database. These diagrams help you **visualize** the data you are analyzing including:
+
+- The **names of the tables**.
+- The **columns in each table**.
+- The way the **tables work together**.
+
+Below is the ERD for the **UniY** sample database.
+
+![uny erd](./images/11_uniy_erd.png)
+
+### One (and only one) VS One
+
+There is often confusion about the difference between a `one (and only one)` and `one` relationship.
+
+![uniy erd2](./images/12_uniy.png)
+
+A student, Alice, can only have `one` dorm room at at time. A dorm room can only house one student at a time (for the sake of this example). Next year, Alice will be assigned a new dorm room, and at that point her dorm room from this year will be assigned to a new student.
+
+Alice can have `one and only one` login (e.g. `a11235`) and **that login can only be assigned to Alice**. When Alice graduates, **no one else can be assigned the login** `a11235`. In other words, if we delete a record in a table, the primary key of that record cannot be reassigned.

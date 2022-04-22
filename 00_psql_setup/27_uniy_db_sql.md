@@ -200,13 +200,16 @@ INSERT 0 7
 
 **teachers** table:
 
-|course_id |     course_name      |    department    | num_credits|
-|:--------:|:--------------------:|:----------------:|:----------:|
-|450       | Western Civilization | History          |           3|
-|730       | Calculus IV          | Math             |           4|
-|290       | English Composition  | English          |           3|
-|480       | Compiler Writing     | Computer Science |           3|
-|550       | Art History          | History          |           3|
+|teacher_id |    teacher_name    |   phone    |  salary|
+|:----------|:------------------:|:----------:|--------:|
+|303        | Dr. Horn           | 257-3049   | 27540.00|
+|290        | Dr. Lowe           | 257-2390   | 31450.00|
+|430        | Dr. Engle          | 256-4621   | 38200.00|
+|180        | Dr. Cooke          | 257-8088   | 29560.00|
+|560        | Dr. Olsen          | 257-8086   | 31778.00|
+|784        | Dr. Scango         | 257-3046   | 32098.00|
+|213        | Dr. Wright         | 257-3393   | 35000.00|
+
 
 ## sections table
 
