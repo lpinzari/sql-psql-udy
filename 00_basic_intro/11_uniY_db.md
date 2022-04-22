@@ -169,7 +169,7 @@ The table's primary keys are used to create **relationships between tables**. Fo
 |649        | John Anderson| 473 Emmory Street | New York| NY   | 10008 | M|
 |654        | Janet Thomas | 441 6th Street  | Erie     | PA    | 16510 | F|
 
-The <font color='red'>student_id</font> column is the **primary key** of the `students` table. The values in this column uniquely identify a row in the table. For example, the **student_id** <font color='red'>473</font> identifies a particular student in this table, (<font color='blue'>Carol Dean</font>).
+The <html><font color='red'>student_id</font></html> column is the **primary key** of the `students` table. The values in this column uniquely identify a row in the table. For example, the **student_id** <font color='red'>473</font> identifies a particular student in this table, (<font color='blue'>Carol Dean</font>).
 
 - **(**<font color='blue'>Carol Dean</font>,<font color='blue'>983 Park Avenue</font>, <font color='blue'>Boston</font>,<font color='blue'>MA</font>,<font color='blue'>02169</font>,<font color='blue'>F</font>**)**
 
