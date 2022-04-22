@@ -163,15 +163,15 @@ The table's primary keys are used to create **relationships between tables**. Fo
 |349        | Joe Adams  | 473 Emmerson Street  | Newark   | DE | 19702 | M|
 |354        | Janet Ladd | 441 10th Street | Pennsburg  | PA    | 18073 | F|
 |410        | Bill Jones | 120 South Harrison | Newport | CA    | 92660 | M|
-|**473**        | **Carol Dean** | **983 Park Avenue** | **Boston**     | **MA**    | **02169** | **F**|
+|**473**        | `Carol Dean` | `983 Park Avenue` | `Boston`     | `MA`    | `02169` | `F`|
 |548        | Allen Thomas| 238 West Ox Road | Chicago  | IL    | 60624 | M|
 |558        | Val Shipp   | 238 Westport Road| Chicago  | IL    | 60556 | F|
 |649        | John Anderson| 473 Emmory Street | New York| NY   | 10008 | M|
 |654        | Janet Thomas | 441 6th Street  | Erie     | PA    | 16510 | F|
 
-The <html><font color='red'>student_id</font></html> column is the **primary key** of the `students` table. The values in this column uniquely identify a row in the table. For example, the **student_id** <font color='red'>473</font> identifies a particular student in this table, (<font color='blue'>Carol Dean</font>).
+The **student_id** column is the **primary key** of the `students` table. The values in this column uniquely identify a row in the table. For example, the **student_id** `473` identifies a particular student in this table, (Carol Dean).
 
-- **(**<font color='blue'>Carol Dean</font>,<font color='blue'>983 Park Avenue</font>, <font color='blue'>Boston</font>,<font color='blue'>MA</font>,<font color='blue'>02169</font>,<font color='blue'>F</font>**)**
+- **(**`Carol Dean`,`983 Park Avenue`, `Boston`,`MA`,`02169`,`F`**)**
 
 ### enrolls table:
 
@@ -185,9 +185,9 @@ The <html><font color='red'>student_id</font></html> column is the **primary key
 |730       |          1 |        348 |     2|
 |290       |          1 |        349 |     4|
 |480       |          1 |        410 |     2|
-|<font color='blue'>450</font>|<font color='blue'>1</font> |<font color='red'>473</font> |<font color='blue'>2</font>|
-|<font color='blue'>730</font>|<font color='blue'>1</font>|<font color='red'>473</font>|<font color='blue'>3</font>|
-|<font color='blue'>480</font>|<font color='blue'>2</blue>|<font color='red'>473</font>|<font color='blue'>0</blue>|
+|`450`|`1`|**473**|`2`|
+|`730`|`1`|**473**|`3`|
+|`480`|`2`|**473**|`0`|
 |290       |          1 |        548 |     2|
 |730       |          1 |        558 |     3|
 |730       |          1 |        649 |     4|
@@ -195,15 +195,15 @@ The <html><font color='red'>student_id</font></html> column is the **primary key
 |450       |          1 |        654 |     4|
 |450       |          2 |        548 |      |
 
-In the **enrolls** table, the  `student_id` <font color='red'>473</font> appears in three records. It follows that **Carol Dean** is enrolled in three courses (<font color='blue'>450</font>,<font color='blue'>730</font>,<font color='blue'>480</font>) and corresponding sections (<font color='blue'>1</font>,<font color='blue'>1</font>,<font color='blue'>2</font>), grades (<font color='blue'>2</font>,<font color='blue'>3</font>,<font color='blue'>0</font>).
+In the **enrolls** table, the  `student_id` **473** appears in three records. It follows that **Carol Dean** is enrolled in three courses (`450`,`730`,`480`) and corresponding sections (`1`,`1`,`2`), grades (`2`,`3`,`0`).
 
-Similarly, if we want to find the name of the student who got the worst grade in the course <font color='blue'>480</font> section <font color='blue'>2</font>, (the minimum grade: <font color='blue'>0</font>), then we see that the record:
+Similarly, if we want to find the name of the student who got the worst grade in the course `480` section `2`, (the minimum grade: `0`), then we see that the record:
 
-- **(**<font color='blue'>480</font>,<font color='blue'>2</font>,<font color='red'>473</font>,<font color='blue'>0</font>**)**
+- **(** `480`,`2`,`473`,`0`**)**
 
 **references** a unique record in the **students** table:
 
-- **(**<font color='red'>473</font>,<font color='blue'>Carol Dean</font>,<font color='blue'>983 Park Avenue</font>, <font color='blue'>Boston</font>,<font color='blue'>MA</font>,<font color='blue'>02169</font>,<font color='blue'>F</font>**)**
+- **(** `473`,`Carol Dean`,`983 Park Avenue`, `Boston`,`MA`,`02169`,`F`**)**
 
 In this example, the `student_id` column in the **enrolls** is called **foreign key** because it **refers** to the **primary key** of the **students** table. In general a foreign key may refers to other tables as well. The **foreign key** always **refers to one record** in other tables.
 
@@ -213,7 +213,7 @@ How about the other way around?
 
 - Does a referenced primary key have always one or more records in other tables?
 
-The answer is no. For example, the `student_id` <font color='red'>354</font> does not appear in any records of the **enrolls** table.
+The answer is no. For example, the `student_id` **354** does not appear in any records of the **enrolls** table.
 
 The reltionship between the **students** and **enrolls** tables can be stated as follow:
 
@@ -239,55 +239,55 @@ The `table` that **contains** the **foreign key** is called the referencing tabl
 
 And the `table` **referenced by** the **foreign key** is called the referenced table or <font color='red'>parent</font> **table**.
 
-The picture below illustrates the `referenced_by` **relationship** between tables, or <font color='red'>parent</font> **relationship** graph :smile::
+The picture below illustrates the `referenced_by` **relationship** between tables, or **parent** **relationship** graph :smile::
 
 ![uniY table4](../00_psql_setup/images/11_hierarchy.png)
 
-The <font color='red'>courses</font> and <font color='red'>teachers</font> tables are **referenced by** the <font color='blue'>sections</font> table. The <font color='red'>students</font>, <font color='red'>courses</font> and <font color='red'>sections</font> tables are **referenced by** the <font color='blue'>enrolls</font> table.
+The `courses` and `teachers` tables are **referenced by** the `sections`table. The `students`, `courses` and `sections` tables are **referenced by** the `enrolls` table.
 
-The picture below illustrates the `references` **relationship** between tables, or <font color='blue'>child</font> **relationship** graph :smile::
+The picture below illustrates the `references` **relationship** between tables, or **child** **relationship** graph :smile::
 
 ![uniY table5](./images/10_uniY.png)
 
-The <font color='blue'>sections</font> table **references** the <font color='red'>courses</font> and <font color='red'>teachers</font> tables. The <font color='blue'>enrolls</font> table **references** the <font color='red'>students</font>, <font color='red'>courses</font> and <font color='red'>sections</font> tables.
+The `sections` table **references** the `courses` and `teachers` tables. The `enrolls` table **references** the `students`, `courses` and `sections` tables.
 
-Let's describe all the **(**<font color='red'>parent</font>,<font color='blue'>child</font>**)** **relationships** in the UniY sample database.
+Let's describe all the **(** **parent**,`child`**)** **relationships** in the UniY sample database.
 
-**(**<font color='red'>students</font>,<font color='blue'>enrolls</font>**)**
+**(** **students**, `enrolls`**)**
 
 
-The reltionship between the <font color='red'>students</font> and <font color='blue'>enrolls</font> tables can be stated as follow:
+The reltionship between the **students** and `enrolls` tables can be stated as follow:
 
-- **referenced by**: A student can be enrolled to zero or more courses: a record in the <font color='red'>students</font> table is **referenced by**  `zero or more` records in the <font color='blue'>enrolls</font> table.
-- **references**: A student enrolled in a course must references a record in the students table. A record in the <font color='blue'>enrolls</font> table **must references** a record in the <font color='red'>students</font> table.
+- **referenced by**: A student can be enrolled to zero or more courses: a record in the **students** table is **referenced by**  `zero or more` records in the `enrolls` table.
+- **references**: A student enrolled in a course must references a record in the students table. A record in the `enrolls` table **must references** a record in the **students** table.
 
-**(**<font color='red'>courses</font>,<font color='blue'>enrolls</font>**)**
+**(** **courses**,`enrolls`)**
 
-- **referenced by**: A course can have zero or more students enrolled: a record in the <font color='red'>courses</font> table is **referenced by**  `zero or more` records in the <font color='blue'>enrolls</font> table.
-- **references**: A student enrolled in a course must references a record in the courses table. A record in the <font color='blue'>enrolls</font> table **must references** a record in the <font color='red'>students</font> table.
+- **referenced by**: A course can have zero or more students enrolled: a record in the **courses** table is **referenced by**  `zero or more` records in the `enrolls` table.
+- **references**: A student enrolled in a course must references a record in the courses table. A record in the `enrolls` table **must references** a record in the **students** table.
 
-For example, the course_id <font color='red'>550</font> in the <font color='red'>courses</font> table does not appear in any records of the <font color='blue'>enrolls</font> table. It seems that students in this university are not much interested in `Art history` :smile:
+For example, the course_id **550** in the **courses** table does not appear in any records of the `enrolls` table. It seems that students in this university are not much interested in `Art history` :smile:
 
-**(**<font color='red'>sections</font>,<font color='blue'>enrolls</font>**)**
+**(** **sections**,`enrolls`)**
 
-- **referenced by**: A section can have one or more students enrolled: a record in the <font color='red'>sections</font> table is **referenced by**  `one or more` records in the <font color='blue'>enrolls</font> table.
-- **references**: A student enrolled in a course must references a record in the sections table. A record in the <font color='blue'>enrolls</font> table **must references** a record in the <font color='red'>sections</font> table.
+- **referenced by**: A section can have one or more students enrolled: a record in the **sections** table is **referenced by**  `one or more` records in the `enrolls` table.
+- **references**: A student enrolled in a course must references a record in the sections table. A record in the `enrolls` table **must references** a record in the **sections** table.
 
-In this particular instance of the uniY sample database a record in the <font color='red'>sections</font> table has actually more than a single record in the <font color='blue'>enrolls</font> table. However, in the general design of the database we assume that a section must have at least one record. Why is not `zero or more`? To answer at this question we must analyze the relationship between the `sections` and `courses` tables.
+In this particular instance of the uniY sample database a record in the **sections** table has actually more than a single record in the `enrolls` table. However, in the general design of the database we assume that a section must have at least one record. Why is not `zero or more`? To answer at this question we must analyze the relationship between the `sections` and `courses` tables.
 
-**(**<font color='red'>courses</font>,<font color='blue'>sections</font>**)**
+**(** **courses**,`sections`**)**
 
-- **referenced by**: A course can have zero or more sections: a record in the <font color='red'>courses</font> table is **referenced by**  `zero or more` records in the <font color='blue'>sections</font> table.
-- **references**: A section must references a record in the courses table. A record in the <font color='blue'>sections</font> table **must references** a record in the <font color='red'>courses</font> table.
+- **referenced by**: A course can have zero or more sections: a record in the **courses** table is **referenced by**  `zero or more` records in the `sections` table.
+- **references**: A section must references a record in the courses table. A record in the `sections` table **must references** a record in the **courses** table.
 
-For example, the course_id <font color='red'>550</font> in the <font color='red'>courses</font> table does not appear in any records of the <font color='blue'>sections</font> table.
+For example, the course_id **550** in the **courses** table does not appear in any records of the `sections` table.
 
-**(**<font color='red'>teachers</font>,<font color='blue'>sections</font>**)**
+**(** **teachers**,`sections`**)**
 
-- **referenced by**: A teacher can have zero or more sections: a record in the <font color='red'>teachers</font> table is **referenced by**  `zero or more` records in the <font color='blue'>sections</font> table.
-- **references**: A section must references a record in the teachers table. A record in the <font color='blue'>sections</font> table **must references** a record in the <font color='red'>teachers</font> table.
+- **referenced by**: A teacher can have zero or more sections: a record in the **teachers** table is **referenced by**  `zero or more` records in the `sections` table.
+- **references**: A section must references a record in the teachers table. A record in the `sections` table **must references** a record in the **teachers** table.
 
-For example, the teacher_id <font color='red'>213</font> in the <font color='red'>teachers</font> table does not appear in any records of the <font color='blue'>sections</font> table.
+For example, the teacher_id **213** in the **teachers** table does not appear in any records of the `sections`table.
 
 
 ## UniY Entity Relationship Diagram
