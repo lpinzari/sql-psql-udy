@@ -267,3 +267,97 @@ course_id,section_id,student_id,grade
 450,1,654,4
 450,2,548,
 ```
+
+### Exporting SQL queries to CSV files
+
+In the previous section we used the command:
+
+- **COPY** `table_name` **TO** `path\table_name.csv` **DELIMITER** `character` **CSV** **HEADER**;
+
+To export a table,(`table_name`), to a csv file `table_name.csv`. In the syntax above we can substitute the `table_name` with an acual query. For example, the following command:
+
+- **COPY** `students` **TO** `'/Users/yourusername/students_db.csv'` **DELIMITER** `','` **CSV** **HEADER**;
+
+It's equivalent to:
+
+- **COPY** `(SELECT * FROM students;)` **TO** `'/Users/yourusername/students_db.csv'` **DELIMITER** `','` **CSV** **HEADER**;
+
+In some cases, you want to export data from just some columns of a table to a CSV file. To do this, you specify the column names together with table name after `COPY` keyword. For example, the following statement exports data from the `student_name`, `gender`, and `city`  columns of the **students** table to `students_partial_db.csv`.
+
+- **COPY** `students(student_name,gender,city)` **TO** `'/Users/yourusername/students_partial_db.csv'` **DELIMITER** `','` **CSV** **HEADER**;
+
+```console
+uniy=# COPY students(student_name,gender,city) TO '/Users/ludovicopinzari/students_partial_db.csv' DELIMITER ',' CSV HEADER;
+COPY 12
+```
+
+Let's check the `csv` file.
+
+```console
+(base) ludo /~  $  cat students_partial_db.csv
+student_name,gender,city
+Susan Powell      ,F,Haverford
+Bob Dawson        ,M,Newport
+Howard Mansfield  ,M,Vienna
+Susan Pugh        ,F,Hartford
+Joe Adams         ,M,Newark
+Janet Ladd        ,F,Pennsburg
+Bill Jones        ,M,Newport
+Carol Dean        ,F,Boston
+Allen Thomas      ,M,Chicago
+Val Shipp         ,F,Chicago
+John Anderson     ,M,New York
+Janet Thomas      ,F,Erie
+```
+
+We could get the same result with the following query:
+
+```console
+uniy=# COPY (SELECT student_name,gender,city FROM students) TO '/Users/ludovicopinzari/students_partial_db.csv' DELIMITER ',' CSV HEADER;
+COPY 12
+```
+If you don’t want to export the `header`, which contains the column names of the table, just remove the `HEADER` flag in the `COPY` statement. The following statement exports only data from the `student_name` column of the students table to a CSV file.
+
+```console
+uniy=# COPY (SELECT student_name FROM students) TO '/Users/ludovicopinzari/students_name_db.csv' DELIMITER ',' CSV;
+COPY 12
+```
+
+Let's see the content of the `students_name_db.csv`:
+
+```console
+(base) ludo /Sql_udacity  $  cat students_name_db.csv
+Susan Powell
+Bob Dawson
+Howard Mansfield
+Susan Pugh
+Joe Adams
+Janet Ladd
+Bill Jones
+Carol Dean
+Allen Thomas
+Val Shipp
+John Anderson
+Janet Thomas
+```
+
+Notice that the CSV file name that you specify in the COPY command must be written directly by the server. It means that the CSV file must reside on the database server machine, not your local machine. The CSV file also needs to be writable by the user that PostgreSQL server runs as.
+
+## Export data from a table to CSV file using the copy command
+
+In case you have the access to a remote PostgreSQL database server, but you don’t have sufficient privileges to write to a file on it, you can use the PostgreSQL built-in command `\copy`.
+
+The `\copy` command basically runs the **COPY** statement above. However, instead of server writing the CSV file, psql writes the CSV file, transfers data from the server to your local file system. To use `\copy` command, you just need to have sufficient privileges to your local machine. **It does not require PostgreSQL superuser privileges**.
+
+For example, if you want to export all data of the student's name and address columns in the students table into `students_address.csv` file, you can execute the `\copy` command from the psql client as follows:
+
+```console
+(base) ludo /~  $  psql uniy -U usertest
+psql (11.4)
+Type "help" for help.
+
+uniy=> \COPY (SELECT student_name, address FROM students) TO '/Users/ludovicopinzari/students_address_db.csv' DELIMITER ',' CSV HEADER;
+COPY 12
+```
+
+We logged as `usertest`. See (`uniy=>`).
