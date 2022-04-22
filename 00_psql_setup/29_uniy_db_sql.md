@@ -27,6 +27,14 @@ The **DELIMITER** parameter specifies the character that separates columns withi
 
 The **HEADER** specifies that the file contains a header line with the names of each column in the file. On output, the first line contains the column names from the table, and on input, the first line is ignored. This option is allowed only when using CSV format.
 
+On successful completion, a COPY command returns a command tag of the form
+
+```console
+COPY count
+```
+
+The count is the number of rows copied.
+
 You must have select privilege on the table whose values are read by `COPY TO`. We login as a superuser to export the query on our local machine.
 
 ```console
@@ -247,7 +255,7 @@ The output of the command shows that the `enrolls_db.csv` file contains 17 rows.
 
 
 ```console
-(base) ludo /Sql_udacity  $  cat enrolls_db.csv
+(base) ludo /~  $  cat enrolls_db.csv
 course_id,section_id,student_id,grade
 730,1,148,3
 450,2,210,3
