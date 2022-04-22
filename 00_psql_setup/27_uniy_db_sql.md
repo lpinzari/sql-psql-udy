@@ -117,7 +117,7 @@ uniy=# \d courses
  num_credits | smallint      |           |          |
 ```
 
-Let's populate the **students** table:
+Let's populate the **courses** table:
 
 ```console
 INSERT INTO courses

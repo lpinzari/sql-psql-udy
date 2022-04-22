@@ -308,6 +308,8 @@ Below is the ERD for the **UniY** sample database.
 
 ![uny erd](./images/11_uniy_erd.png)
 
+These relationships make it possible to use joined queries to treat rows in several tables as joined units. We'll see examples of this later in the course.
+
 ### One (and only one) VS One
 
 There is often confusion about the difference between a `one (and only one)` and `one` relationship.
