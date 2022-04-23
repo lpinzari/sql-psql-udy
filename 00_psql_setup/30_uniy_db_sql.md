@@ -173,6 +173,8 @@ uniy-#  WHERE grade IS NULL;
 (1 row)
 ```
 
+By default **all the unquoted empty strings in a CSV file** are considered `NULL` values.
+
 ### usertest: Import a CSV file into a table using COPY statement
 
 AS we mentioned earlier, the `COPY FROM` command can only be executed by a `superuser`. However, we can use the `\COPY FROM` command to execute the same command as a *default user*.
@@ -391,7 +393,7 @@ INSERT 0 3
 The `INSERT INTO` statement inserted three new records in the `enrolls` table successfully. Now, let's import the `enrolls_db.csv` file into the `enrolls` table.
 
 ```console
-uniy=> \COPY enrolls FROM '/Users/ludovicopinzari/Documents/Udacity/Sql_udacity/enrolls_db.csv' DELIMITER ',' CSV HEADER;
+uniy=> \COPY enrolls FROM '/Users/ludovicopinzari/enrolls_db.csv' DELIMITER ',' CSV HEADER;
 COPY 17
 ```
 
@@ -425,3 +427,116 @@ uniy=> SELECT * FROM enrolls;
 ```
 
 The output shows that the imported records have been `appended` to the exisitng records of the `enrolls` table.
+
+### Import a CSV file with SERIAL Primary Key
+
+In the previous examples we imported a CSV file that includes the primary key columns of a table. In this lesson, we **import a CSV file into a table that includes a SERIAL PRIMARY KEY column**.
+
+First create a new table named `persons`.
+
+```console
+CREATE TABLE persons (
+  id SERIAL,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  dob DATE,
+  gender CHAR(1),
+  age SMALLINT,
+  email VARCHAR(255),
+  PRIMARY KEY (id)
+);
+```
+
+Let's execute the `CREATE TABLE` statement:
+
+```console
+uniy=> CREATE TABLE persons (
+uniy(>   id SERIAL,
+uniy(>   first_name VARCHAR(50),
+uniy(>   last_name VARCHAR(50),
+uniy(>   dob DATE,
+uniy(>   gender CHAR(1),
+uniy(>   age SMALLINT,
+uniy(>   email VARCHAR(255),
+uniy(>   PRIMARY KEY (id)
+uniy(> );
+CREATE TABLE
+uniy=> \d persons
+                                      Table "public.persons"
+   Column   |          Type          | Collation | Nullable |               Default
+------------+------------------------+-----------+----------+-------------------------------------
+ id         | integer                |           | not null | nextval('persons_id_seq'::regclass)
+ first_name | character varying(50)  |           |          |
+ last_name  | character varying(50)  |           |          |
+ dob        | date                   |           |          |
+ gender     | character(1)           |           |          |
+ age        | smallint               |           |          |
+ email      | character varying(255) |           |          |
+Indexes:
+    "persons_pkey" PRIMARY KEY, btree (id)
+```
+
+Next, let's import the following csv file:
+
+```console
+(base) ludo /Sql_udacity  $  cat persons_sample_db.csv
+First Name, Last Name, Date of Birth, Gender, age, Email,
+John,Doe,1981-01-05,M,40,john.doe@postgresql.com
+Lily,Bush,1995-02-05,F,,lily.bush@posrgresql.com
+Lily, Bush,1995-02-05,F,,lily.bush@posrgresql.com
+Lily,Bush,1995-02-05,F, ,lily.bush@posrgresql.com
+'Lily','Bush',1995-02-05,,,lily.bush@posrgresql.com
+```
+
+We notice that some columns have missing values such as empty strings, for example in the age column there is a line with a missing value `,,` but there is also a space character `, ,`. Some columns have single quotes wrapping strings and other columns have trailing spaces `, ,`.
+
+If we try the import the result is:
+
+```console
+uniy=> \COPY persons(first_name, last_name, dob, gender, age, email) FROM '/Users/ludovicopinzari/persons_sample_db.csv' DELIMITER ',' CSV HEADER;
+ERROR:  invalid input syntax for integer: " "
+CONTEXT:  COPY persons, line 5, column age: " "
+```
+
+Trailing spaces are not allowed for integer values. Notice that the table is still without records because the `\COPY` command has been aborted.
+
+Let's try the command again, with the following `csv` file:
+
+```console
+First Name, Last Name, Date of Birth, Gender, age, Email,
+John,Doe,1981-01-05,M,40,john.doe@postgresql.com
+Lily,Bush,1995-02-05,F,,lily.bush@posrgresql.com
+Lily, Bush,1995-02-05,F,,lily.bush@posrgresql.com
+Lily,Bush,1995-02-05, ,,lily.bush@posrgresql.com
+'Lily','Bush',1995-02-05,,,lily.bush@posrgresql.com
+```
+
+Let's try again:
+
+```console
+uniy=> \COPY persons(first_name, last_name, dob, gender, age, email) FROM '/Users/ludovicopinzari/persons_sample_db.csv' DELIMITER ',' CSV HEADER;
+COPY 5
+uniy=> SELECT * FROM persons;
+ id | first_name | last_name |    dob     | gender | age |          email
+----+------------+-----------+------------+--------+-----+--------------------------
+  5 | John       | Doe       | 1981-01-05 | M      |  40 | john.doe@postgresql.com
+  6 | Lily       | Bush      | 1995-02-05 | F      |     | lily.bush@posrgresql.com
+  7 | Lily       |  Bush     | 1995-02-05 | F      |     | lily.bush@posrgresql.com
+  8 | Lily       | Bush      | 1995-02-05 |        |     | lily.bush@posrgresql.com
+  9 | 'Lily'     | 'Bush'    | 1995-02-05 |        |     | lily.bush@posrgresql.com
+(5 rows)
+```
+
+Notice that the sequential `id` strats from number `5` because we tried to insert other records with no success earlier.
+
+```console
+uniy=> SELECT *
+uniy->   FROM persons
+uniy->  WHERE gender IS NULL;
+ id | first_name | last_name |    dob     | gender | age |          email
+----+------------+-----------+------------+--------+-----+--------------------------
+  9 | 'Lily'     | 'Bush'    | 1995-02-05 |        |     | lily.bush@posrgresql.com
+(1 row)
+```
+
+We clearly see that the only record with a value of `NULL` in the gender column is the last one. In this toy example we highlight the importance to parse the `csv` input file before any import operation. The scenarios in real life are more complex.
