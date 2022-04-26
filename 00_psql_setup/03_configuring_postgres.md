@@ -12,7 +12,11 @@ Type "help" for help.
 postgres=#
 ```
 
-We'll type in "`psql postgres`" and we're in. That’s the **psql command line** `postgres=#`. We can now enter a command to see what users are installed
+We'll type in "`psql postgres`" and we're in. That’s the **psql command line** `postgres=#`.
+
+`psql` is a terminal-based front-end to PostgreSQL. It enables you to type in queries interactively, issue them to PostgreSQL, and see the query results. Alternatively, input can be from a file or from command line arguments. In addition, psql provides a number of meta-commands and various shell-like features to facilitate writing scripts and automating a wide variety of [tasks](https://www.postgresql.org/docs/14/app-psql.html). 
+
+We can now enter a command to see what users are installed
 
 
 ## List users

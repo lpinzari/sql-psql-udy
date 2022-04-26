@@ -490,7 +490,7 @@ Lily,Bush,1995-02-05,F, ,lily.bush@posrgresql.com
 
 We notice that some columns have missing values such as empty strings, for example in the age column there is a line with a missing value `,,` but there is also a space character `, ,`. Some columns have single quotes wrapping strings and other columns have trailing spaces `, ,`.
 
-If we try the import the result is:
+If we try to import the file:
 
 ```console
 uniy=> \COPY persons(first_name, last_name, dob, gender, age, email) FROM '/Users/ludovicopinzari/persons_sample_db.csv' DELIMITER ',' CSV HEADER;
@@ -527,7 +527,7 @@ uniy=> SELECT * FROM persons;
 (5 rows)
 ```
 
-Notice that the sequential `id` strats from number `5` because we tried to insert other records with no success earlier.
+Notice that the sequential `id` starts from number `5` because we tried to insert other records with no success earlier.
 
 ```console
 uniy=> SELECT *

@@ -4,7 +4,7 @@ In the previous lesson we finalized the implementation of the **uniy-db.sql** fi
 
 Now, suppose that we added, deleted or updated records in the `uniy` sample database and want to save the current state of the database.
 
-Clearly, it would be insane to edit the `uniy-db.sql` file to reflect the records stored in the database tables. A possible solution is to export all the tables in separate `csv` files.
+Clearly, it would be insane to edit the `uniy-db.sql` file to reflect the records stored in the database tables. A possible solution is to export all the tables in separate `csv` files. There is another option that allows you to backup the database to a `.sql` file or a `.tar`: **pg_dump**. This command is introduced in lesson [31].
 
 ## Export PostgreSQL Table to CSV file
 
