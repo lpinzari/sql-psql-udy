@@ -4,7 +4,7 @@ In the previous lesson we learned how to backup a database using the `pg_dump` c
 
 In this lesson, we'll show you how to generate the sql script that creates the **database schema** or **populate** the database tables.
 
-The command option to generate the database schema is `--schema-only` or `-s`. As for the data, the command is `--data-only` or `-a`.
+The command option to generate the database schema is `--schema-only` or `-s`. This allows you to use the new database as the template for creating other databases. As for the data, the command is `--data-only` or `-a`.
 
 The backup file for the uniy database schema is `uniy_db_schema_backup.sql`. And the backup file for the uniy data is `uniy_db_data_backup.sql`.
 

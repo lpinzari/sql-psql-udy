@@ -58,7 +58,7 @@ In the following section, you will learn step by step how to
 For example, to backup the `uniy` sample database to the `uniy_db_backup.sql` file in the `/pgbackup` folder of  the `/Users/ludovicopinzari/` directory, we could type:
 
 ```console
-$ pg_dump -U usertest -F p -O --no-tablespace -c --if-exists --column-inserts uniy > /Users/ludovicopinzari/pgbackup/uniy_db_backup.sql
+$ pg_dump -U usertest -F p -O --no-tablespaces -c --if-exists --column-inserts uniy > /Users/ludovicopinzari/pgbackup/uniy_db_backup.sql
 ```
 
 
@@ -66,7 +66,7 @@ Let’s examine the options in more detail.
 
 **Database connection parameters**
 
-- **-U** `usertest`:  specifies the user to connect to the PostgreSQL database server. We used the `usertest` in this example but you could use the `postgres` or any other user with granted priviliges.
+- **-U** `usertest`:  specifies the user to connect to the PostgreSQL database server. We used the `usertest` in this example but you could use the `postgres` or any other user with granted privileges.
 
 **content and format of the output parameters**
 
