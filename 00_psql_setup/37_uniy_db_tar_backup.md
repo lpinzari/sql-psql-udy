@@ -437,4 +437,115 @@ uniy=> SELECT * FROM students;
 (0 rows)
 ```
 
-As we can see, there are no records in the tables since the `pg_restore` command imported only `uniy` schema into the database. 
+As we can see, there are no records in the tables since the `pg_restore` command imported only `uniy` schema into the database. in the next section, we are going to restore the records of the `uniy` sample database.
+
+
+### pg_restore: uniy database only data
+
+At the beginning of this lesson, we mentioned that all the records of a database could be restored using the `-a` option in the `pg_restore` command. However, if we run the command in the terminal:
+
+```console
+(base) ludo /pgbackup  $  pg_restore -U usertest -v -O -a -e -d uniy /Users/ludovicopinzari/pgbackup/uniy_db_backup.tar
+pg_restore: connecting to database for restore
+pg_restore: processing data for table "public.courses"
+pg_restore: processing data for table "public.enrolls"
+pg_restore: [archiver (db)] Error while PROCESSING TOC:
+pg_restore: [archiver (db)] Error from TOC entry 3188; 0 26147 TABLE DATA enrolls usertest
+pg_restore: [archiver (db)] could not execute query: ERROR:  insert or update on table "enrolls" violates foreign key constraint "enrolls_fkey_section"
+DETAIL:  Key (course_id, section_id)=(730, 1) is not present in table "sections".
+    Command was: INSERT INTO public.enrolls (course_id, section_id, student_id, grade) VALUES (730, 1, 148, 3);
+```
+
+We got an error.. **I'm still looking for the bug**. Maybe the TOC file processes the tables in the wrong order. In fact the `enrolls` table must be processed after the `sections` table. On the other hand, when we execute the full restore including schema and data, the TOC file is not executed (we'll look inside the `.tar` file at the end of this lesson).
+
+However, another option is to generate a separate `tar` file just to backup the tables data. Therefore, the next step is to generate a file `uniy_db_data_backup.tar` to backup all the tables records.
+
+```console
+(base) ludo /pgbackup  $  pg_dump -U usertest -F t -O -a --column-inserts uniy > /Users/ludovicopinzar/pgbackup/uniy_db_data_backup.tar
+```
+
+Now, we run the `pg_restore` command again.
+
+```console
+(base) ludo /pgbackup  $  pg_restore -U usertest -v -O -a -e -d uniy /Users/ludovicopinzari/Documents/Udacity/Sql_udacity/pgbackup/uniy_db_data_backup.tar
+pg_restore: connecting to database for restore
+pg_restore: processing data for table "public.courses"
+pg_restore: processing data for table "public.teachers"
+pg_restore: processing data for table "public.sections"
+pg_restore: processing data for table "public.students"
+pg_restore: processing data for table "public.enrolls"
+```
+
+Finally, we restored the `uniy` sample database.
+
+### Note: uniy database only data
+
+In the last example, we illustrated how to restore the tables records using the `pg_restore` command on a separate backup file `uniy_db_data_backup.tar`. Now, it seems natural to create a separate file for the schema named `uniy_db_schema_backup.tar`. In this way, we could save memory on the disk and separate logically the files of the database.
+
+```console
+(base) ludo /pgbackup  $  pg_dump -U usertest -F t -O --no-tablespaces -c --if-exists -s uniy > /Users/ludovicopinzari/pgbackup/uniy_db_schema_backup.tar
+```
+
+Now, we have two backup files to restore the `schema` and `data` of the `uniy` sample database.
+
+1. restore the `uniy` **schema**, `uniy_db_schema_backup.tar`:
+
+```console
+(base) ludo /pgbackup  $  pg_restore -U usertest -v -O -c --if-exists -s -e -d uniy /Users/ludovicopinzari/pgbackup/uniy_db_schema_backup.tar
+pg_restore: connecting to database for restore
+pg_restore: dropping FK CONSTRAINT sections sections_fkey_teacher
+pg_restore: dropping FK CONSTRAINT sections sections_fkey_course
+pg_restore: dropping FK CONSTRAINT enrolls enrolls_fkey_student
+pg_restore: dropping FK CONSTRAINT enrolls enrolls_fkey_section
+pg_restore: dropping FK CONSTRAINT enrolls enrolls_fkey_course
+pg_restore: dropping CONSTRAINT teachers teachers_pkey
+pg_restore: dropping CONSTRAINT students students_pkey
+pg_restore: dropping CONSTRAINT sections sections_pkey
+pg_restore: dropping CONSTRAINT enrolls enrolls_pkey
+pg_restore: dropping CONSTRAINT courses courses_pkey
+pg_restore: dropping TABLE teachers
+pg_restore: dropping TABLE students
+pg_restore: dropping TABLE sections
+pg_restore: dropping TABLE enrolls
+pg_restore: dropping TABLE courses
+pg_restore: creating TABLE "public.courses"
+pg_restore: creating TABLE "public.enrolls"
+pg_restore: creating TABLE "public.sections"
+pg_restore: creating TABLE "public.students"
+pg_restore: creating TABLE "public.teachers"
+pg_restore: creating CONSTRAINT "public.courses courses_pkey"
+pg_restore: creating CONSTRAINT "public.enrolls enrolls_pkey"
+pg_restore: creating CONSTRAINT "public.sections sections_pkey"
+pg_restore: creating CONSTRAINT "public.students students_pkey"
+pg_restore: creating CONSTRAINT "public.teachers teachers_pkey"
+pg_restore: creating FK CONSTRAINT "public.enrolls enrolls_fkey_course"
+pg_restore: creating FK CONSTRAINT "public.enrolls enrolls_fkey_section"
+pg_restore: creating FK CONSTRAINT "public.enrolls enrolls_fkey_student"
+pg_restore: creating FK CONSTRAINT "public.sections sections_fkey_course"
+pg_restore: creating FK CONSTRAINT "public.sections sections_fkey_teacher"
+```
+
+2. restore the `uniy` **data**, `uniy_db_data_backup.tar`:
+
+```console
+(base) ludo /pgbackup  $  pg_restore -U usertest -v -O -a -e -d uniy /Users/ludovicopinzari/pgbackup/uniy_db_data_backup.tar
+pg_restore: connecting to database for restore
+pg_restore: processing data for table "public.courses"
+pg_restore: processing data for table "public.teachers"
+pg_restore: processing data for table "public.sections"
+pg_restore: processing data for table "public.students"
+pg_restore: processing data for table "public.enrolls"
+```
+
+### uny_db_schema_backup.tar internals
+
+If you decompress the `uniy_db_schema_backup.tar` file into the folder `uniy_db_schema_backup`:
+
+```console
+(base) ludo /uniy_db_schema_backup  $  ls
+restore.sql toc.dat
+```
+
+You see there are two files `restore.sql` and `toc.dat`.
+
+You can look inside this file but basically the content is similar to the file `uniy_db_schema_backup.sql` generated by the `pg_dump` command. It's worth noting that this file is not edited like the one we created in the previous lessons.
