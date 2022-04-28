@@ -6,6 +6,16 @@ The **UniY** database contains the registration information for a fictitious (an
 
 The picture above shows a summary of each table's columns in query diagram form. Note that, once again, one or more columns in each table have a small picture of a **key beside the column name**, identifying **visually the columns that act as keys for that table**.
 
+The following table shows the table names and the number of records.
+
+| Table  | Rows |
+|:-------|:----:|
+|students|12|
+|teachers|7|
+|courses|5|
+|sections|6|
+|enrolls|17|
+
 ### students
 
 The table in this database with the most columns is called **students**. It contains information on all students currently enrolled at this university. Its **columns** are as follows:

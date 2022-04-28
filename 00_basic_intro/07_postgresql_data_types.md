@@ -10,7 +10,7 @@ PostgreSQL supports the following data types:
 - Character types such as [char, varchar, and text](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-char-varchar-text/).
 - [Numeric](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-integer/) type, [integer](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-integer/) and [floating-point](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-data-types/) number.
 - Temporal types such as [date](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-date/), [time](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-time/), [timestamp](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-timestamp/), and [interval](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-interval/)
-- [UUID](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-serial/) for storing Universally Unique Identifiers, like autoincrement keys.
+- [UUID](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-serial/) for storing Universally Unique Identifiers, like **autoincrement keys**.
 - [Array](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-array/) for storing array strings, numbers, etc.
 - [JSON](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-json/) stores JSON data
 - hstore stores key-value pair
