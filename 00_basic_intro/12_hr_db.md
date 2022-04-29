@@ -274,3 +274,193 @@ The following table shows the table names and the number of records.
 |28|Woody|Russell|Child|145|
 |29|Alec|Partners|Child|146|
 |30|Sandra|Taylor|Child|176|
+
+## Recursive Relationship in ERD
+
+In the `uniy` sample database lesson we learned how the table's **primary** and **foreign** **keys** are used to **create relationships** between **tables**.
+
+The `table` that **contains** the **foreign key** is called the referencing table or `child` **table**.
+
+And the `table` **referenced by** the **foreign key** is called the referenced table or `parent` **table**.
+
+What happen if the **child** `table`, (the table that contains the foreign key), **references its primary key** ?
+
+For example, in the table **employees** of the `HR` sample database the values in the  column `manager_id` references the values in the table's primary key column `employee_id`.
+
+This is clear if we look at the records of the **employees** table.
+
+|employee_id|first_name|last_name|email|phone_number|hire_date|job_id|salary|manager_id|department_id|
+|:----------|:--------:|:-------:|:---:|:----------:|:---------:|:----:|:----:|:--------:|----------:|
+|100|Steven|King|steven.king@sqltutorial.org|515.123.4567|1987-06-17|4|24000.00||9|
+|101|Neena|Kochhar|neena.kochhar@sqltutorial.org|515.123.4568|1989-09-21|5|17000.00|100|9|
+|102|Lex|De Haan|lex.dehaan@sqltutorial.org|515.123.4569|1993-01-13|5|17000.00|100|9|
+|103|Alexander|Hunold|alexander.hunold@sqltutorial.org|590.423.4567|1990-01-03|9|9000.00|102|6|
+|104|Bruce|Ernst|bruce.ernst@sqltutorial.org|590.423.4568|1991-05-21|9|6000.00|103|6|
+
+For example, the employee `Bruce Ernst`, record:
+
+- (**104**, `Bruce`, `Ernst`,...,**103**,6) -> `manager_id`: **103**
+
+has a supervisor named `Alexander Hunold`, record:
+
+- (**103**, `Alexander`,`Hunold`,...,**102**,6) -> `manager_id`: **102**
+
+And the supervisor of Alexander Hunold is `Lex De Haan`, record:
+
+- (**102**, `Lex`,`De Haan`,...,**100**,9) -> `manager_id`: **100**
+
+And the supervisor of Lex De Haan is `Steven King`, record:
+
+- (**100**, `Steven`, `King`,...,**...**,) -> `manager_id`: **NULL**
+
+Lastly, Steven King **does not have a supervisor**.
+
+Recalling the concept of foreign key given in the previous lesson: A foreign key refers to one record in another table. In this example, there is more than a single relationship. **The table employees recursively refers to itself three times**.
+
+- `104` **->** `103` **->** `102` **->** `100`
+
+In this example, the right arrow **->** indicates the relationship between the child record and the parent record. Specifically, the **->** indicates the relationship **reports to**.  
+
+Therefore,
+
+1. the employee `104` **reports to** the employee `103`, manager (supervisor).
+2. the employee `103` **reports to** the employee `102`, manager (supervisor).
+3. the employee `102` **reports to** the employee `100`, manager (supervisor).
+4. the employee `100` does not reports to any manager, he is the CEO :smile:.
+
+- `104` **<-** `103` **<-** `102` **<-** `100`
+
+On the other way around, the left arrow **<-** indicates the relationship between the parent record and the child record. Specifically, the **<-** indicates the relationship **manages**.
+
+Therefore,
+
+1. the employee `100` **manages** the employee `102`, subordinate.
+2. the employee `102` **manages** the employee `103`, subordinate.
+3. the employee `103` **manages** the employee `104`.
+4. the employee `104` does not manage any employee, he is not a supervisor.
+
+Here the same entity type participates more than once in a relationship type with a different role for each instance.
+
+For example, the record with column `employee_id`: `103` participates in two relationships:
+1. the employee **103** **reports to** the employee `102`:
+  - `103` is the **subordinate** of the employee `102`.
+2. the employee **103** **manages** the employee `104`
+  - `103` is the **supervisor** of the employee `104`.
+
+Thus, all the employees, (`104`,`103`,`102`), have one supervisor except the CEO, (`100`), **Steven King**. In this case, the foreign key **may references** another record in the same table. The employee record `100` **does not references any record**, (in SQL is a `NULL` value, don't worry if you don't understand right now.. it will be clear in the later lessons). Therefore, an employee **may** or **may not** have a boss or supervisor. It follows that
+
+- a record can references **zero or one** record.
+
+Similarly, an employee can be the boss or supervisor of **zero or many** employees. For example, the employee `104` does not manage any employee and therefore is not referenced by any record. On the other hand, the employee `100` manages **14** employees.
+
+It follows, that
+
+- a record may be referenced by **zero or many** records.
+
+
+|employee_id|first_name|last_name|email|phone_number|hire_date|job_id|salary|manager_id|department_id|
+|:----------|:--------:|:-------:|:---:|:----------:|:---------:|:----:|:----:|:--------:|----------:|
+|**100**|Steven|King|steven.king@sqltutorial.org|515.123.4567|1987-06-17|4|24000.00||9|
+|101|Neena|Kochhar|neena.kochhar@sqltutorial.org|515.123.4568|1989-09-21|5|17000.00|**100**|9|
+|102|Lex|De Haan|lex.dehaan@sqltutorial.org|515.123.4569|1993-01-13|5|17000.00|100|9|
+|114|Den|Raphaely|den.raphaely@sqltutorial.org|515.127.4561|1994-12-07|14|11000.00|**100**|3|
+|120|Matthew|Weiss|matthew.weiss@sqltutorial.org|650.123.1234|1996-07-18|19|8000.00|**100**|5|
+|121|Adam|Fripp|adam.fripp@sqltutorial.org|650.123.2234|1997-04-10|19|8200.00|**100**|5|
+|122|Payam|Kaufling|payam.kaufling@sqltutorial.org|650.123.3234|1995-05-01|19|7900.00|**100**|5|
+|123|Shanta|Vollman|shanta.vollman@sqltutorial.org|650.123.4234|1997-10-10|19|6500.00|**100**|5|
+|145|John|Russell|john.russell@sqltutorial.org||1996-10-01|15|14000.00|**100**|8|
+|146|Karen|Partners|karen.partners@sqltutorial.org||1997-01-05|15|13500.00|**100**|8|
+|176|Jonathon|Taylor|jonathon.taylor@sqltutorial.org||1998-03-24|16|8600.00|**100**|8|
+|177|Jack|Livingston|jack.livingston@sqltutorial.org||1998-04-23|16|8400.00|**100**|8|
+|178|Kimberely|Grant|kimberely.grant@sqltutorial.org||1999-05-24|16|7000.00|**100**|8|
+|179|Charles|Johnson|charles.johnson@sqltutorial.org||2000-01-04|16|6200.00|**100**|8|
+|201|Michael|Hartstein|michael.hartstein@sqltutorial.org|515.123.5555|1996-02-17|10|13000.00|**100**|2|
+
+The record with primary key's, `employee_id`, value **100** appears in the column `manager_id` of **14** records.
+
+Every employee can have a supervisor except the CEO and there can be at most one boss for each employee. One employee may be the boss of more than one employee.
+
+Supervisors and subordinates are called “Role Names”. Here the degree of the REPORTS_TO relationship is 1 i.e. a unary relationship.
+
+- The minimum cardinality of the Supervisor entity is ZERO since the lowest level employee may not be a manager for anyone.
+- The maximum cardinality of the Supervisor entity is N since an employee can manage many employees.
+- Similarly, the Subordinate entity has a minimum cardinality of ZERO to account for the case where CEO can never be a subordinate.
+- Its maximum cardinality is ONE since a subordinate employee can have at most one supervisor.
+
+The **recursive relationship** of the **employees** table can be stated as follow:
+
+- An employee can be a manager of `zero or more` employees: a record in the **employees** table is **referenced by** `zero or more` records in the **employees** table.
+- An employee reports to `zero or one employee`: a record in the **employees** table **references** `zero or one` record in the **employees** table.
+
+## HR Relationships
+
+Below is a summary of the relationships in the **HR** sample database tables.
+
+| tables  | referenced_by    | references                 |
+|:-------:|:----------------:|:--------------------------:|
+|jobs |        employees   |                            |
+|regions  |countries|                            |
+|countries |locations         |**regions**|
+|locations |departments          |**countries**|
+|departments|employees|**locations**|
+|employees|dependents,employees|**employees**,**departments**,**jobs**|
+|dependents||**employees**|
+
+The `jobs` and `regions` tables are the only ones that do not reference any table.
+
+![hr database2](./images/14_hr.png)
+
+The picture above illustrates the `referenced_by` **relationship** between tables, or **parent** **relationship** graph :smile:
+
+Let's describe all the **(** **parent**,`child`**)** **relationships** in the UniY sample database.
+
+![hr database](./images/13_hr.png)
+
+**(** **jobs**, `employees`**)**
+
+The relationship between the **jobs** and `employees` tables can be stated as follow:
+
+- **referenced by**: A job can have zero or many employees. A record in the **jobs** table is **referenced by**  `zero or more` records in the `employees` table.
+- **references**: An employee in a company `has one and only one` job. A record in the `employees` table **must references** a record in the **jobs** table.
+
+**(** **regions**, `countries`**)**
+
+The relationship between the **regions** and `countries` tables can be stated as follow:
+
+- **referenced by**: A region can have zero or many countries. A record in the **regions** table is **referenced by**  `zero or more` records in the `countries` table.
+- **references**: A country belongs to `one and only one` region. A record in the `country` table **must references** a record in the **regions** table.
+
+**(** **countries**, `locations`**)**
+
+The relationship between the **countries** and `locations` tables can be stated as follow:
+
+- **referenced by**: A country can have zero or many locations. A record in the **countries** table is **referenced by**  `zero or more` records in the `locations` table.
+- **references**: A location belongs to `one and only one` country. A record in the `locations` table **must references** a record in the **countries** table.
+
+**(** **locations**, `departments`**)**
+
+The relationship between the **locations** and `departments` tables can be stated as follow:
+
+- **referenced by**: A location can have zero or many departments. A record in the **locations** table is **referenced by**  `zero or more` records in the `departments` table.
+- **references**: A department may have a location. A record in the `departments` table **can references** `zero or one` record in the **locations** table.
+
+**(** **departments**, `employees`**)**
+
+The relationship between the **departments** and `employees` tables can be stated as follow:
+
+- **referenced by**: A department can have zero or many employees. A record in the **departments** table is **referenced by**  `zero or more` records in the `employees` table.
+- **references**: An employee can be assigned to `zero or one` department. A record in the `employees` table **references** `zero or one` record in the **departments** table.
+
+**(** **employees**, `dependents`**)**
+
+The relationship between the **employees** and `dependents` tables can be stated as follow:
+
+- **referenced by**: An employee can have zero or many dependents. A record in the **employees** table is **referenced by**  `zero or more` records in the `dependents` table.
+- **references**: A dependent has `one and only one` employee. A record in the `dependents` table **must references** a record in the **employees** table.
+
+**(** **employees**, `employees`**)**
+
+The relationship between the **employees** and `employees` tables (Recursive relationship) can be stated as follow:
+
+- **referenced by**: An employee can be a manager of `zero or more` employees. A record in the **employees** table is **referenced by** `zero or more` records in the **employees** table.
+- **references**: An employee reports to `zero or one employee`. A record in the **employees** table **references** `zero or one` record in the **employees** table.

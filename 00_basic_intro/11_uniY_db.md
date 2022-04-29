@@ -215,7 +215,7 @@ Similarly, if we want to find the name of the student who got the worst grade in
 
 - **(** `473`,`Carol Dean`,`983 Park Avenue`, `Boston`,`MA`,`02169`,`F`**)**
 
-In this example, the `student_id` column in the **enrolls** is called **foreign key** because it **refers** to the **primary key** of the **students** table. In general a foreign key may refers to other tables as well. The **foreign key** always **refers to one record** in other tables.
+In this example, the `student_id` column in the **enrolls** is called **foreign key** because it **refers** to the **primary key** of the **students** table. In general a foreign key may refers to other tables as well. The **foreign key** **refers to one record** in other tables.
 
 A **foreign key** is a **column** or a **group of columns** in a `table` that **reference** the **primary key** of `another table`.
 
@@ -225,10 +225,10 @@ How about the other way around?
 
 The answer is no. For example, the `student_id` **354** does not appear in any records of the **enrolls** table.
 
-The reltionship between the **students** and **enrolls** tables can be stated as follow:
+The relationship between the **students** and **enrolls** tables can be stated as follow:
 
 - A student can be enrolled to zero or more courses: a record in the **students** table is **referenced by**  `zero or more` records in the **enrolls** table.
-- A student enrolled in a course must have a record in the **students** table. A record in the **enrolls** table **must references** a record in the **students** table.
+- A student enrolled in a course must have a record in the **students** table. A record in the **enrolls** table **references** a record in the **students** table.
 
 
 ## UniY Relationships
@@ -266,36 +266,44 @@ Let's describe all the **(** **parent**,`child`**)** **relationships** in the Un
 **(** **students**, `enrolls`**)**
 
 
-The reltionship between the **students** and `enrolls` tables can be stated as follow:
+The relationship between the **students** and `enrolls` tables can be stated as follow:
 
 - **referenced by**: A student can be enrolled to zero or more courses: a record in the **students** table is **referenced by**  `zero or more` records in the `enrolls` table.
-- **references**: A student enrolled in a course must references a record in the students table. A record in the `enrolls` table **must references** a record in the **students** table.
+- **references**: A student enrolled in a course must references a record in the students table. A record in the `enrolls` table **references** a record in the **students** table.
 
-**(** **courses**,`enrolls`)**
+**(** **courses**,`enrolls`**)**
+
+The relationship between the **courses** and `enrolls` tables can be stated as follow:
 
 - **referenced by**: A course can have zero or more students enrolled: a record in the **courses** table is **referenced by**  `zero or more` records in the `enrolls` table.
-- **references**: A student enrolled in a course must references a record in the courses table. A record in the `enrolls` table **must references** a record in the **students** table.
+- **references**: A student enrolled in a course must references a record in the courses table. A record in the `enrolls` table **references** a record in the **students** table.
 
 For example, the course_id **550** in the **courses** table does not appear in any records of the `enrolls` table. It seems that students in this university are not much interested in `Art history` :smile:
 
-**(** **sections**,`enrolls`)**
+**(** **sections**,`enrolls`**)**
+
+The relationship between the **sections** and `enrolls` tables can be stated as follow:
 
 - **referenced by**: A section can have one or more students enrolled: a record in the **sections** table is **referenced by**  `one or more` records in the `enrolls` table.
-- **references**: A student enrolled in a course must references a record in the sections table. A record in the `enrolls` table **must references** a record in the **sections** table.
+- **references**: A student enrolled in a course must references a record in the sections table. A record in the `enrolls` table **references** a record in the **sections** table.
 
 In this particular instance of the uniY sample database a record in the **sections** table has actually more than a single record in the `enrolls` table. However, in the general design of the database we assume that a section must have at least one record. Why is not `zero or more`? To answer at this question we must analyze the relationship between the `sections` and `courses` tables.
 
 **(** **courses**,`sections`**)**
 
+The relationship between the **courses** and `sections` tables can be stated as follow:
+
 - **referenced by**: A course can have zero or more sections: a record in the **courses** table is **referenced by**  `zero or more` records in the `sections` table.
-- **references**: A section must references a record in the courses table. A record in the `sections` table **must references** a record in the **courses** table.
+- **references**: A section must references a record in the courses table. A record in the `sections` table **references** a record in the **courses** table.
 
 For example, the course_id **550** in the **courses** table does not appear in any records of the `sections` table.
 
 **(** **teachers**,`sections`**)**
 
+The relationship between the **teachers** and `sections` tables can be stated as follow:
+
 - **referenced by**: A teacher can have zero or more sections: a record in the **teachers** table is **referenced by**  `zero or more` records in the `sections` table.
-- **references**: A section must references a record in the teachers table. A record in the `sections` table **must references** a record in the **teachers** table.
+- **references**: A section must references a record in the teachers table. A record in the `sections` table **references** a record in the **teachers** table.
 
 For example, the teacher_id **213** in the **teachers** table does not appear in any records of the `sections`table.
 
