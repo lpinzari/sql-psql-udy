@@ -17,7 +17,7 @@ The **jobs** table stores the job data including job title and salary. It's **co
 
 Because it contains a unique value for each record, the **job_id** column is designated as the **key** for this table.
 
-**NOTE**: The word `SERIAL` is a PostgreSQL's `pseudo-type` that indicates an `auto-increment` column. Every time we insert a record in the table, the DBMS generates automatically the next integer in the sequence. Don't worry if you don't understand yet the mechanism behind the `SERIAL` type, we'll discuss about this concept later in the course.
+**NOTE**: The word `SERIAL` is a PostgreSQL's `pseudo-type` that indicates an `auto-increment` column. Every time we insert a record in the table, the DBMS generates automatically the next integer in the sequence. Don't worry if you don't understand yet the mechanism behind the `SERIAL` type, we'll discuss about this concept later in the course. For now, it suffice to know that **the system will automatically generate a unique, sequential number, and will enforce a unique value constraint**.
 
 ### regions
 

@@ -4,7 +4,7 @@ Relational databases consist solely of tables. To retrieve the information store
 
 Before the creation of any table in the database **you must comprehend the ERD of your database in order to decide which table should be created first**.
 
-In the previous lessons we stressed the importance of the **primary** and **foreign** **keys constranits** to maintain **the self and referential integrity of data in a database when inserting and deleting rows or updating row's values**. We also noted that a primary key and foreign key constraints are not required to join the tables in a relation database. **You can construct a query joining two tables on any column you wish as long as the datatypes either match or are converted to match**. No relationship needs to explicitly exist.
+In the previous lessons we stressed the importance of the **primary** and **foreign** **keys constraints** to maintain **the self and referential integrity of data in a database when inserting and deleting rows or updating row's values**. We also noted that a primary key and foreign key constraints are not required to join the tables in a relation database. **You can construct a query joining two tables on any column you wish as long as the datatypes either match or are converted to match**. No relationship needs to explicitly exist.
 
 In the last scenario you do not probably need to follow a specific order in the creation of the tables in the database. However, it's a bad practice to leave the primary and foreign keys constraints out, especially when you populate the tables.
 
