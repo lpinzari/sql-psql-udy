@@ -147,23 +147,3 @@ CREATE TABLE enrolls (
             (course_id NOT NULL AND section_id NOT NULL)
 );
 ```
-
-
-
-## Introduction to NULL
-
-In database theory, `NULL` represents `unknown` or **information missing**. NULL is not the same as an empty string or the number zero.
-
-Suppose that you need to insert an `email_address` of a contact into a table. You can request his or her email address. However, if you don’t know whether the contact has an email address or not, you can insert `NULL` into the `email_address` column. In this case, `NULL` **indicates that the** `email_address` **is not known at the time of recording**.
-
-`NULL` is very special. **It does not equal anything, even itself**.
-
-The expression `NULL = NULL` **returns** `NULL` because it makes sense that two unknown values should not be equal.
-
-To check if a value is `NULL` or not, you use the **IS NULL** `boolean operator`. For example, the following expression returns true if the value in the email address is NULL.
-
-```console
-email_address IS NULL
-```
-
-The **IS NOT NULL** operator negates the result of the **IS NULL** operator.
