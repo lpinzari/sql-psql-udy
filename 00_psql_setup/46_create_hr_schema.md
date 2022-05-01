@@ -257,7 +257,7 @@ BEGIN;
 
 
 -- ********************************
--- DESTROY the uniy database schema
+-- DESTROY the hr database schema
 -- ********************************
 
 DROP TABLE IF EXISTS
@@ -272,7 +272,7 @@ CASCADE;
 
 
 -- ********************************
--- CREATE the uniy database schema
+-- CREATE the hr database schema
 -- ********************************
 
 /*
