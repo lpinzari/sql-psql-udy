@@ -189,7 +189,15 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 ```
 
-The first part of the script is only for the configuration of the script when is executed.
+There are a few important things to note related to the backup content. The first is that `pg_dump` places a bunch of `SET` statements at the very beginning of the backup; such SET statements are not mandatory for the backup, but for restoring from this backup's content. In other words, the first few lines of the backup are not related to the content of the backup, but to how to use such a backup.
+
+An important line among those SET statements is the following one, which has been introduced in recent versions of PostgreSQL:
+
+```console
+SELECT pg_catalog.set_config('search_path', '', false);
+```
+
+Such lines remove the `search_path` variable, which is the list of schema names among those to search for an unqualified object. The effect of such a line is that every object that's created from the backup during a restore will not exploit any malicious code that could have tainted your environment and your `search_path`. The side effect of this, as will be shown later on, is that after restoration, the user will have an empty search path and will not be able to find any not fully qualified objects by their names.
 
 If you want to remove the `SET default_tablespace = '';` use the following options: **--no-tablespace**.
 

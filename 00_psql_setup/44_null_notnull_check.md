@@ -6,6 +6,10 @@ In this lesson, you will learn about PostgreSQL not-null constraint to ensure th
 
 In database theory, `NULL` represents `unknown` or **information missing**. NULL is not the same as an empty string or the number zero.
 
+The `NULL` value is defined as follow:
+
+> Null (or NULL) is a special marker used in Structured Query Language to indicate that a data value does not exist in the database. Introduced by the creator of the relational database model, E. F. Codd, SQL Null serves to fulfill the requirement that all true relational database management systems (RDBMS) support a representation of missing information.
+
 Suppose that you need to insert an `email_address` of a contact into a table. You can request his or her email address. However, if you don’t know whether the contact has an email address or not, you can insert `NULL` into the `email_address` column. In this case, `NULL` **indicates that the** `email_address` **is not known at the time of recording**.
 
 `NULL` is very special. **It does not equal anything, even itself**.
@@ -19,6 +23,100 @@ email_address IS NULL
 ```
 
 The **IS NOT NULL** operator negates the result of the **IS NULL** operator.
+
+
+## PostgreSQL NULL vs NOT NULL
+
+Now, let's see how `NULL` is used in PostgreSQL.
+
+1. Let's see which rows (tuples) are present in the `locations` table of the `hr` sample database.
+
+```console
+hr=> SELECT * FROM locations;
+ location_id |              street_address              | postal_code |        city         | state_province | country_id
+-------------+------------------------------------------+-------------+---------------------+----------------+------------
+        1400 | 2014 Jabberwocky Rd                      | 26192       | Southlake           | Texas          | US
+        1500 | 2011 Interiors Blvd                      | 99236       | South San Francisco | California     | US
+        1700 | 2004 Charade Rd                          | 98199       | Seattle             | Washington     | US
+        1800 | 147 Spadina Ave                          | M5V 2L7     | Toronto             | Ontario        | CA
+        2400 | 8204 Arthur St                           |             | London              |                | UK
+        2500 | Magdalen Centre, The Oxford Science Park | OX9 9ZB     | Oxford              | Oxford         | UK
+        2700 | Schwanthalerstr. 7031                    | 80925       | Munich              | Bavaria        | DE
+(7 rows)
+```
+
+2. So now, if we want to select all the tuples in which the `postal_code` is not present, we use the following:
+
+```console
+hr=> SELECT *
+hr->   FROM locations
+hr->  WHERE postal_code = '';
+ location_id | street_address | postal_code | city | state_province | country_id
+-------------+----------------+-------------+------+----------------+------------
+(0 rows)
+```
+
+As you can see, PostgreSQL does not return any records. This happens because the insert has entered a NULL value in the `postal_code` field.
+
+3. In order to see the `NULL` values present in the tables, let's execute the following command:
+
+```console
+hr=> \pset null NULL
+Null display is "NULL".
+```
+
+Sets the string to be printed in place of a null value. The default is to print nothing, which can easily be mistaken for an empty string. 
+
+4. This tells psql to show NULL values ​​that are present in the table as NULL, as shown here:
+
+```console
+hr=> SELECT * FROM locations;
+ location_id |              street_address              | postal_code |        city         | state_province | country_id
+-------------+------------------------------------------+-------------+---------------------+----------------+------------
+        1400 | 2014 Jabberwocky Rd                      | 26192       | Southlake           | Texas          | US
+        1500 | 2011 Interiors Blvd                      | 99236       | South San Francisco | California     | US
+        1700 | 2004 Charade Rd                          | 98199       | Seattle             | Washington     | US
+        1800 | 147 Spadina Ave                          | M5V 2L7     | Toronto             | Ontario        | CA
+        2400 | 8204 Arthur St                           | NULL        | London              | NULL           | UK
+        2500 | Magdalen Centre, The Oxford Science Park | OX9 9ZB     | Oxford              | Oxford         | UK
+        2700 | Schwanthalerstr. 7031                    | 80925       | Munich              | Bavaria        | DE
+(7 rows)
+```
+
+As you can see, the `country_id` value associated with the `city` **Toronto** is not
+an empty string; it is a NULL value.
+
+5. Now, if we want to see all records that have `NULL` values in the `country_id`
+field, we have to use the `IS NULL` operator:
+
+```console
+hr=> SELECT *
+hr->   FROM locations
+hr->  WHERE postal_code IS NULL;
+ location_id | street_address | postal_code |  city  | state_province | country_id
+-------------+----------------+-------------+--------+----------------+------------
+        2400 | 8204 Arthur St | NULL        | London | NULL           | UK
+(1 row)
+```
+
+The preceding query looks for all records for which there is no value in the `postal_code` field.
+
+6. Now, we will search for all recrods for which there is a value in the `postal_code` field using the following query:
+
+```console
+hr=> SELECT *
+hr->   FROM locations
+hr->  WHERE postal_code IS NOT NULL;
+ location_id |              street_address              | postal_code |        city         | state_province | country_id
+-------------+------------------------------------------+-------------+---------------------+----------------+------------
+        1400 | 2014 Jabberwocky Rd                      | 26192       | Southlake           | Texas          | US
+        1500 | 2011 Interiors Blvd                      | 99236       | South San Francisco | California     | US
+        1700 | 2004 Charade Rd                          | 98199       | Seattle             | Washington     | US
+        1800 | 147 Spadina Ave                          | M5V 2L7     | Toronto             | Ontario        | CA
+        2500 | Magdalen Centre, The Oxford Science Park | OX9 9ZB     | Oxford              | Oxford         | UK
+        2700 | Schwanthalerstr. 7031                    | 80925       | Munich              | Bavaria        | DE
+(6 rows)
+```
 
 ## PostgreSQL NOT NULL constraint
 
