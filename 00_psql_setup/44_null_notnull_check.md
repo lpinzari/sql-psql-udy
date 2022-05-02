@@ -16,6 +16,23 @@ Suppose that you need to insert an `email_address` of a contact into a table. Yo
 
 The expression `NULL = NULL` **returns** `NULL` because it makes sense that two unknown values should not be equal.
 
+You cannot use arithmetic comparison operators such as `=`, `<`, or `!=` to test for NULL. To demonstrate this for yourself, try the following query:
+
+```console
+hr=> SELECT 1 = NULL, 1 != NULL, 1 < NULL, 1 > NULL;
+ ?column? | ?column? | ?column? | ?column?
+----------+----------+----------+----------
+ NULL     | NULL     | NULL     | NULL
+(1 row)
+```
+
+Because the result of any arithmetic comparison with NULL is also NULL, you cannot obtain any meaningful results from such comparisons.
+
+
+> Two NULL values are regarded as equal in a GROUP BY.
+
+> When doing an ORDER BY, NULL values are presented first if you do ORDER BY ... ASC and last if you do ORDER BY ... DESC.
+
 To check if a value is `NULL` or not, you use the **IS NULL** `boolean operator`. For example, the following expression returns true if the value in the email address is NULL.
 
 ```console
@@ -23,6 +40,16 @@ email_address IS NULL
 ```
 
 The **IS NOT NULL** operator negates the result of the **IS NULL** operator.
+
+A common error when working with NULL is to assume that it is not possible to insert a zero or an empty string into a column defined as `NOT NULL`, but this is not the case. These are in fact values, whereas NULL means “not having a value.” You can test this easily enough by using IS [NOT] NULL as shown:
+
+```console
+parch_posey=> SELECT 0 IS NULL, 0 IS NOT NULL, '' IS NULL, '' IS NOT NULL;
+ ?column? | ?column? | ?column? | ?column?
+----------+----------+----------+----------
+ f        | t        | f        | t
+(1 row)
+```
 
 
 ## PostgreSQL NULL vs NOT NULL
@@ -65,7 +92,7 @@ hr=> \pset null NULL
 Null display is "NULL".
 ```
 
-Sets the string to be printed in place of a null value. The default is to print nothing, which can easily be mistaken for an empty string. 
+Sets the string to be printed in place of a null value. The default is to print nothing, which can easily be mistaken for an empty string.
 
 4. This tells psql to show NULL values ​​that are present in the table as NULL, as shown here:
 

@@ -2,6 +2,13 @@
 
 By far the most used SQL's verbs is **SELECT**. Since the most common operation performed on a database is to examine its data, it should not be surprising that the SQL statement that performs this task is the workhorse of the language. In any real database, of course, other SQL statements should have to be used first to create the database's tables and fill them with records. For most SQL users, however, this task will already have been performed, and so we begin with SELECT.
 
+The general form is:
+
+```console
+SELECT what_to_select
+FROM which_table;
+```
+
 ## Selecting Specific Columns in a Table
 
 To see the values of certain columns for all of a table's records, you must give both the names of those columns and the name of the table. The general form is
