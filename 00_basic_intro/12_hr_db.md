@@ -99,7 +99,7 @@ The following table shows the table names and the number of records.
 |employees|40|
 |dependents|30|
 |departments|11|
-|jobs|11|
+|jobs|19|
 |locations|7|
 |countries|25|
 |regions|4|
