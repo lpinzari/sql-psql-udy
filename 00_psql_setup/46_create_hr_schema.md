@@ -434,3 +434,201 @@ CREATE TABLE dependents (
 -- COMMIT A TRANSACTION
 COMMIT;
 ```
+
+### hr-schema.sql: Execution Script
+
+
+1. **Path of the hr-schema.sql**
+
+```console
+(base) ludo /~  $  ls hr-schema.sql
+hr-schema.sql
+```
+
+2. **login in the hr database**
+
+```console
+(base) ludo /~  $  psql hr -U usertest
+psql (11.4)
+Type "help" for help.
+
+hr=>
+```
+
+3. **execute sql commands from external file**
+
+```console
+hr=> \i hr-schema.sql
+BEGIN
+psql:hr-schema.sql:25: NOTICE:  table "dependents" does not exist, skipping
+psql:hr-schema.sql:25: NOTICE:  table "departments" does not exist, skipping
+psql:hr-schema.sql:25: NOTICE:  table "locations" does not exist, skipping
+psql:hr-schema.sql:25: NOTICE:  table "countries" does not exist, skipping
+psql:hr-schema.sql:25: NOTICE:  table "regions" does not exist, skipping
+psql:hr-schema.sql:25: NOTICE:  table "jobs" does not exist, skipping
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+COMMIT
+```
+
+The `hr-schema.sql` sxcript created `7` tables.
+
+4. **List the tables**
+
+```console
+hr=> \dt
+            List of relations
+ Schema |    Name     | Type  |  Owner
+--------+-------------+-------+----------
+ public | countries   | table | usertest
+ public | departments | table | usertest
+ public | dependents  | table | usertest
+ public | employees   | table | usertest
+ public | jobs        | table | usertest
+ public | locations   | table | usertest
+ public | regions     | table | usertest
+(7 rows)
+```
+
+5. **Describe tables structure**
+
+**jobs**
+
+```console
+hr=> \d jobs
+                                       Table "public.jobs"
+   Column   |         Type          | Collation | Nullable |               Default
+------------+-----------------------+-----------+----------+--------------------------------------
+ job_id     | integer               |           | not null | nextval('jobs_job_id_seq'::regclass)
+ job_title  | character varying(35) |           | not null |
+ min_salary | numeric(8,2)          |           |          |
+ max_salary | numeric(8,2)          |           |          |
+Indexes:
+    "jobs_pkey" PRIMARY KEY, btree (job_id)
+Referenced by:
+    TABLE "employees" CONSTRAINT "employees_fkey_job" FOREIGN KEY (job_id) REFERENCES jobs(job_id) ON UPDATE CASCADE ON DELETE CASCADE
+```
+
+**regions**
+
+```console
+hr=> \d regions
+                                         Table "public.regions"
+   Column    |         Type          | Collation | Nullable |                  Default
+-------------+-----------------------+-----------+----------+--------------------------------------------
+ region_id   | integer               |           | not null | nextval('regions_region_id_seq'::regclass)
+ region_name | character varying(25) |           |          |
+Indexes:
+    "regions_pkey" PRIMARY KEY, btree (region_id)
+Referenced by:
+    TABLE "countries" CONSTRAINT "countries_fkey_region" FOREIGN KEY (region_id) REFERENCES regions(region_id) ON UPDATE CASCADE ON DELETE CASCADE
+```
+
+**countries**
+
+```console
+hr=> \d countries
+                       Table "public.countries"
+    Column    |         Type          | Collation | Nullable | Default
+--------------+-----------------------+-----------+----------+---------
+ country_id   | character(2)          |           | not null |
+ country_name | character varying(40) |           |          |
+ region_id    | integer               |           | not null |
+Indexes:
+    "countries_pkey" PRIMARY KEY, btree (country_id)
+Foreign-key constraints:
+    "countries_fkey_region" FOREIGN KEY (region_id) REFERENCES regions(region_id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "locations" CONSTRAINT "locations_fkey_country" FOREIGN KEY (country_id) REFERENCES countries(country_id) ON UPDATE CASCADE ON DELETE CASCADE
+```
+
+**locations**
+
+```console
+hr=> \d locations
+                                            Table "public.locations"
+     Column     |         Type          | Collation | Nullable |                    Default
+----------------+-----------------------+-----------+----------+------------------------------------------------
+ location_id    | integer               |           | not null | nextval('locations_location_id_seq'::regclass)
+ street_address | character varying(40) |           |          |
+ postal_code    | character varying(12) |           |          |
+ city           | character varying(30) |           | not null |
+ state_province | character varying(25) |           |          |
+ country_id     | character(2)          |           | not null |
+Indexes:
+    "locations_pkey" PRIMARY KEY, btree (location_id)
+Foreign-key constraints:
+    "locations_fkey_country" FOREIGN KEY (country_id) REFERENCES countries(country_id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "departments" CONSTRAINT "departments_fkey_location" FOREIGN KEY (location_id) REFERENCES locations(location_id) ON UPDATE CASCADE ON DELETE CASCADE
+```
+
+**departments**
+
+```console
+hr=> \d departments
+                                             Table "public.departments"
+     Column      |         Type          | Collation | Nullable |                      Default
+-----------------+-----------------------+-----------+----------+----------------------------------------------------
+ department_id   | integer               |           | not null | nextval('departments_department_id_seq'::regclass)
+ department_name | character varying(30) |           | not null |
+ location_id     | integer               |           |          |
+Indexes:
+    "departments_pkey" PRIMARY KEY, btree (department_id)
+Foreign-key constraints:
+    "departments_fkey_location" FOREIGN KEY (location_id) REFERENCES locations(location_id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "employees" CONSTRAINT "employees_fkey_department" FOREIGN KEY (department_id) REFERENCES departments(department_id) ON UPDATE CASCADE ON DELETE CASCADE
+```
+
+**employees**
+
+```console
+hr=> \d employees
+                                            Table "public.employees"
+    Column     |          Type          | Collation | Nullable |                    Default
+---------------+------------------------+-----------+----------+------------------------------------------------
+ employee_id   | integer                |           | not null | nextval('employees_employee_id_seq'::regclass)
+ first_name    | character varying(20)  |           |          |
+ last_name     | character varying(25)  |           | not null |
+ email         | character varying(100) |           | not null |
+ phone_number  | character varying(20)  |           |          |
+ hire_date     | date                   |           | not null |
+ job_id        | integer                |           | not null |
+ salary        | numeric(8,2)           |           | not null |
+ manager_id    | integer                |           |          |
+ department_id | integer                |           |          |
+Indexes:
+    "employees_pkey" PRIMARY KEY, btree (employee_id)
+Foreign-key constraints:
+    "employees_fkey_department" FOREIGN KEY (department_id) REFERENCES departments(department_id) ON UPDATE CASCADE ON DELETE CASCADE
+    "employees_fkey_job" FOREIGN KEY (job_id) REFERENCES jobs(job_id) ON UPDATE CASCADE ON DELETE CASCADE
+    "employees_fkey_manager" FOREIGN KEY (manager_id) REFERENCES employees(employee_id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "dependents" CONSTRAINT "dependents_fkey_employee" FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON UPDATE CASCADE ON DELETE CASCADE
+    TABLE "employees" CONSTRAINT "employees_fkey_manager" FOREIGN KEY (manager_id) REFERENCES employees(employee_id) ON UPDATE CASCADE ON DELETE CASCADE
+```
+
+**dependents**
+
+```console
+hr=> \d dependents
+                                           Table "public.dependents"
+    Column    |         Type          | Collation | Nullable |                     Default
+--------------+-----------------------+-----------+----------+--------------------------------------------------
+ dependent_id | integer               |           | not null | nextval('dependents_dependent_id_seq'::regclass)
+ first_name   | character varying(50) |           | not null |
+ last_name    | character varying(50) |           | not null |
+ relationship | character varying(25) |           | not null |
+ employee_id  | integer               |           | not null |
+Indexes:
+    "dependents_pkey" PRIMARY KEY, btree (dependent_id)
+Foreign-key constraints:
+    "dependents_fkey_employee" FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON UPDATE CASCADE ON DELETE CASCADE
+```
