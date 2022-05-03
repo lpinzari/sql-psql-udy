@@ -59,7 +59,7 @@ The blach asterisck on the left of each column table represents the primary key.
 
 ## DVDRENTAL TABLES
 
-**----------------------------------  Level 0  ------------------------------------**
+**-------------------------------------------------  Level 0  ---------------------------------------------------**
 
 ### category
 
@@ -102,7 +102,7 @@ The country table contains a list of countries. It's **columns** are as follows:
 
 Because it contains a unique value for each record, the **country_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each country.
 
-**----------------------------------  Level 1  ------------------------------------**
+**-------------------------------------------------  Level 1  ---------------------------------------------------**
 
 ### film
 
@@ -136,7 +136,7 @@ The table city is a list of cities. The `city` table is reffered to by a foreign
 
 Because it contains a unique value for each record, the **city_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each country. The **country_id** column is a **foreign key** pointing to the `country` table, the country of the city.
 
-**----------------------------------  Level 2  ------------------------------------**
+**-------------------------------------------------  Level 2  ---------------------------------------------------**
 
 ### film_category
 
@@ -171,4 +171,54 @@ The address table contains address information for customers, staff and stores. 
 - **phone**: A `VARCHAR (20)` containing the telephone number for the address.
 - **last_update**: A `TIMESTAMP` containing the time when the row was created or most recently updated.
 
-Because it contains a unique value for each record, the **address_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each country. The **city_id** column is a **foreign key** pointing to the `city` table, the city of the address.
+Because it contains a unique value for each record, the **address_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each address. The **city_id** column is a **foreign key** pointing to the `city` table, the city of the address.
+
+**-------------------------------------------------  Level 4  ---------------------------------------------------**
+
+## store
+
+The table store lists all stores in the system. All inventory is assigned to specific stores, and staff and customers are assigned a 'home store'. It's **columns** are as follows:
+
+- **store_id**: A `SERIAL` containing a **unique** integer number for each store.
+- **manager_staff_id**: A `SMALLINT` identifying the manager of this store. `Values in this column are drawn from the column` **staff_id** in the **staff** `table`.
+- **address_id**: A `SMALLINT` identifying the address of this store. `Values in this column are drawn from the column of the same name in the` **address** `table`.
+- **last_update**: A `TIMESTAMP` containing the time when the row was created or most recently updated.
+
+Because it contains a unique value for each record, the **store_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each country. The **manager_staff__id** column is a **foreign key** pointing to the `staff` table. The Because it contains a unique value for each record, the **address_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each country. The **address_id** column is a **foreign key** pointing to the `address` table.
+
+## customer
+
+The table customer contains a list of all customers. The `customer` table is referred to in the `payment` and `rental` tables and refers to the `address` and `store` tables.
+It's **columns** are as follows:
+
+- **customer_id**: A `SERIAL` containing a **unique** integer number for each customer.
+- **store_id**: A `SMALLINT` identifying the customer of "home store". `Values in this column are drawn from the column of the same name in the` **store** `table`. Customers are not limited to renting only from this store, but this is the store at which they generally shop.
+- **first_name**: A `VARCHAR (45)` containing the customer first name.
+- **last name**: A `VARCHAR (45)` containing the customer last name.
+- **email**: A `VARCHAR (50)` containing the customer email address.
+- **address_id**: A `SMALLINT` identifying the customer address. `Values in this column are drawn from the column of the same name in the` **address** `table`.
+- **activebool**: A `BOOLEAN` indicting whether the customer is an active customer. Setting this to `FALSE` serves as an alternative to delete a customer outright. Most queries should have a `WHERE active = TRUE` clause.
+- **create_date**: A `DATE` indicating the date when the customer was added to the system. The date is automatically set using a TRIGGER during an INSERT.
+- **last_update**: A `TIMESTAMP` containing the time when the row was created or most recently updated.
+- **active**: A `INTEGER` ???
+
+Because it contains a unique value for each record, the **customer_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each customer. The **address_id** column is a **foreign key** pointing to the `address` table, identifying the customer address.
+
+### staff
+
+The staff table lists all staff memebers, including informnation for email address, login information and picture. The `staff` table refers to the `store` and `address` tables using foreign keys, and is referred to by the `rental`, `payment` and `store`. It's **columns** are as follows:
+
+- **staff_id**: A `SERIAL` containing a **unique** integer number for each staff memeber.
+- **first_name**: A `VARCHAR (45)` containing the first name of the staff memeber.
+- **last_name**: A `VARCHAR (45)` containing the last name of the staff memeber.
+- **address_id**: A `SMALLINT` identifying the staff memeber address. `Values in this column are drawn from the column of the same name in the` **address** `table`.
+- **email**: A `VARCHAR (50)` containing the staff memeber email address.
+- **store_id**: A `SMALLINT` identifying the staff memeber "home store". `Values in this column are drawn from the column of the same name in the` **store** `table`.
+- **active**: A `BOOLEAN` indicating whether this is an active employee. If employees leave, *their rows are not deleted from this table; instead this column is set to FALSE.
+- **username**: A `VARCHAR (16)` containing the username used by the staff meember to access the rental system.
+- **password**: A `VARCHAR (40)` containing the password used by the staff meember to acces the rental system. The password should be stored as a hash code using the `SHA2 ()` function.
+- **last_update**: A `TIMESTAMP` containing the time when the row was created or most recently updated.
+
+Because it contains a unique value for each record, the **staff_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each staff memeber. The **address_id** column is a **foreign key** pointing to the `address` table, identifying the staff member address. The **store_id** column is a **foreign key** pointing to the `store` table.
+
+**-------------------------------------------------  Level 5  ---------------------------------------------------**
