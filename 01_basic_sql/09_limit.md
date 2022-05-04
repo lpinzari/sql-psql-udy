@@ -50,6 +50,227 @@ Because a table may store rows in an **unspecified order**, when you use the LIM
 
 If you **don’t use** the `ORDER BY` clause, **you may get a result set with the unspecified order of rows**.
 
+
+## HR LIMIT example
+
+We’ll use the `employees` table in the sample database to demonstrate the `LIMIT & OFFSET` clauses.
+
+```console
+hr=# \d employees
+                                            Table "public.employees"
+    Column     |          Type          | Collation | Nullable |                    Default
+---------------+------------------------+-----------+----------+------------------------------------------------
+ employee_id   | integer                |           | not null | nextval('employees_employee_id_seq'::regclass)
+ first_name    | character varying(20)  |           |          |
+ last_name     | character varying(25)  |           | not null |
+ email         | character varying(100) |           | not null |
+ phone_number  | character varying(20)  |           |          |
+ hire_date     | date                   |           | not null |
+ job_id        | integer                |           | not null |
+ salary        | numeric(8,2)           |           | not null |
+ manager_id    | integer                |           |          |
+ department_id | integer                |           |          |
+Indexes:
+    "employees_pkey" PRIMARY KEY, btree (employee_id)
+```
+
+The following statement returns all rows in the `employees` table sorted by the `first_name` column:
+
+```console
+hr=# SELECT employee_id, first_name, last_name
+hr-#   FROM employees
+hr-#  ORDER BY first_name;
+```
+
+![limit1](./images/21_limit.png)
+
+The following example uses the `LIMIT` clause to return `the first 5 rows` in the result set returned by the `SELECT` clause:
+
+**Query**
+```console
+hr=# SELECT employee_id, first_name, last_name
+hr-#   FROM employees
+hr-#  ORDER BY first_name
+hr-#  LIMIT 5;
+```
+
+**Output**
+
+![limit2](./images/22_limit.png)
+
+
+```console
+ employee_id | first_name | last_name
+-------------+------------+-----------
+         121 | Adam       | Fripp
+         115 | Alexander  | Khoo
+         103 | Alexander  | Hunold
+         193 | Britney    | Everett
+         104 | Bruce      | Ernst
+(5 rows)
+```
+
+### LIMIT with OFFSET example
+
+The following example uses both `LIMIT` & `OFFSET` clauses to return **five rows** `starting from the` **4th row**:
+
+**Query**
+```console
+hr=# SELECT employee_id, first_name, last_name
+hr-#   FROM employees
+hr-#  ORDER BY first_name
+hr-#  LIMIT 5 OFFSET 3;
+```
+
+**Output**
+
+![limit offset](./images/23_limit.png)
+
+```console
+ employee_id | first_name | last_name
+-------------+------------+-----------
+         193 | Britney    | Everett
+         104 | Bruce      | Ernst
+         179 | Charles    | Johnson
+         109 | Daniel     | Faviet
+         105 | David      | Austin
+(5 rows)
+```
+
+### Using SQL LIMIT to get the top N rows with the highest or lowest value
+
+You can use the `LIMIT` clause to get the `top N rows` with the `highest` or `lowest` **value**.
+
+For example, the following statement gets the **top five employees with the highest salaries**.
+
+**Query**
+```console
+hr=# SELECT employee_id, first_name, last_name, salary
+hr-#   FROM employees
+hr-#  ORDER BY salary DESC
+hr-#  LIMIT 5;
+```
+
+**Output**
+```console
+ employee_id | first_name | last_name |  salary
+-------------+------------+-----------+----------
+         100 | Steven     | King      | 24000.00
+         102 | Lex        | De Haan   | 17000.00
+         101 | Neena      | Kochhar   | 17000.00
+         145 | John       | Russell   | 14000.00
+         146 | Karen      | Partners  | 13500.00
+(5 rows)
+```
+
+1. First, the `ORDER BY` clause sorts the employees by salary in descending order and
+2. then the `LIMIT` clause restricts five rows returned from the query.
+
+To get **the top five employees with the lowest salary**, you sort the employees by salary in the ascending order instead.
+
+**Query**
+```console
+hr=# SELECT employee_id, first_name, last_name, salary
+hr-#   FROM employees
+hr-#  ORDER BY salary ASC
+hr-#  LIMIT 5;
+```
+**Output**
+```console
+ employee_id | first_name |  last_name  | salary
+-------------+------------+-------------+---------
+         119 | Karen      | Colmenares  | 2500.00
+         118 | Guy        | Himuro      | 2600.00
+         126 | Irene      | Mikkilineni | 2700.00
+         117 | Sigal      | Tobias      | 2800.00
+         116 | Shelli     | Baida       | 2900.00
+(5 rows)
+```
+
+### Getting the rows with the Nth highest value
+
+Suppose you have to get employees who have the **2nd highest salary in the company**. To do so, you use the `LIMIT OFFSET` clauses as follows.
+
+**Query**
+```console
+hr=# SELECT employee_id, first_name, last_name, salary
+hr-#   FROM employees
+hr-#  ORDER BY salary DESC
+hr-#  LIMIT 1 OFFSET 1;
+```
+**Output**
+```console
+ employee_id | first_name | last_name |  salary
+-------------+------------+-----------+----------
+         101 | Neena      | Kochhar   | 17000.00
+(1 row)
+```
+
+The `ORDER BY` clause sorts the employees by salary in descending order. And the `LIMIT 1 OFFSET 1` clause gets the second row from the result set.
+
+|employee_id | first_name | last_name |  salary|
+|:----------:|:----------:|:---------:|:------:|
+|100 | Steven     | King      | 24000.00
+|**102** | **Lex**        | **De Haan**   | **17000.00**
+|101 | Neena      | Kochhar   | **17000.00**
+|145 | John       | Russell   | 14000.00
+|146 | Karen      | Partners  | 13500.00
+(5 rows)
+
+This query `works` with the **assumption that every employee has a different salary**. It will `fail` if **there are two employees who have the same highest salary**.
+
+To fix this issue, you can get the second highest salary first using the following statement.
+
+```console
+hr=# SELECT DISTINCT salary
+hr-#   FROM employees
+hr-#  ORDER BY salary DESC
+hr-#  LIMIT 1 OFFSET 1;
+  salary
+----------
+ 17000.00
+(1 row)
+```
+
+And pass the result to another query:
+
+**Query**
+```console
+hr=# SELECT employee_id, first_name, last_name, salary
+hr-#   FROM employees
+hr-#  WHERE salary = 17000.00;
+```
+**Output**
+```console
+ employee_id | first_name | last_name |  salary
+-------------+------------+-----------+----------
+         101 | Neena      | Kochhar   | 17000.00
+         102 | Lex        | De Haan   | 17000.00
+(2 rows)
+```
+
+If you know `subquery`, you can combine both queries into a single query as follows:
+
+**Query**
+```console
+hr=# SELECT employee_id, first_name, last_name, salary
+hr-#   FROM employees
+hr-#  WHERE salary = (
+hr(#               SELECT DISTINCT salary
+hr(#                 FROM employees
+hr(#                ORDER BY salary DESC
+hr(#                LIMIT 1 OFFSET 1);
+```
+
+**Output**
+```console
+ employee_id | first_name | last_name |  salary
+-------------+------------+-----------+----------
+         101 | Neena      | Kochhar   | 17000.00
+         102 | Lex        | De Haan   | 17000.00
+(2 rows)
+```
+
 ## DVDRENTAL LIMIT example
 
 Let’s take some examples of using the PostgreSQL `LIMIT` clause. We will use the **film** table in the sample database for the demonstration.
@@ -163,7 +384,7 @@ dvdrental-#  LIMIT 10;
 ```
 
 
-## LIMIT to constraint the number of returned rows example
+## Parch&Posey LIMIT example
 
 Let's use the **LIMIT** to **look at just the first 10 rows** of `web_traffic`.
 
@@ -196,7 +417,7 @@ parch_posey-#  LIMIT 10;
 (10 rows)
 ```
 
-## LIMIT with OFFSET example
+**LIMIT with OFFSET example**
 
 To retrieve 4 records starting from the fourth one.
 
