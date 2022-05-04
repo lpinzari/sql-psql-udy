@@ -59,7 +59,7 @@ The blach asterisck on the left of each column table represents the primary key.
 
 ## DVDRENTAL TABLES
 
-**-------------------------------------------------  Level 0  ---------------------------------------------------**
+**-------------------------------------------------------------------------  Level 0  ---------------------------------------------------------------------------**
 
 ### category
 
@@ -102,7 +102,7 @@ The country table contains a list of countries. It's **columns** are as follows:
 
 Because it contains a unique value for each record, the **country_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each country.
 
-**-------------------------------------------------  Level 1  ---------------------------------------------------**
+**-------------------------------------------------------------------------  Level 1  ---------------------------------------------------------------------------**
 
 ### film
 
@@ -136,7 +136,7 @@ The table city is a list of cities. The `city` table is reffered to by a foreign
 
 Because it contains a unique value for each record, the **city_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each country. The **country_id** column is a **foreign key** pointing to the `country` table, the country of the city.
 
-**-------------------------------------------------  Level 2  ---------------------------------------------------**
+**-------------------------------------------------------------------------  Level 2  ---------------------------------------------------------------------------**
 
 ### film_category
 
@@ -173,7 +173,7 @@ The address table contains address information for customers, staff and stores. 
 
 Because it contains a unique value for each record, the **address_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each address. The **city_id** column is a **foreign key** pointing to the `city` table, the city of the address.
 
-**-------------------------------------------------  Level 4  ---------------------------------------------------**
+**-------------------------------------------------------------------------  Level 4  ---------------------------------------------------------------------------**
 
 ## store
 
@@ -221,4 +221,34 @@ The staff table lists all staff memebers, including informnation for email addre
 
 Because it contains a unique value for each record, the **staff_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each staff memeber. The **address_id** column is a **foreign key** pointing to the `address` table, identifying the staff member address. The **store_id** column is a **foreign key** pointing to the `store` table.
 
-**-------------------------------------------------  Level 5  ---------------------------------------------------**
+**-------------------------------------------------------------------------  Level 5  ---------------------------------------------------------------------------**
+
+
+### rental
+
+The rental table contains one row for each rental of each inventory item with information about who rented what item, when it was rented and when it was returned. The `rental` table refers to the `inventory`, `customer` and `staff` tables and is referred to by the `payment` table. It's **columns** are as follows:
+
+- **rental_id**: A `SERIAL` containing a **unique** integer number for each staff memeber.
+- **rental_date**: A `TIMESTAMP` containing the date and time that the item was rented.
+- **inventory_id**: A `INTEGER` identifying the item being rented. `Values in this column are drawn from the column of the same name in the` **inventory** `table`.
+- **customer_id**: A `SMALLINT` identifying the customer renting the item. `Values in this column are drawn from the column of the same name in the` **customer** `table`.
+- **renturn_date**: A `TIMESTAMP` containinng the date and time the item was returned.
+- **staff_id**: A `SMALLINT` identifying the staff member who processed the rental. `Values in this column are drawn from the column of the same name in the` **staff** `table`.
+- **last_update**: A `TIMESTAMP` containing the time when the row was created or most recently updated.
+
+Because it contains a unique value for each record, the **rental_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each staff memeber. The **inventory_id** column is a **foreign key** pointing to the `inventory` table. The **customer_id** column is a **foreign key** pointing to the `customer` table. The **staff_id** column is a **foreign key** pointing to the `staff` table.
+
+**-------------------------------------------------------------------------  Level 6  ---------------------------------------------------------------------------**
+
+### payment
+
+The payment table records each payment made by a customer, with information such as the amount and the rental being paid for (when applicable). The `payment` table refers to the `customer`, `rental` and `staff` tables. It's **columns** are as follows:
+
+- **payment_id**: A `SERIAL` containing a **unique** integer number for each staff memeber.
+- **customer_id**: A `SMALLINT` identifying the customer whose balance the payment is being applied to. `Values in this column are drawn from the column of the same name in the` **customer** `table`.
+- **staff_id**: A `SMALLINT` identifying the staff memeber who processed the payment. `Values in this column are drawn from the column of the same name in the` **staff** `table`.
+- **rental_id**: A `INTEGER` identifying the rental that the payment is being applied to. This is optional because some payments are for outstanding fees and may not be directly related to the rental.
+- **amount**: A `NUMERIC (5,2)` containing the amount of the payment.
+- **payment_date**: A `TIMESTAMP` containing the date the payment was processed.
+
+Because it contains a unique value for each record, the **payment_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each staff memeber. The **rental_id** column is a **foreign key** pointing to the `rental` table. The **customer_id** column is a **foreign key** pointing to the `customer` table. The **staff_id** column is a **foreign key** pointing to the `staff` table.
