@@ -242,6 +242,7 @@ The staff table lists all staff memebers, including informnation for email addre
 - **username**: A `VARCHAR (16)` containing the username used by the staff meember to access the rental system.
 - **password**: A `VARCHAR (40)` containing the password used by the staff meember to acces the rental system. The password should be stored as a hash code using the `SHA2 ()` function.
 - **last_update**: A `TIMESTAMP` containing the time when the row was created or most recently updated.
+- **pictue**: A `bytea`, (binary string) a sequence of bytes, representing the image picture of the staff member.
 
 Because it contains a unique value for each record, the **staff_id** column is designated as the **key** for this table. It's basically a **surrogate primary key** used to uniquely identify each staff memeber. The **address_id** column is a **foreign key** pointing to the `address` table, identifying the staff member address. The **store_id** column is a **foreign key** pointing to the `store` table.
 
