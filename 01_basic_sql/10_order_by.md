@@ -51,7 +51,8 @@ Let’s take some examples of using the PostgreSQL ORDER BY clause.
 
 The **query diagram** for `ORDER BY` is shows the selected table with a **box indicating the column on which the ordering is based**. If two or more columns are used, both are included in the `ORDER BY` box.
 
-## Ordering Data example
+
+## Parch&Posey ORDER BY example
 
 Imagine yourself in the finance department at Parch & Posey. You want to look up the **most recent** orders, so that you can confirm that invoices have been sent to those customers.
 
@@ -268,6 +269,483 @@ parch_posey-#  LIMIT 50;
 ```
 
 What's happening here is that we're starting with the highest amount and sorting descending. So, this is the largest order of all time at `$ 232207.07` and that went to account `4251`. Now, it doesn't seem to be sorting by `account_id`. The reason for that is that, all of these amounts **are so precise** that there aren't multiple rows of the same amount. So, if there were two rows in the set with the exact same amount, you might notice that account_id within that is sorted from smallest to largest. So the secondary sorting by account ID **is difficult to see here**, since only if there were two orders with equal total dollar amounts would there need to be any sorting by account ID.
+
+## DVDRENTAL ORDER BY examples
+
+We will use the `customer` table in the sample database for the demonstration.
+
+```console
+dvdrental=# \d customer
+                                             Table "public.customer"
+   Column    |            Type             | Collation | Nullable |                    Default
+-------------+-----------------------------+-----------+----------+-----------------------------------------------
+ customer_id | integer                     |           | not null | nextval('customer_customer_id_seq'::regclass)
+ store_id    | smallint                    |           | not null |
+ first_name  | character varying(45)       |           | not null |
+ last_name   | character varying(45)       |           | not null |
+ email       | character varying(50)       |           |          |
+ address_id  | smallint                    |           | not null |
+ activebool  | boolean                     |           | not null | true
+ create_date | date                        |           | not null | ('now'::text)::date
+ last_update | timestamp without time zone |           |          | now()
+ active      | integer                     |           |          |
+Indexes:
+    "customer_pkey" PRIMARY KEY, btree (customer_id)
+```
+
+### Using PostgreSQL ORDER BY clause to sort rows by one column
+
+The following query uses the ORDER BY clause to sort customers by their `first names` in `ascending order`:
+
+**Query**
+```console
+dvdrental=# SELECT first_name, last_name
+dvdrental-#   FROM customer
+dvdrental-#  ORDER BY first_name ASC
+dvdrental-#  LIMIT 10;
+```
+
+**Output**
+```console
+ first_name | last_name
+------------+-----------
+ Aaron      | Selby
+ Adam       | Gooch
+ Adrian     | Clary
+ Agnes      | Bishop
+ Alan       | Kahn
+ Albert     | Crouse
+ Alberto    | Henning
+ Alex       | Gresham
+ Alexander  | Fennell
+ Alfred     | Casillas
+(10 rows)
+```
+
+Since the `ASC` option is the default, you can omit it in the `ORDER BY` clause like this:
+
+**Query**
+```console
+dvdrental=# SELECT first_name, last_name
+dvdrental-#   FROM customer
+dvdrental-#  ORDER BY first_name
+dvdrental-#  LIMIT 10;
+```
+
+**Output**
+```console
+ first_name | last_name
+------------+-----------
+ Aaron      | Selby
+ Adam       | Gooch
+ Adrian     | Clary
+ Agnes      | Bishop
+ Alan       | Kahn
+ Albert     | Crouse
+ Alberto    | Henning
+ Alex       | Gresham
+ Alexander  | Fennell
+ Alfred     | Casillas
+(10 rows)
+```
+
+### Using PostgreSQL ORDER BY clause to sort rows by one column in descending order
+
+The following statement selects the first name and last name from the `customer` table and sorts the rows by values in the `last name` column in `descending order`:
+
+**Query**
+```console
+dvdrental=# SELECT first_name, last_name
+dvdrental-#   FROM customer
+dvdrental-#  ORDER BY last_name DESC
+dvdrental-#  LIMIT 10;
+```
+
+**Output**
+```console
+ first_name | last_name
+------------+-----------
+ Cynthia    | Young
+ Marvin     | Yee
+ Luis       | Yanez
+ Brian      | Wyman
+ Brenda     | Wright
+ Tyler      | Wren
+ Florence   | Woods
+ Lori       | Wood
+ Virgil     | Wofford
+ Darren     | Windham
+(10 rows)
+```
+
+### Using PostgreSQL ORDER BY clause to sort rows by multiple columns
+
+The following statement selects the `first name` and `last name` from the customer table and sorts the rows by
+- the `first name` in `ascending order` and
+- `last name` in `descending order`:
+
+**Query**
+```console
+dvdrental=# SELECT first_name, last_name
+dvdrental-#   FROM customer
+dvdrental-#  ORDER BY first_name ASC,
+dvdrental-#           last_name DESC
+dvdrental-#  LIMIT 10 OFFSET 320;
+```
+
+**Output**
+```console
+first_name | last_name
+------------+-----------
+Kathleen   | Adams
+Kathryn    | Coleman
+Kathy      | James
+Katie      | Elliott
+Kay        | Caldwell
+Keith      | Rico
+Kelly      | Torres
+Kelly      | Knott
+Ken        | Prewitt
+Kenneth    | Gooden
+(10 rows)
+```
+
+|first_name | last_name|
+|:---------:|:--------:|
+|Kathleen   | Adams|
+|Kathryn    | Coleman|
+|Kathy      | James|
+|Katie      | Elliott|
+|Kay        | Caldwell|
+|Keith      | Rico|
+|**Kelly**      | **Torres**|
+|**Kelly**      | **Knott**|
+
+In this example, the `ORDER BY` clause sorts rows by values in
+- the `first_name` column first. And then it sorts the sorted rows by values
+- in the `last name` column.
+
+As you can see clearly from the output, two customers with the same first name `Kelly` have the **last name sorted in descending order**.
+
+### Using PostgreSQL ORDER BY clause to sort rows by expressions
+
+The `LENGTH()` function accepts a string and returns the length of that string.
+
+The following statement selects the `first names` and their *lengths*. **It sorts the rows by the lengths of the** `first_name`:
+
+**Query**
+```console
+dvdrental=# SELECT first_name,
+dvdrental-#        LENGTH(first_name) AS len
+dvdrental-#   FROM customer
+dvdrental-#  ORDER BY len DESC
+dvdrental-#  LIMIT 10;
+```
+
+**Output**
+```console
+ first_name  | len
+-------------+-----
+ Christopher |  11
+ Jacqueline  |  10
+ Charlotte   |   9
+ Christina   |   9
+ Elizabeth   |   9
+ Josephine   |   9
+ Christine   |   9
+ Stephanie   |   9
+ Katherine   |   9
+ Catherine   |   9
+(10 rows)
+```
+
+Because the `ORDER BY` clause is evaluated after the `SELECT` clause, the column alias `len` is available and can be used in the `ORDER BY` clause.
+
+```console
+FROM -> SELECT -> ORDER BY
+```
+
+### PostgreSQL ORDER BY clause and NULL
+
+In the database world, `NULL` is a marker that indicates the missing data or the data is unknown at the time of recording.
+
+When you sort rows that contains `NULL`, **you can specify the order of** `NULL` with other *non-null* values by using the `NULLS FIRST` or `NULLS LAST` option of the `ORDER BY` clause:
+
+```console
+ORDER BY sort_expresssion [ASC | DESC] [NULLS FIRST | NULLS LAST]
+```
+
+- The `NULLS FIRST` option places `NULL` **before** other *non-null* values and
+- the `NULL LAST` option places `NULL` **after** other *non-null* values.
+
+Let’s create a table for the demonstration.
+
+```console
+uniy=# CREATE TABLE sort_demo (
+uniy(#         num INT
+uniy(# );
+CREATE TABLE
+uniy=# \d sort_demo
+             Table "public.sort_demo"
+ Column |  Type   | Collation | Nullable | Default
+--------+---------+-----------+----------+---------
+ num    | integer |           |          |
+```
+
+insert some data:
+
+```console
+uniy=# INSERT INTO sort_demo
+uniy-#        (num)
+uniy-# VALUES (1),
+uniy-#        (2),
+uniy-#        (3),
+uniy-#        (NULL);
+INSERT 0 4
+```
+
+The following query returns data from the `sort_demo` table:
+
+```console
+uniy=# \pset null NULL
+Null display is "NULL".
+```
+
+**Query**
+```console
+uniy=# SELECT num
+uniy-#   FROM sort_demo
+uniy-#  ORDER BY num;
+```
+
+**Output**
+```console
+ num
+------
+    1
+    2
+    3
+ NULL
+(4 rows)
+```
+
+In this example, the `ORDER BY` clause sorts values in the `num` column of the `sort_demo` table in **ascending order**. It places `NULL` **after other values**.
+
+So if you use the `ASC` option, the `ORDER BY` clause uses the `NULLS LAST` option by **default**. Therefore, the following query returns the same result:
+
+```console
+SELECT num
+FROM sort_demo
+ORDER BY num NULLS LAST;
+```
+
+To place `NULL` before other *non-null* values, you use the `NULLS FIRST` option:
+
+**Query**
+```console
+uniy=# SELECT num
+uniy-#   FROM sort_demo
+uniy-#  ORDER BY num NULLS FIRST;
+```
+
+**Output**
+```console
+ num
+------
+ NULL
+    1
+    2
+    3
+(4 rows)
+```
+
+The following statement sorts values in the `num` column of the `sort_demo` table in **descending order**:
+
+**Query**
+```console
+uniy=# SELECT num
+uniy-#   FROM sort_demo
+uniy-#  ORDER BY num DESC;
+```
+**Output**
+```console
+ num
+------
+ NULL
+    3
+    2
+    1
+(4 rows)
+```
+
+As you can see clearly from the output, the `ORDER BY` clause with the `DESC` option uses the `NULLS FIRST` by default.
+
+To reverse the order, you can use the `NULLS LAST` option:
+
+**Query**
+```console
+uniy=# SELECT num
+uniy-#   FROM sort_demo
+uniy-#  ORDER BY num DESC NULLS LAST;
+```
+
+**Output**
+```console
+ num
+------
+    3
+    2
+    1
+ NULL
+(4 rows)
+```
+
+## Uniy ORDER BY example
+
+1. **Example: Listing selected data in order using column name**
+
+**Problem**: Give an alphabetical list of teachers and their phone numbers.
+
+```console
+uniy=# \d teachers
+                    Table "public.teachers"
+    Column    |     Type      | Collation | Nullable | Default
+--------------+---------------+-----------+----------+---------
+ teacher_id   | smallint      |           | not null |
+ teacher_name | character(18) |           |          |
+ phone        | character(10) |           |          |
+ salary       | numeric(10,2) |           |          |
+Indexes:
+    "teachers_pkey" PRIMARY KEY, btree (teacher_id)
+```
+
+**Query**
+```console
+uniy=# SELECT teacher_name, phone
+uniy-#   FROM teachers
+uniy-#  ORDER BY teacher_name;
+```
+
+**Output**
+```console
+    teacher_name    |   phone
+--------------------+------------
+ Dr. Cooke          | 257-8088
+ Dr. Engle          | 256-4621
+ Dr. Horn           | 257-3049
+ Dr. Lowe           | 257-2390
+ Dr. Olsen          | 257-8086
+ Dr. Scango         | 257-3046
+ Dr. Wright         | 257-3393
+(7 rows)
+```
+
+2. **Example: Listing selected data in reverse order**
+
+**Problem**: Give a list of teachers and their phone numbers in reverse alphabetical order.
+
+**Query**
+```console
+uniy=# SELECT teacher_name, phone
+uniy-#   FROM teachers
+uniy-#  ORDER BY teacher_name DESC;
+```
+
+**Output**
+```console
+    teacher_name    |   phone
+--------------------+------------
+ Dr. Wright         | 257-3393
+ Dr. Scango         | 257-3046
+ Dr. Olsen          | 257-8086
+ Dr. Lowe           | 257-2390
+ Dr. Horn           | 257-3049
+ Dr. Engle          | 256-4621
+ Dr. Cooke          | 257-8088
+(7 rows)
+```
+
+3. **Example: Ordering selected data by two columns**
+
+**Problem**: List the name, cities, and states of all students ordered first by state, then by city within that state.
+
+```console
+uniy=# \d students
+                    Table "public.students"
+    Column    |     Type      | Collation | Nullable | Default
+--------------+---------------+-----------+----------+---------
+ student_id   | smallint      |           | not null |
+ student_name | character(18) |           |          |
+ address      | character(20) |           |          |
+ city         | character(10) |           |          |
+ state        | character(2)  |           |          |
+ zip          | character(5)  |           |          |
+ gender       | character(1)  |           |          |
+Indexes:
+    "students_pkey" PRIMARY KEY, btree (student_id)
+```
+
+**Query**
+```console
+uniy=# SELECT state, city, student_name
+uniy-#   FROM students
+uniy-#  ORDER BY state, city;
+```
+**Output**
+```console
+ state |    city    |    student_name
+-------+------------+--------------------
+ CA    | Newport    | Bill Jones
+ CT    | Hartford   | Susan Pugh
+ DE    | Newark     | Joe Adams
+ IL    | Chicago    | Val Shipp
+ IL    | Chicago    | Allen Thomas
+ MA    | Boston     | Carol Dean
+ NY    | New York   | John Anderson
+ PA    | Erie       | Janet Thomas
+ PA    | Haverford  | Susan Powell
+ PA    | Pennsburg  | Janet Ladd
+ RI    | Newport    | Bob Dawson
+ VA    | Vienna     | Howard Mansfield
+(12 rows)
+```
+
+4. **Example: Combining ordering with a WHERE clause**
+
+**Problem**: List all three-credit courses alphabetically by departments.
+
+```console
+uniy=# \d courses
+                    Table "public.courses"
+   Column    |     Type      | Collation | Nullable | Default
+-------------+---------------+-----------+----------+---------
+ course_id   | smallint      |           | not null |
+ course_name | character(20) |           |          |
+ department  | character(16) |           |          |
+ num_credits | smallint      |           |          |
+Indexes:
+    "courses_pkey" PRIMARY KEY, btree (course_id)
+```
+
+**Query**
+
+```console
+uniy=# SELECT department, course_name
+uniy-#   FROM courses
+uniy-#  WHERE num_credits = 3
+uniy-#  ORDER BY department;
+```
+
+**Output**
+```console
+    department    |     course_name
+------------------+----------------------
+ Computer Science | Compiler Writing
+ English          | English Composition
+ History          | Western Civilization
+ History          | Art History
+(4 rows)
+```
 
 ## Summary
 
