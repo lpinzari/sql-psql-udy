@@ -112,6 +112,9 @@ It can be a
 
 The query returns only rows that satisfy the condition in the WHERE clause. In other words, **only rows that cause the condition evaluates to** `true` will be included in the result set.
 
+
+### FROM -> WHERE -> SELECT -> ORDER BY
+
 PostgreSQL evaluates the WHERE clause after the FROM clause and before the SELECT and ORDER BY clause:
 
 If you use column **aliases** in the `SELECT` clause, **you cannot use them in the** `WHERE` **clause**.
@@ -120,7 +123,7 @@ If you use column **aliases** in the `SELECT` clause, **you cannot use them in t
 FROM -> WHERE -> SELECT -> ORDER BY
 ```
 
-Besides the SELECT statement, you can use the WHERE clause in the UPDATE and DELETE statement to specify rows to be updated or deleted.
+Besides the `SELECT` statement, you can use the `WHERE` clause in the `UPDATE` and `DELETE` statement to specify rows to be updated or deleted.
 
 ## Parch&Posey WHERE example
 

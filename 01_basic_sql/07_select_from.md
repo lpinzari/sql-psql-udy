@@ -156,7 +156,7 @@ Here, we're looking at the **orders** table.
 The **SELECT** clause tells the query **which columns to read from the table**.
 
 
-```console
+```sql
 SELECT id, occurred_at
   FROM orders;
 ```
@@ -168,7 +168,7 @@ Let’s examine the SELECT statement in more detail:
 - First, specify a select list that can be a column or a list of columns in a table from which you want to retrieve data. If you specify a list of columns, you need to place a comma (,) between two columns to separate them. If you want to select data from all the columns of the table, you can use an asterisk (`*`) shorthand instead of specifying all the column names. The select list may also contain expressions or literal values.
 - Second, specify the name of the table from which you want to query data after the FROM keyword.
 
-```console
+```sql
 SELECT id,
        occurred_at
   FROM orders
@@ -177,11 +177,16 @@ SELECT id,
 
 Let's run the command in the `psql` prompt and limit the output results to the first three rows:
 
+**Query**
 ```console
 parch_posey=> SELECT id,
 parch_posey->        occurred_at
 parch_posey->   FROM orders
 parch_posey->  LIMIT 3;
+```
+
+**Output**
+```console
  id |     occurred_at
 ----+---------------------
   1 | 2015-10-06 17:31:14
@@ -217,6 +222,13 @@ Indexes:
 
 This example uses the `SELECT` statement to find the `first names` of all customers from the customer table:
 
+**SQL**
+```sql
+SELECT first_name
+  FROM customer
+  LIMT 10;
+```
+
 **Query**
 ```console
 dvdrental=# SELECT first_name
@@ -248,7 +260,6 @@ Once again, notice that we added a semicolon (`;`) at the end of the `SELECT` st
 Suppose you just want to know the `first name`, `last name` and `email` of **customers**, you can specify these column names in the SELECT clause as shown in the following query:
 
 **Query**
-
 ```console
 dvdrental=# SELECT
 dvdrental-#    first_name,
@@ -260,7 +271,6 @@ dvdrental-# LIMIT 11;
 ```
 
 **Output**
-
 ```console
  first_name | last_name |                email
 ------------+-----------+-------------------------------------
@@ -301,15 +311,13 @@ Referenced by:
     TABLE "sections" CONSTRAINT "sections_fkey_course" FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE
 ```
 
-**SQL**
-
+**Query**
 ```console
 uniy=# SELECT course_name, department, num_credits
 uniy-#   FROM courses;
 ```
 
 **Output**
-
 ```console
 course_name      |    department    | num_credits
 ----------------------+------------------+-------------
@@ -342,18 +350,14 @@ Referenced by:
     TABLE "enrolls" CONSTRAINT "enrolls_fkey_student" FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE
 ```
 
-**SQL**:
-
+**Query**:
 ```console
 uniy=# SELECT student_name, city, state
 uniy-#   FROM students;
 ```
 
 **Output**
-
 ```console
-uniy=# SELECT student_name, city, state
-uniy-#   FROM students;
     student_name    |    city    | state
 --------------------+------------+-------
  Susan Powell       | Haverford  | PA
@@ -394,8 +398,7 @@ hr=# \d employees
  department_id | integer                |           |          |
 ```
 
-**SQL**
-
+**Query**
 ```console
 hr=# SELECT
 hr-#     employee_id,
@@ -407,7 +410,6 @@ hr-#     employees;
 ```
 
 **Output**
-
 ```console
  employee_id | first_name  |  last_name  | hire_date
 -------------+-------------+-------------+------------
