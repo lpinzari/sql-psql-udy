@@ -59,11 +59,37 @@ After the `<column name>` but before the `<value>` comes an `<operator>`. The ch
 | **<=** | **true** if the value contained in <column name> is less than or equal to the value given in the WHERE clause |
 | **>=** | **true** if the value contained in <column name> is greater than or equal to the value given in the WHERE clause |
 
-The *predicate* ends with a `<value>`. The exact form of this value varies depending on the type of the named column. For columns of numeric types, a numeric value is simply placed after the operator. If the column is `CHARACTER (CHAR)` or `CHARACTER VARYING (VARCHAR)`, however, the characters comprising the value must be enclosed in single quotes.
+The *predicate* ends with a `<value>`. The exact form of this value varies depending on the type of the named column. For columns of numeric types, a numeric value is simply placed after the operator.
 
-Although SQL is usually not sensitive to the difference between upper and lower-case letters, case does make a difference for comparisons using quoted character values. For example, the character string 'Hello' and 'HELLO' are not considered equal to one another. Also, some strings are longer than others. According to the SQL standard, comparing two strings of unequal length conceptually adds blanks to the end of the shorter string and then performs the comparison. And, like numeric values, you can ask whether one character string is less than or greater than another. The comparison is performed based on the collating sequence used byb your system. In general, this collating sequence for an English-language installation of SQL will result in a normal alphabetic comparison, with `A` less than `B`, `B` less than `C`, and so on. (Whether digits are less than letters varies, though, depending on the character set specified as the default for the implementation.)
+To form a simple expression, you use one of the operators above with two operands that can be either column name on one side and a literal value on the other, for example:
+
+```console
+salary > 1000
+```
+
+It asks a question: “`Is salary greater than 1000?`”.
+
+Or you can use column names on both sides of an operator such as:
+
+```console
+min_salary < max_salary
+```
+
+This expression asks another question: “`Is the min salary less than the max salary?`”.
+
+The literal values that you use in an expression can be numbers, characters, dates, and times, depending on the format you use.
+
+If the column is `CHARACTER (CHAR)` or `CHARACTER VARYING (VARCHAR)`, however, the characters comprising the value must be enclosed in single quotes.
+
+Although SQL is usually not sensitive to the difference between upper and lower-case letters, case does make a difference for comparisons using quoted character values. For example, the character string 'Hello' and 'HELLO' are not considered equal to one another. Also, some strings are longer than others. According to the SQL standard, comparing two strings of unequal length conceptually adds blanks to the end of the shorter string and then performs the comparison. And, like numeric values, you can ask whether one character string is less than or greater than another. The comparison is performed based on the collating sequence used by your system. In general, this collating sequence for an English-language installation of SQL will result in a normal alphabetic comparison, with `A` less than `B`, `B` less than `C`, and so on. (Whether digits are less than letters varies, though, depending on the character set specified as the default for the implementation.)
 
 In some cases, the `<value>` might also be a `<column name>`. If the `<table>` identifies a column in `<column name>`, the values in the two columns are compared for each record; only those records in which the two values satisfy the condiction (e.g., =) are returned. Alternatively, the `<column name>` might identify a column in a *different* table. In this case, records from both tables can be examined and retrieved. Retrieving data from more than one table at a time is called a *join* and is discussed later in the course.
+
+- **Number**: use a number that can be an integer or a decimal without any formatting e.g., `100`, `200.5`
+- **Character**: use characters surrounded by either single or double quotes e.g., `“100”`, `“John Doe”` or `'100'`, `'John Doe'`.
+- **Date**: use the format that the database stores. It depends on the database system e.g., PostgreSQL uses `'yyyy-mm-dd'` **format to store the date data**.
+- **Time**: use the format that the database system uses to store the time. For example, PostgreSQL uses `'HH:MM:SS'` to store time data.
+
 
 ## Postgres WHERE Clause overview
 
@@ -96,7 +122,9 @@ FROM -> WHERE -> SELECT -> ORDER BY
 
 Besides the SELECT statement, you can use the WHERE clause in the UPDATE and DELETE statement to specify rows to be updated or deleted.
 
-## Using WHERE clause with the equal (=) operator example
+## Parch&Posey WHERE example
+
+**Using WHERE clause with the equal (=) operator example**
 
 Imagine yourself as an account manager at Parch and Posey. You are about to head out to visit one of your most important customer and you want to show up prepared, which means making sure that you are up to speed on all of their recent purchases.
 
@@ -219,6 +247,287 @@ SELECT *
   FROM orders
  WHERE total_amt_usd < 500
  LIMIT 10;
+```
+
+## HR WHERE examples
+
+We will use the employees table to demonstrate how to select data from the table using the `WHERE` clause.
+
+|employees|
+|:-------:|
+|*employee_id|
+|first_name|
+|last_name|
+|email|
+|phone_number|
+|hire_date|
+|job_id|
+|salary|
+|manager_id|
+|department_id|
+
+```console
+hr=# \d employees
+                                            Table "public.employees"
+    Column     |          Type          | Collation | Nullable |                    Default
+---------------+------------------------+-----------+----------+------------------------------------------------
+ employee_id   | integer                |           | not null | nextval('employees_employee_id_seq'::regclass)
+ first_name    | character varying(20)  |           |          |
+ last_name     | character varying(25)  |           | not null |
+ email         | character varying(100) |           | not null |
+ phone_number  | character varying(20)  |           |          |
+ hire_date     | date                   |           | not null |
+ job_id        | integer                |           | not null |
+ salary        | numeric(8,2)           |           | not null |
+ manager_id    | integer                |           |          |
+ department_id | integer                |           |          |
+Indexes:
+    "employees_pkey" PRIMARY KEY, btree (employee_id)
+```
+
+### SQL WHERE clause with numeric comparison examples
+
+1. The following query finds employees who have **salaries greater than** `14,000` and sorts the result set based on the salary in `descending order`.
+
+**Query**
+```console
+hr=# SELECT employee_id,
+hr-#        first_name,
+hr-#        last_name,
+hr-#        salary
+hr-#   FROM employees
+hr-#  WHERE salary > 14000
+hr-#  ORDER BY salary DESC;
+```
+
+**Output**
+
+```console
+employee_id | first_name | last_name |  salary
+-------------+------------+-----------+----------
+        100 | Steven     | King      | 24000.00
+        101 | Neena      | Kochhar   | 17000.00
+        102 | Lex        | De Haan   | 17000.00
+(3 rows)
+```
+
+2. The following query finds all employees who work in the `department id` **5**.
+
+**Query**
+
+```console
+hr=# SELECT employee_id,
+hr-#        first_name,
+hr-#        last_name,
+hr-#        department_id
+hr-#   FROM employees
+hr-#  WHERE department_id = 5
+hr-#  ORDER BY first_name;
+```
+
+**Output**
+```console
+ employee_id | first_name |  last_name  | department_id
+-------------+------------+-------------+---------------
+         121 | Adam       | Fripp       |             5
+         193 | Britney    | Everett     |             5
+         126 | Irene      | Mikkilineni |             5
+         120 | Matthew    | Weiss       |             5
+         122 | Payam      | Kaufling    |             5
+         192 | Sarah      | Bell        |             5
+         123 | Shanta     | Vollman     |             5
+(7 rows)
+```
+
+### SQL WHERE clause with characters example
+
+SQL is `case-insensitive`. However, when it comes to the **values in the comparisons**, it is **case-sensitive**.
+
+1. For instance, the following query finds the employee whose last name is `Chen`.
+
+**Query**
+```console
+hr=# SELECT employee_id,
+hr-#        first_name,
+hr-#        last_name
+hr-#   FROM employees
+hr-#  WHERE last_name = 'Chen';
+```
+**Output**
+```console
+ employee_id | first_name | last_name
+-------------+------------+-----------
+         110 | John       | Chen
+(1 row)
+```
+
+However, if you use `CHEN` or `chen`, **no row will be returned**.
+
+### SQL WHERE clause with dates examples
+
+1. To get all employees who joined the company `after January 1st, 1999`, you use the following query:
+
+**Query**
+```console
+hr=# SELECT employee_id,
+hr-#        first_name,
+hr-#        last_name,
+hr-#        hire_date
+hr-#   FROM employees
+hr-#  WHERE hire_date >= '1999-01-01'
+hr-#  ORDER BY hire_date DESC;
+```
+**Output**
+```console
+ employee_id | first_name | last_name  | hire_date
+-------------+------------+------------+------------
+         179 | Charles    | Johnson    | 2000-01-04
+         113 | Luis       | Popp       | 1999-12-07
+         119 | Karen      | Colmenares | 1999-08-10
+         178 | Kimberely  | Grant      | 1999-05-24
+         107 | Diana      | Lorentz    | 1999-02-07
+(5 rows)
+```
+
+If you want to find the employees who joined the company in `1999`, you have several ways:
+
+1. Use two expressions with the AND operator.
+2. Use the BETWEEN operator.
+
+The following statement illustrates the `first way`:
+
+**Query**
+```console
+hr=# SELECT employee_id,
+hr-#        first_name,
+hr-#        last_name,
+hr-#        hire_date
+hr-#   FROM employees
+hr-#  WHERE hire_date >= '1999-01-01' AND hire_date <= '2000-01-01'
+hr-#  ORDER BY hire_date DESC;
+```
+**Output**
+```console
+ employee_id | first_name | last_name  | hire_date
+-------------+------------+------------+------------
+         113 | Luis       | Popp       | 1999-12-07
+         119 | Karen      | Colmenares | 1999-08-10
+         178 | Kimberely  | Grant      | 1999-05-24
+         107 | Diana      | Lorentz    | 1999-02-07
+(4 rows)
+```
+
+## UniY WHERE examples
+
+We are going to use the `courses`, `teachers` and `students` tables of the **uniy** sample database.
+
+### Example: Comparisons using a WHERE clause
+
+1. **Problem**: List the course name, department and the number of credits for all three-credit courses.
+
+```console
+uniy=# \d courses
+                    Table "public.courses"
+   Column    |     Type      | Collation | Nullable | Default
+-------------+---------------+-----------+----------+---------
+ course_id   | smallint      |           | not null |
+ course_name | character(20) |           |          |
+ department  | character(16) |           |          |
+ num_credits | smallint      |           |          |
+Indexes:
+    "courses_pkey" PRIMARY KEY, btree (course_id)
+```
+
+**Query**
+```console
+uniy=# SELECT course_name,
+uniy-#        department,
+uniy-#        num_credits
+uniy-#   FROM courses
+uniy-#  WHERE num_credits = 3;
+```
+**Output**
+```console
+     course_name      |    department    | num_credits
+----------------------+------------------+-------------
+ Western Civilization | History          |           3
+ English Composition  | English          |           3
+ Compiler Writing     | Computer Science |           3
+ Art History          | History          |           3
+(4 rows)
+```
+
+2. **Problem**: List the name and salaries of teachers earning more than $30,000.
+
+```console
+uniy=# \d teachers
+                    Table "public.teachers"
+    Column    |     Type      | Collation | Nullable | Default
+--------------+---------------+-----------+----------+---------
+ teacher_id   | smallint      |           | not null |
+ teacher_name | character(18) |           |          |
+ phone        | character(10) |           |          |
+ salary       | numeric(10,2) |           |          |
+Indexes:
+    "teachers_pkey" PRIMARY KEY, btree (teacher_id)
+```
+
+**Query**
+
+```console
+uniy=# SELECT teacher_name,
+uniy-#        salary
+uniy-#   FROM teachers
+uniy-#  WHERE salary > 30000;
+```
+**Output**
+```console
+    teacher_name    |  salary
+--------------------+----------
+ Dr. Lowe           | 31450.00
+ Dr. Engle          | 38200.00
+ Dr. Olsen          | 31778.00
+ Dr. Scango         | 32098.00
+ Dr. Wright         | 35000.00
+(5 rows)
+```
+
+3. **Problem**: Who are all the male students ?
+
+```console
+uniy=# \d students
+                    Table "public.students"
+    Column    |     Type      | Collation | Nullable | Default
+--------------+---------------+-----------+----------+---------
+ student_id   | smallint      |           | not null |
+ student_name | character(18) |           |          |
+ address      | character(20) |           |          |
+ city         | character(10) |           |          |
+ state        | character(2)  |           |          |
+ zip          | character(5)  |           |          |
+ gender       | character(1)  |           |          |
+Indexes:
+    "students_pkey" PRIMARY KEY, btree (student_id)
+```
+
+**Query**
+```console
+uniy=# SELECT student_name
+uniy-#   FROM students
+uniy-#  WHERE gender = 'M';
+```
+
+**Output**
+```console
+    student_name
+--------------------
+ Bob Dawson
+ Howard Mansfield
+ Joe Adams
+ Bill Jones
+ Allen Thomas
+ John Anderson
+(6 rows)
 ```
 
 ## Summary
