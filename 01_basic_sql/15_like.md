@@ -133,23 +133,38 @@ To perform a `case-insensitive` match you could use either `LOWER()` or `UPPER()
 
 **SQL**
 ```sql
-SELECT UPPER ('hello world') LIKE '%W%'; -- true
-SELECT LOWER ('hello World') LIKE '%w%'; -- true
+SELECT UPPER ('hello world') LIKE '%W%', -- true
+       LOWER ('hello World') LIKE '%w%', -- true
+       UPPER ('BAr') LIKE 'BA%' AS "BAr", -- true
+       UPPER ('Bar') LIKE 'BA%' AS "Bar", -- true
+       UPPER ('bAr') LIKE 'BA%' AS "bAr", -- true
+       UPPER ('bar') LIKE 'BA%' AS "bar"; -- true
 ```
 
 **SQL Expression**
 ```console
 hr=# SELECT UPPER('hello World') LIKE '%W%',
 hr-#        UPPER('hello world') LIKE '%W%';
+hr=#        UPPER ('BAr') LIKE 'BA%' AS "BAr",
+hr-#        UPPER ('Bar') LIKE 'BA%' AS "Bar",
+hr-#        UPPER ('bAr') LIKE 'BA%' AS "bAr",
+hr-#        UPPER ('bar') LIKE 'BA%' AS "bar";
+ BAr | Bar | bAr | bar
+-----+-----+-----+-----
+ t   | t   | t   | t
+(1 row)
 ```
 
 **Output**
 ```console
- ?column? | ?column?
-----------+----------
- t        | t
+ ?column? | ?column? |BAr  | Bar | bAr | bar
+----------+----------+-----+-----+-----|----
+ t        | t        | t   | t   | t   | t
 (1 row)
 ```
+
+
+The `trick` is simple. First we convert the string letters to uppercase or lowercase and then compare to a pattern with all uppercase or lowercase letters. For instance, the words `BAr`,`Bar`,`bAr` and `bar` are converted to `BAR`. Next, the word `BAR` is tested against the pattern `BA%`.
 
 **One more example**: `_%`
 
@@ -867,3 +882,5 @@ dvdrental-#  LIMIT 10;
  Alfred     | Casillas
 (10 rows)
 ```
+
+## Parch & Posey LIKE example
