@@ -17,24 +17,24 @@ This section isn’t a full cheat sheet for psql. It covers the most common oper
   - [1.4 Opening a connection locally](#14-opening-a-connection-locally)
   - [1.5 Opening a connection remotely](#15-opening-a-connection-remotely)
   - [1.6 Looking at the psql prompt](#16-looking-at-the-psql-prompt)
-  - [1.7 \? Get help on psql commands](#17-\?-get-help-on-psql-commands)
+  - [1.7 \? Get help on psql commands](#17-get-help-on-psql-commands)
   - [1.8 Connection information](#18-connection-information)
   - [1.9 List users](#19-list-users)
   - [1.10 Changing User connection](#110-changing-user-connection)
 - [2. Getting information about databases](#2-getting-information-about-databases)
-  - [2.1 \h Get help on PostgreSQL commands](#21-\h-get-help-on-postgresql-commands)
-  - [2.2 \g Execute previous command](#22-\g-execute-previous-command)
+  - [2.1 \h Get help on PostgreSQL commands](#21-get-help-on-postgresql-commands)
+  - [2.2 \g Execute previous command](#22-execute-previous-command)
   - [2.3 Command history](#23-command-history)
-  - [2.4 \l List databases](#23-\l-list-databases)
-  - [2.5 \x Expand/narrow table lists](#25-\x-expand/narrow-table-lists)
+  - [2.4 \l List databases](#23-list-databases)
+  - [2.5 \x Expand/narrow table lists](#25-expand/narrow-table-lists)
   - [2.6 Changing Database and User connection](#26-changing-database-and-user-connection)
-  - [2.7 \dt Display tables](#27-\dt-display-tables)
-  - [2.8 \d Display columns of a table](#28-\d-display-columns-of-a-table)
-  - [2.9 \di Display indexes](#29-\di-display-indexes)
-  - [2.10 \df Display functions](#210-\df-display-functions)
-  - [2.11 \sf Show function definition](#211-\sf-show-function-definition)
-  - [2.12 \dv Display views](#212-\dv-display-views)
-  - [2.13 \sv Show view definition](#213-\sv-show-view-definition)
+  - [2.7 \dt Display tables](#27-display-tables)
+  - [2.8 \d Display columns of a table](#28-display-columns-of-a-table)
+  - [2.9 \di Display indexes](#29-display-indexes)
+  - [2.10 \df Display functions](#210-display-functions)
+  - [2.11 \sf Show function definition](#211-show-function-definition)
+  - [2.12 \dv Display views](#212-display-views)
+  - [2.13 \sv Show view definition](#213s-show-view-definition)
 
 
 ## 1. Starting and quitting the psql interactive terminal
@@ -151,7 +151,7 @@ postgres=# ;
 
 Use the up and down arrow keys to move backwards and forwards through the command history.
 
-### 1.7 \? Get help on psql commands
+### 1.7  Get help on psql commands
 
 To know all available psql commands (`the backslash commands`), you use the `\?` command.
 
@@ -229,7 +229,7 @@ These aren’t SQL commands so just press Enter after them. Remember that:
 - When there’s more output than fits the screen, it pauses. Press `space` to continue
 If you want to halt the output, press `q`.
 
-### 2.1 \h Get help on PostgreSQL commands
+### 2.1 Get help on PostgreSQL commands
 
 To get help on specific PostgreSQL statement you use `\h`:
 
@@ -268,7 +268,7 @@ Syntax:
 DROP TABLE [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
 ```
 
-### 2.2 \g Execute previous command
+### 2.2 Execute previous command
 
 To retrieve the current version of PostgreSQL server, you use the version() function as follows:
 
@@ -334,7 +334,7 @@ If you want to save the command history to a file, you need to specify the file 
 \s my_session_file
 ```
 
-### 2.4 \l List databases
+### 2.4 List databases
 
 What most people think of as a database (say, a list of customers) is actually a table. A database is a set of tables, information about those tables, information about users and their permissions, and much more. Some of these databases (and the tables within) are updated automatically by PostgreSQL as you use them.
 
@@ -414,7 +414,7 @@ uniy                                | usertest        | UTF8     | en_US.UTF-8 |
 
 We see that the wide format output it's not easy to read. We can use the `\x` command to list the rows in a more readable format. See next section.
 
-### 2.5 \x Expand/narrow table lists
+### 2.5 Expand/narrow table lists
 
 Use `\x` (X for eXpanded listing) to control whether table listings use a wide or narrow format.
 
@@ -525,7 +525,7 @@ ludovicopinzari=# \c postgres ludovicopinzari
 You are now connected to database "postgres" as user "ludovicopinzari".
 postgres=#
 ```
-### 2.7 \dt Display tables
+### 2.7 Display tables
 
 ```console
 postgres=# \c dvdrental
@@ -558,7 +558,7 @@ dvdrental=# \dt
 ```
 If you choose a database such as `postgres` there could be many tables. Remember you can pause output by pressing `space` or halt it by pressing `q`.
 
-### 2.8 \d Display columns of a table
+### 2.8 Display columns of a table
 To view the schema of a table, use \d followed by the name of the table.
 
 To view the schema of a table named `city` in the `dvdrental` database, enter:
@@ -609,7 +609,7 @@ Triggers:
     last_updated BEFORE UPDATE ON city FOR EACH ROW EXECUTE PROCEDURE last_updated()
 ```
 
-### 2.9 \di Display indexes
+### 2.9 Display indexes
 
 Use `\di` to list all the indexes in the database:
 
@@ -653,7 +653,7 @@ dvdrental=# \di
 (32 rows)
 ```
 
-### 2.10 \df Display functions
+### 2.10 Display functions
 
 
 Use `\df` to list all functions in the database:
@@ -676,7 +676,7 @@ dvdrental=# \df
 (10 rows)
 ```
 
-### 2.11 \sf Show function definition
+### 2.11 Show function definition
 
 To show the actual definition of a function, use the `\sf` command. For example, to show the view definition of `last_day` in the `dvdrental` database you could type:
 
@@ -698,7 +698,7 @@ AS $function$
 $function$
 ```
 
-### 2.12 \dv Display views
+### 2.12 Display views
 
 
 Use `\dv` to list all views in the database:
@@ -718,7 +718,7 @@ dvdrental=# \dv
 (7 rows)
 ```
 
-### 2.13 \sv Show view definition
+### 2.13 Show view definition
 
 To show the actual definition of a view, use the `\sv` command. For example, to show the view definition of `actor_info` in the `dvdrental` database you could type:
 
