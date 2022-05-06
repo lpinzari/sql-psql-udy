@@ -29,13 +29,16 @@ This section isn’t a full cheat sheet for psql. It covers the most common oper
   - [2.5 \x Expand/narrow table lists](#25-expand/narrow-table-lists)
   - [2.6 Changing Database and User connection](#26-changing-database-and-user-connection)
   - [2.7 \dt Display tables](#27-display-tables)
-  - [2.8 \d Display columns of a table](#28-display-columns-of-a-table)
+  - [2.8 \d Display columns of a table and size](#28-display-columns-of-a-table-and-size)
   - [2.9 \di Display indexes](#29-display-indexes)
   - [2.10 \df Display functions](#210-display-functions)
   - [2.11 \sf Show function definition](#211-show-function-definition)
   - [2.12 \dv Display views](#212-display-views)
-  - [2.13 \sv Show view definition](#213s-show-view-definition)
-
+  - [2.13 \sv Show view definition](#213-s-show-view-definition)
+- [3. Maintenance and operations issues](#3-maintenance-and-operations-issues)
+  - [3.1 Timing](#31-timing)
+  - [3.2 Watch](#32-watch)
+  - [3.3 Locate the pg_hba.conf file](#33-locate-the-pg_hba.conf-file)
 
 ## 1. Starting and quitting the psql interactive terminal
 
@@ -558,7 +561,7 @@ dvdrental=# \dt
 ```
 If you choose a database such as `postgres` there could be many tables. Remember you can pause output by pressing `space` or halt it by pressing `q`.
 
-### 2.8 Display columns of a table
+### 2.8 Display columns of a table and size
 To view the schema of a table, use \d followed by the name of the table.
 
 To view the schema of a table named `city` in the `dvdrental` database, enter:
@@ -607,6 +610,30 @@ Referenced by:
     TABLE "address" CONSTRAINT "fk_address_city" FOREIGN KEY (city_id) REFERENCES city(city_id)
 Triggers:
     last_updated BEFORE UPDATE ON city FOR EACH ROW EXECUTE PROCEDURE last_updated()
+```
+
+**To get information of the table's memory size**
+
+```console
+dvdrental=# SELECT pg_size_pretty(pg_total_relation_size('city'));
+ pg_size_pretty
+----------------
+ 128 kB
+(1 row)
+```
+
+**To get a summary of the table's column memory size**
+
+```console
+dvdrental=# SELECT  COUNT(*) AS total_rows,
+dvdrental-#         pg_size_pretty(SUM(pg_column_size(city))) AS total_size,
+dvdrental-#         pg_size_pretty(AVG(pg_column_size(city))) AS average_size,
+dvdrental-#         SUM(pg_column_size(city)) * 100.0 / pg_total_relation_size('city') AS percentage
+dvdrental-#   FROM  city;
+ total_rows | total_size |       average_size       |     percentage
+------------+------------+--------------------------+--------------------
+        600 | 5618 bytes | 9.3633333333333333 bytes | 4.2861938476562500
+(1 row)
 ```
 
 ### 2.9 Display indexes
@@ -741,4 +768,94 @@ CREATE OR REPLACE VIEW public.actor_info AS
      LEFT JOIN film_category fc ON fa.film_id = fc.film_id
      LEFT JOIN category c ON fc.category_id = c.category_id
   GROUP BY a.actor_id, a.first_name, a.last_name
+```
+
+## 3. Maintenance and operations issues
+
+we give a short list of commands to control the performance and optimization tasks.
+
+### 3.1 Timing
+
+**Timing SQL operations**
+
+Use `\t` to show timing for all SQL operations performed.
+
+|Command	| Effect|
+|:-------:|:-----:|
+|\timing off |	Disable timing of SQL operations|
+|\timing on	|Show timing after all SQL operations|
+|\timing	|Toggle (reverse) the setting|
+
+
+**Example of** `\t` **Timing command**
+
+```console
+dvdrental=# \timing
+Timing is on.
+dvdrental=# SELECT COUNT(*) AS total_rows
+dvdrental-#   FROM payment;
+ total_rows
+------------
+      14596
+(1 row)
+
+Time: 2.970 ms
+dvdrental=# \timing
+Timing is off.
+```
+
+### 3.2 Watch
+
+The `\watch` command repeats the previous command at the specified interval. To use it, enter the SQL command you want repeated, then use `\watch` followed by the **number of seconds you want for the interval between repeats**, for rexample, `\watch 1` to repeat it every second.
+
+**Example of the** `\Watch` **command**
+
+Here’s an example of using `\watch` to see if any records have been inserted within the last 5 seconds.
+
+```console
+tom=# select count(*);
+  count
+--------
+    726
+(726 rows)
+
+tom=# \watch 5
+Mon Nov 16 13:50:36 2020 (every 2s)
+
+  count
+--------
+    726
+(726 rows)
+
+Mon Nov 16 13:50:38 2020 (every 2s)
+
+  count
+--------
+    726
+(726 rows)
+
+Mon Nov 16 13:50:40 2020 (every 2s)
+
+  count
+--------
+    726
+(726 rows)
+```
+
+### 3.3 Locate the pg_hba.conf file
+
+Postgres configuration is stored in a file named `pg_hba.conf` somewhere in the file system, but that location varies widely. The way to find it is to use show hba_file like this:
+
+```console
+show  hba_file;
+```
+
+See below for hot reloading this file while Postgres is running.
+
+**Reload the configuration file while Postgres is running**
+
+If you make changes to the `pg_hba.conf` Postgres configuration sometimes you need to restart. But you may just choose to reload the `pg_hba.conf` configuration file like this:
+
+```console
+SELECT pg_reload_conf();
 ```
