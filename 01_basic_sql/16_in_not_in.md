@@ -391,4 +391,480 @@ SELECT <column_names>
 
 The query inside the parentheses is called a `subquery`, which is a **query nested inside another query**.
 
-## DVDRENTAL examples
+## UniY IN and NOT IN examples
+
+We’ll use the `courses` and `students` tables in the `uniy` sample database for the demonstration.
+
+1. **Problem**: List the `names` and `departments` of all Math and English **courses**.
+
+- **table**: courses
+- `columns`: names, departments
+- **condition**: all Math and English departments.
+
+```console
+uniy=# \d courses
+                    Table "public.courses"
+   Column    |     Type      | Collation | Nullable | Default
+-------------+---------------+-----------+----------+---------
+ course_id   | smallint      |           | not null |
+ course_name | character(20) |           |          |
+ department  | character(16) |           |          |
+ num_credits | smallint      |           |          |
+Indexes:
+    "courses_pkey" PRIMARY KEY, btree (course_id)
+```
+
+**Query Diagram**
+
+![in example](./images/26_in.png)
+
+**SQL**
+```SQL
+SELECT course_name,
+       department
+  FROM courses
+ WHERE department IN ('Math', 'English');
+```
+
+```SQL
+SELECT course_name,
+       department
+  FROM courses
+ WHERE department = 'Math' OR
+       department = 'English';
+```
+
+**Results**
+
+|course_name      |    department|
+|:---------------:|:------------:|
+|Calculus IV          | **Math**|
+|English Composition  | **English**|
+
+**Query**
+
+```console
+uniy=# SELECT course_name,
+uniy-#        department
+uniy-#   FROM courses
+uniy-#  WHERE department IN ('Math', 'English');
+```
+
+**Output**
+
+```console
+     course_name      |    department
+----------------------+------------------
+ Calculus IV          | Math
+ English Composition  | English
+(2 rows)
+```
+
+2. **Problem**: List the `names`, `cities`, and `states` of all **students** who are not from California or Illiniois.
+
+- **table**: students
+- `columns`: names, cities, states
+- **condition**: not from California or Illinois states.
+
+```console
+uniy=# \d students
+                    Table "public.students"
+    Column    |     Type      | Collation | Nullable | Default
+--------------+---------------+-----------+----------+---------
+ student_id   | smallint      |           | not null |
+ student_name | character(18) |           |          |
+ address      | character(20) |           |          |
+ city         | character(10) |           |          |
+ state        | character(2)  |           |          |
+ zip          | character(5)  |           |          |
+ gender       | character(1)  |           |          |
+Indexes:
+    "students_pkey" PRIMARY KEY, btree (student_id)
+```
+
+**Query Diagram**
+
+![in example2](./images/27_notin.png)
+
+**SQL**
+```SQL
+SELECT student_name,
+       city,
+       state
+  FROM students
+ WHERE state NOT IN ('CA', 'IL');
+```
+
+```SQL
+SELECT student_name,
+       city,
+       state
+  FROM students
+ WHERE state != 'CA' AND
+       state != 'IL';
+```
+
+**Results**
+
+|student_name    |    city    | state|
+|:--------------:|:----------:|:----:|
+|Susan Powell       | Haverford  | **PA**|
+|Bob Dawson         | Newport    | **RI**|
+|Howard Mansfield   | Vienna     | **VA**|
+|Susan Pugh         | Hartford   | **CT**|
+|Joe Adams          | Newark     | **DE**|
+|Janet Ladd         | Pennsburg  | **PA**|
+|Carol Dean         | Boston     | **MA**|
+|John Anderson      | New York   | **NY**|
+|Janet Thomas       | Erie       | **PA**|
+
+**Query**
+```console
+uniy=# SELECT student_name,
+uniy-#        city,
+uniy-#        state
+uniy-#   FROM students
+uniy-#  WHERE state NOT IN ('CA', 'IL');
+```
+
+**Output**
+```console
+    student_name    |    city    | state
+--------------------+------------+-------
+ Susan Powell       | Haverford  | PA
+ Bob Dawson         | Newport    | RI
+ Howard Mansfield   | Vienna     | VA
+ Susan Pugh         | Hartford   | CT
+ Joe Adams          | Newark     | DE
+ Janet Ladd         | Pennsburg  | PA
+ Carol Dean         | Boston     | MA
+ John Anderson      | New York   | NY
+ Janet Thomas       | Erie       | PA
+(9 rows)
+```
+
+## DVDRENTAL IN and NOT IN examples
+
+We’ll use the `rental` and `customer` tables in the `dvdrental` sample database for the demonstration.
+
+1. **Problem**: Suppose you want to know the **rental** information of `customer id 1 and 2` for `rental_id` and `rental_date`.
+
+- **table**: rental
+- `columns`: customer_id, rental_id, rental_date
+- **condition**: not from California or Illinois states.
+
+```console
+dvdrental=# \d rental
+                                             Table "public.rental"
+    Column    |            Type             | Collation | Nullable |                  Default
+--------------+-----------------------------+-----------+----------+-------------------------------------------
+ rental_id    | integer                     |           | not null | nextval('rental_rental_id_seq'::regclass)
+ rental_date  | timestamp without time zone |           | not null |
+ inventory_id | integer                     |           | not null |
+ customer_id  | smallint                    |           | not null |
+ return_date  | timestamp without time zone |           |          |
+ staff_id     | smallint                    |           | not null |
+ last_update  | timestamp without time zone |           | not null | now()
+Indexes:
+    "rental_pkey" PRIMARY KEY, btree (rental_id)
+```
+
+Basic query.
+**SQL**
+```SQL
+SELECT customer_id,
+       rental_id,
+       rental_date
+  FROM rental
+ WHERE customer_id IN (1,2)
+ ORDER BY customer_id, return_date DESC;
+```
+
+More elaborated query. Filter only rental information occurred at the date '2005-08-22'.
+**SQL**
+```SQL
+SELECT customer_id,
+       rental_id,
+       rental_date
+  FROM rental
+ WHERE customer_id IN (1,2) AND
+       EXTRACT (YEAR FROM rental_date) = 2005 AND
+       EXTRACT (MONTH FROM rental_date) = 8 AND
+       EXTRACT (DAY FROM rental_date) = 22
+ ORDER BY customer_id, return_date DESC;
+```
+
+Shorter version using the `CAST` function.
+
+```SQL
+SELECT customer_id,
+       rental_id,
+       rental_date
+  FROM rental
+ WHERE customer_id IN (1,2) AND
+       CAST (rental_date AS DATE) = '2005-08-22'
+ ORDER BY customer_id, rental_date DESC;
+```
+
+**Results**
+
+|customer_id | rental_id |     rental_date|
+|:----------:|:---------:|:--------------:|
+|**1** |     15315 | **2005-08-22 20:03:46**|
+|1 |     15298 | 2005-08-22 19:41:37|
+|1 |     14825 | 2005-08-22 01:27:57|
+|2 |     15145 | 2005-08-22 13:53:04|
+
+
+**Query**
+```console
+dvdrental=# SELECT customer_id,
+dvdrental-#        rental_id,
+dvdrental-#        rental_date
+dvdrental-#   FROM rental
+dvdrental-#  WHERE customer_id IN (1,2) AND
+dvdrental-#        EXTRACT (YEAR FROM rental_date) = 2005 AND
+dvdrental-#        EXTRACT (MONTH FROM rental_date) = 8 AND
+dvdrental-#        EXTRACT (DAY FROM rental_date) = 22
+dvdrental-#  ORDER BY customer_id, return_date DESC;
+```
+
+```console
+dvdrental=# SELECT customer_id,
+dvdrental-#        rental_id,
+dvdrental-#        rental_date
+dvdrental-#   FROM rental
+dvdrental-#  WHERE customer_id IN (1,2) AND
+dvdrental-#        CAST (rental_date AS DATE) = '2005-08-22'
+dvdrental-#  ORDER BY customer_id, rental_date DESC;
+```
+
+**Output**
+```console
+customer_id | rental_id |     rental_date
+-------------+-----------+---------------------
+          1 |     15315 | 2005-08-22 20:03:46
+          1 |     15298 | 2005-08-22 19:41:37
+          1 |     14825 | 2005-08-22 01:27:57
+          2 |     15145 | 2005-08-22 13:53:04
+(4 rows)
+```
+
+We see there are 4 records and the customer_id `1` rented a movie at hour `20`.
+
+2. **Problem**: The following statement finds all rentals with the customer id is not `1` or `2`, occurred at hour `20` pm in the date `2005-08-22`.
+
+
+**SQL**
+```SQL
+SELECT customer_id,
+       rental_id,
+       CAST (rental_date AS TIME) AS rental_2005_08_22
+  FROM rental
+ WHERE customer_id NOT IN (1,2) AND
+       CAST (rental_date AS DATE) = '2005-08-22' AND
+       EXTRACT (HOUR FROM rental_date) = 20
+ ORDER BY customer_id, rental_date DESC;
+```
+
+**Query**
+```console
+dvdrental=# SELECT customer_id,
+dvdrental-#        rental_id,
+dvdrental-#        CAST (rental_date AS TIME) AS rental_2005_08_22
+dvdrental-#   FROM rental
+dvdrental-#  WHERE customer_id NOT IN (1,2) AND
+dvdrental-#        CAST (rental_date AS DATE) = '2005-08-22' AND
+dvdrental-#        EXTRACT (HOUR FROM rental_date) = 20
+dvdrental-#  ORDER BY customer_id, rental_date DESC;
+```
+
+**Output**
+```console
+customer_id | rental_id | rental_2005_08_22
+-------------+-----------+-------------------
+         13 |     15338 | 20:51:24
+         60 |     15318 | 20:15:16
+         74 |     15325 | 20:27:38
+         91 |     15341 | 20:56:31
+         93 |     15324 | 20:23:13
+        142 |     15333 | 20:44:06
+        147 |     15331 | 20:37:57
+        162 |     15332 | 20:41:53
+        178 |     15323 | 20:22:40
+        188 |     15319 | 20:17:17
+        237 |     15337 | 20:49:51
+        263 |     15322 | 20:20:30
+        274 |     15328 | 20:31:38
+        313 |     15340 | 20:55:56
+        331 |     15339 | 20:52:12
+        363 |     15335 | 20:44:55
+        384 |     15321 | 20:20:04
+        407 |     15334 | 20:44:35
+        407 |     15320 | 20:17:49
+        422 |     15316 | 20:07:03
+        427 |     15330 | 20:35:30
+        450 |     15327 | 20:31:24
+        459 |     15342 | 20:56:41
+        461 |     15336 | 20:47:48
+        512 |     15317 | 20:14:13
+        521 |     15329 | 20:32:39
+(26 rows)
+```
+
+We see that the reocord
+
+|customer_id | rental_id |     rental_date|
+|:----------:|:---------:|:--------------:|
+|**1** |     15315 | **2005-08-22 20:03:46**|
+
+is not in the output.
+
+
+3. **Problem Subquery**: The following statement finds the first and last name of the customers who rented a movie at hour `20` pm in the date `2005-08-22`.
+
+![erd dvdrental](../00_basic_intro/images/16_dvdrental.png)
+
+First let's find all the movies rented at hour `20` pm in the date `2005-08-22`.
+
+**SQL**
+```SQL
+SELECT customer_id,
+       rental_id,
+       CAST (rental_date AS TIME) AS rental_2005_08_22
+  FROM rental
+ WHERE CAST (rental_date AS DATE) = '2005-08-22' AND
+       EXTRACT (HOUR FROM rental_date) = 20
+ ORDER BY customer_id, rental_date DESC;
+```
+
+**Query**
+```console
+dvdrental=# SELECT customer_id,
+dvdrental-#        rental_id,
+dvdrental-#        CAST (rental_date AS TIME) AS rental_2005_08_22
+dvdrental-#   FROM rental
+dvdrental-#  WHERE CAST (rental_date AS DATE) = '2005-08-22' AND
+dvdrental-#        EXTRACT (HOUR FROM rental_date) = 20
+dvdrental-#  ORDER BY customer_id, rental_date DESC;
+```
+
+**Output**
+```console
+ customer_id | rental_id | rental_2005_08_22
+-------------+-----------+-------------------
+           1 |     15315 | 20:03:46
+          13 |     15338 | 20:51:24
+          60 |     15318 | 20:15:16
+          74 |     15325 | 20:27:38
+          91 |     15341 | 20:56:31
+          93 |     15324 | 20:23:13
+         142 |     15333 | 20:44:06
+         147 |     15331 | 20:37:57
+         162 |     15332 | 20:41:53
+         178 |     15323 | 20:22:40
+         188 |     15319 | 20:17:17
+         237 |     15337 | 20:49:51
+         263 |     15322 | 20:20:30
+         274 |     15328 | 20:31:38
+         313 |     15340 | 20:55:56
+         331 |     15339 | 20:52:12
+         363 |     15335 | 20:44:55
+         384 |     15321 | 20:20:04
+         407 |     15334 | 20:44:35
+         407 |     15320 | 20:17:49
+         422 |     15316 | 20:07:03
+         427 |     15330 | 20:35:30
+         450 |     15327 | 20:31:24
+         459 |     15342 | 20:56:41
+         461 |     15336 | 20:47:48
+         512 |     15317 | 20:14:13
+         521 |     15329 | 20:32:39
+(27 rows)
+```
+Because this query returns a multiple list of values, we cannot use as the input of the IN operator. **We only need a single column**. You can use the `customer_id` column as the input of the `IN` operator.It's worth noting that there is only a duplicate  customer_id `407`, and, therefore, we expect 26 records in the output of this query. However, the first and last name of these customer must be retrieved in another table.
+
+We retrieve this information in the table **customer**.
+
+```console
+dvdrental=# \d customer
+                                             Table "public.customer"
+   Column    |            Type             | Collation | Nullable |                    Default
+-------------+-----------------------------+-----------+----------+-----------------------------------------------
+ customer_id | integer                     |           | not null | nextval('customer_customer_id_seq'::regclass)
+ store_id    | smallint                    |           | not null |
+ first_name  | character varying(45)       |           | not null |
+ last_name   | character varying(45)       |           | not null |
+ email       | character varying(50)       |           |          |
+ address_id  | smallint                    |           | not null |
+ activebool  | boolean                     |           | not null | true
+ create_date | date                        |           | not null | ('now'::text)::date
+ last_update | timestamp without time zone |           |          | now()
+ active      | integer                     |           |          |
+Indexes:
+    "customer_pkey" PRIMARY KEY, btree (customer_id)
+```
+
+**SQL**
+```SQL
+SELECT customer_id,
+       first_name,
+       last_name
+  FROM customer
+ WHERE customer_id IN (
+       SELECT customer_id
+         FROM rental
+        WHERE CAST (rental_date AS DATE) = '2005-08-22' AND
+              EXTRACT (HOUR FROM rental_date) = 20
+ )
+ ORDER BY customer_id;
+```
+
+**Query**
+```console
+dvdrental=# SELECT customer_id,
+dvdrental-#        first_name,
+dvdrental-#        last_name
+dvdrental-#   FROM customer
+dvdrental-#  WHERE customer_id IN (
+dvdrental(#        SELECT customer_id
+dvdrental(#          FROM rental
+dvdrental(#         WHERE CAST (rental_date AS DATE) = '2005-08-22' AND
+dvdrental(#               EXTRACT (HOUR FROM rental_date) = 20
+dvdrental(#  )
+dvdrental-#  ORDER BY customer_id;
+```
+
+**Output**
+
+```console
+ customer_id | first_name | last_name
+-------------+------------+-----------
+           1 | Mary       | Smith
+          13 | Karen      | Jackson
+          60 | Mildred    | Bailey
+          74 | Denise     | Kelly
+          91 | Lois       | Butler
+          93 | Phyllis    | Foster
+         142 | April      | Burns
+         147 | Joanne     | Robertson
+         162 | Lauren     | Hudson
+         178 | Marion     | Snyder
+         188 | Melanie    | Armstrong
+         237 | Tanya      | Gilbert
+         263 | Hilda      | Hopkins
+         274 | Naomi      | Jennings
+         313 | Donald     | Mahon
+         331 | Eric       | Robert
+         363 | Roy        | Whiting
+         384 | Ernest     | Stepp
+         407 | Dale       | Ratcliff
+         422 | Melvin     | Ellington
+         427 | Jesus      | Mccartney
+         450 | Jay        | Robb
+         459 | Tommy      | Collazo
+         461 | Derek      | Blakely
+         512 | Cecil      | Vines
+         521 | Roland     | South
+(26 rows)
+```
