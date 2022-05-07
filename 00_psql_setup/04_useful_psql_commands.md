@@ -133,21 +133,30 @@ One gotcha is that almost all SQL commands you enter into `psql` must end in a s
 - For example, suppose you want to remove a table named `sample_property_5`. You’d enter this command:
 
 ```console
-postgres=# DROP TABLE "sample_property_5";
+postgres=# DROP TABLE sample_property_5;
 ```
 
 It’s easy to forget. If you do forget the semicolon, you’ll see this perplexing prompt. Note that a `[` has been inserted before the username portion of the prompt, and another prompt appears below it:
 
 ```console
-[postgres=# DROP TABLE "sample_property_5"
+postgres=# DROP TABLE sample_property_5
 postgres=#
 ```
 
 When you do, just remember to finish it off with that semicolon:
 
 ```console
-[postgres=# DROP TABLE "sample_property_5"
+postgres=# DROP TABLE sample_property_5
 postgres=# ;
+```
+
+If you get stuck and the prompt is not responding to the semicolon than use the command `^D` to exit the `psql` prompt and log in again.
+
+```console
+postgres=# DROP TABLE `sample_property_5
+postgres=#;
+postgres=#^D/q
+$ 
 ```
 
 **Scrolling through the command history**

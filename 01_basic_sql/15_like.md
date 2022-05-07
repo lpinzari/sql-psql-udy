@@ -882,5 +882,3 @@ dvdrental-#  LIMIT 10;
  Alfred     | Casillas
 (10 rows)
 ```
-
-## Parch & Posey LIKE example
