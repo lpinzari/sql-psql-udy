@@ -711,6 +711,8 @@ uniy(# )ORDER BY student_id;
                      *------------------------------------------*
 ```
 
+![in subquery 2](./images/30_notin.png)
+
 **SQL**
 ```SQL
 SELECT student_id,
