@@ -14,7 +14,7 @@ The `AND` operator is a logical operator that combines Boolean expressions and r
 The syntax of the AND operator is as follows:
 
 ```SQL
-expression_1 AND expression_2
+boolean_expression_1 AND boolean_expression_2
 ```
 
 The following table illustrates the result when you combine the `true`, `false`, and a `NULL` value using the `AND` operator:
