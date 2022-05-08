@@ -1332,7 +1332,7 @@ hr-#  ORDER BY salary DESC;
 
 Imagine you are a sales manager at P&P and you want to see how several key accounts are performing.
 
-We will use the  `accounts` table in the sample database to demonstrate the functionality of the `IN` operator.
+We will use the  `accounts`, `web_events` tables in the sample database to demonstrate the functionality of the `IN` operator.
 
 ```console
 parch_posey=# \d accounts
@@ -1350,10 +1350,61 @@ Indexes:
     "accounts_pkey" PRIMARY KEY, btree (id)
 ```
 
+```console
+parch_posey=# \d web_events
+                         Table "public.web_events"
+   Column    |            Type             | Collation | Nullable | Default
+-------------+-----------------------------+-----------+----------+---------
+ id          | integer                     |           | not null |
+ account_id  | integer                     |           |          |
+ occurred_at | timestamp without time zone |           |          |
+ channel     | bpchar                      |           |          |
+Indexes:
+    "web_events_pkey" PRIMARY KEY, btree (id)
+```
+
+
+
 The `IN` function will allow you to filter data based on several possible values. So if you want to see information for the `Wallmart` and `Apple` accounts, here is how you do it:
 
 ```SQL
 SELECT *
   FROM accounts
  WHERE name IN ('Wallmart', 'Apple');
+```
+
+2. **Problem**: Use the **accounts** table to find the `account name`, `primary_poc`, and `sales_rep_id` for `Walmart, Target, and Nordstrom`.
+
+```SQL
+SELECT name,
+       primary_poc,
+       sales_rep_id
+  FROM accounts
+ WHERE name IN ('Walmart', 'Target', 'Nordstrom');
+```
+
+3. **Problem**: Use the **web_events** table to find all information regarding individuals who were `contacted via the channel of organic or adwords`.
+
+```SQL
+SELECT *
+  FROM web_events
+ WHERE channel IN ('organic', 'adwords');
+```
+
+4. **Problem**: Use the **accounts** table to find the `account name`, `primary poc`, and `sales rep id` for all **stores** `except Walmart, Target, and Nordstrom`.
+
+```SQL
+SELECT name,
+       primary_poc,
+       sales_rep_id
+  FROM accounts
+ WHERE name NOT IN ('Walmart', 'Target', 'Nordstrom');
+```
+
+5. **Problem**: Use the **web_events** table to find `all information regarding individuals` who were `contacted` via any method `except using organic or adwords` methods.
+
+```SQL
+SELECT *
+  FROM web_events
+ WHERE channel NOT IN ('organic', 'adwords');
 ```
