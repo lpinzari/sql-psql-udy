@@ -551,7 +551,7 @@ We’ll use the `rental` and `customer` tables in the `dvdrental` sample databas
 
 - **table**: rental
 - `columns`: customer_id, rental_id, rental_date
-- **condition**: not from California or Illinois states.
+- **condition**: `customer id 1 and 2`.
 
 ```console
 dvdrental=# \d rental
@@ -654,6 +654,9 @@ We see there are 4 records and the customer_id `1` rented a movie at hour `20`.
 
 2. **Problem**: The following statement finds all rentals with the customer id is not `1` or `2`, occurred at hour `20` pm in the date `2005-08-22`.
 
+- **table**: rental
+- `columns`: customer_id, rental_id, rental_date
+- **condition**: `customer id is not 1 and 2`. rental_date: `2005-08-22 20`
 
 **SQL**
 ```SQL
@@ -723,7 +726,35 @@ is not in the output.
 
 3. **Problem Subquery**: The following statement finds the first and last name of the customers who rented a movie at hour `20` pm in the date `2005-08-22`.
 
+
+- **tables**: rental, customer
+- `columns`: customer_id, first_name, last_name
+- **condition**: `customer id is not 1 and 2`. rental_date: `2005-08-22 20`
+- **sorting**: customer_id
+
+- tables: `FROM`
+- columns: `SELECT`
+- condition: `WHERE`
+- sorting: `ORDER BY`
+
+```console
+*--------------------------------------------------*
+|table: customer                                   |
+|columns: customer_id (*), first_name, last_name   |
+|sorting: customer_id ASC                          |
+*--------------------------------------------------*
+             ^
+             |
+             |                  *----------------------------------------*
+             |                  |table: rental                           |
+             *----------------  |column: customer_id (*)                 |
+                                |condition: rental_date = `2005-08-22 20`|
+                                *----------------------------------------*
+```
+
 ![erd dvdrental](../00_basic_intro/images/16_dvdrental.png)
+
+![in subquery](./images/28_notin.png)
 
 First let's find all the movies rented at hour `20` pm in the date `2005-08-22`.
 
@@ -867,4 +898,209 @@ dvdrental-#  ORDER BY customer_id;
          512 | Cecil      | Vines
          521 | Roland     | South
 (26 rows)
+```
+
+## HR IN and NOT IN examples
+
+We will use the  `employees` table in the sample database to demonstrate the functionality of the IN operator.
+
+```console
+hr=# \d employees
+                                            Table "public.employees"
+    Column     |          Type          | Collation | Nullable |                    Default
+---------------+------------------------+-----------+----------+------------------------------------------------
+ employee_id   | integer                |           | not null | nextval('employees_employee_id_seq'::regclass)
+ first_name    | character varying(20)  |           |          |
+ last_name     | character varying(25)  |           | not null |
+ email         | character varying(100) |           | not null |
+ phone_number  | character varying(20)  |           |          |
+ hire_date     | date                   |           | not null |
+ job_id        | integer                |           | not null |
+ salary        | numeric(8,2)           |           | not null |
+ manager_id    | integer                |           |          |
+ department_id | integer                |           |          |
+Indexes:
+    "employees_pkey" PRIMARY KEY, btree (employee_id)
+```
+
+1. **Problem**: The following example uses the `IN` operator to find employees with the `job id` is `8`, `9`, or `10`:
+
+- **Table**: employees
+- **Columns**: employee_id, first_name, last_name, job_id
+- **condition**: `job id` is `8`, `9`, or `10`.
+- **sorting**: job_id ASC
+
+**SQL**
+```SQL
+SELECT employee_id,
+       first_name,
+       last_name,
+       job_id
+  FROM employees
+ WHERE job_id IN (8, 9, 10)
+ ORDER BY job_id;
+```
+
+**Results**
+
+|employee_id | first_name | last_name | job_id|
+|:----------:|:----------:|:---------:|:-----:|
+|203 | Susan      | Mavris    |      **8**|
+|104 | Bruce      | Ernst     |      **9**|
+|105 | David      | Austin    |      **9**|
+|103 | Alexander  | Hunold    |      **9**|
+|107 | Diana      | Lorentz   |      **9**|
+|106 | Valli      | Pataballa |      **9**|
+|201 | Michael    | Hartstein |     **10**|
+
+
+**Query**
+```console
+hr=# SELECT employee_id,
+hr-#        first_name,
+hr-#        last_name,
+hr-#        job_id
+hr-#   FROM employees
+hr-#  WHERE job_id IN (8, 9, 10)
+hr-#  ORDER BY job_id;
+```
+
+**Output**
+```console
+ employee_id | first_name | last_name | job_id
+-------------+------------+-----------+--------
+         203 | Susan      | Mavris    |      8
+         104 | Bruce      | Ernst     |      9
+         105 | David      | Austin    |      9
+         103 | Alexander  | Hunold    |      9
+         107 | Diana      | Lorentz   |      9
+         106 | Valli      | Pataballa |      9
+         201 | Michael    | Hartstein |     10
+(7 rows)
+```
+
+2. **Problem**: The following example uses the NOT IN operator to find **employees** whose `job’s id is neither 7, 8, nor 9 and earns more than $10000`:
+
+- **Table**: employees
+- **Columns**: employee_id, first_name, last_name, job_id
+- **condition**: `job’s id is neither 7, 8, nor 9 and earns more than $10000`.
+- **sorting**: job_id ASC
+
+**SQL**
+
+```SQL
+SELECT employee_id,
+       first_name,
+       last_name,
+       job_id,
+       salary
+  FROM employees
+ WHERE job_id NOT IN (7, 8, 9) AND
+       salary >= 10000.00
+ ORDER BY job_id;
+```
+
+
+**Query**
+```console
+hr=# SELECT employee_id,
+hr-#        first_name,
+hr-#        last_name,
+hr-#        job_id,
+hr-#        salary
+hr-#   FROM employees
+hr-#  WHERE job_id NOT IN (7, 8, 9) AND
+hr-#        salary >= 10000.00
+hr-#  ORDER BY job_id;
+```
+
+**Output**
+```console
+ employee_id | first_name | last_name | job_id |  salary
+-------------+------------+-----------+--------+----------
+         205 | Shelley    | Higgins   |      2 | 12000.00
+         100 | Steven     | King      |      4 | 24000.00
+         101 | Neena      | Kochhar   |      5 | 17000.00
+         102 | Lex        | De Haan   |      5 | 17000.00
+         201 | Michael    | Hartstein |     10 | 13000.00
+         204 | Hermann    | Baer      |     12 | 10000.00
+         114 | Den        | Raphaely  |     14 | 11000.00
+         146 | Karen      | Partners  |     15 | 13500.00
+         145 | John       | Russell   |     15 | 14000.00
+```
+
+3. **Problem**: The following example uses the IN operator in a subquery to find **employees** `working in the Marketing or Sales departments`, sort the results by salary descending order:
+
+![hr database](../00_basic_intro/images/13_hr.png)
+
+
+- **Table**: employees, departments.
+- **Columns**: employee_id, first_name, last_name, salary
+- **condition**: `working in the Marketing or Sales departments` and `salary > 10000`.
+- **sorting**: salary DESC.
+
+```console
+*----------------------------------------------------------*
+|table: employees,                                         |
+|columns: employee_id, first_name, last_name, salary       |       
+|condition: salary > 10000                                 |
+|sorting: salary DESC                                      |
+*----------------------------------------------------------*
+             ^
+             |
+             |         *---------------------------------------------------*
+             |         |table: departments                                 |
+             *---------|column: department_id (*)                          |
+                       |condition: department_name = `Marketing` or `Sales`|
+                       *---------------------------------------------------*
+```
+
+**SQL**
+```SQL
+SELECT employee_id,
+       first_name,
+       last_name,
+       salary
+  FROM employees
+ WHERE department_id IN (
+       SELECT department_id
+         FROM departments
+        WHERE departmet_name IN ('Marketing', 'Sales')
+ ) AND salary >= 10000.00
+ ORDER BY salary DESC;
+```
+
+**Results**
+
+
+|employee_id | first_name | last_name |  salary|
+|-----------:|:----------:|:---------:|:------:|
+|145 | John       | Russell   | 14000.00|
+|146 | Karen      | Partners  | 13500.00|
+|201 | Michael    | Hartstein | 13000.00|
+
+
+**Query**
+```console
+hr=# SELECT employee_id,
+hr-#        first_name,
+hr-#        last_name,
+hr-#        salary
+hr-#   FROM employees
+hr-#  WHERE department_id IN (
+hr(#        SELECT department_id
+hr(#          FROM departments
+hr(#         WHERE department_name IN ('Marketing', 'Sales')
+hr(#  ) AND salary >= 10000.00
+hr-#  ORDER BY salary DESC;
+```
+
+**Output**
+```console
+ employee_id | first_name | last_name |  salary
+-------------+------------+-----------+----------
+         145 | John       | Russell   | 14000.00
+         146 | Karen      | Partners  | 13500.00
+         201 | Michael    | Hartstein | 13000.00
+(3 rows)
 ```
