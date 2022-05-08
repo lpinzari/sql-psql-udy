@@ -543,6 +543,227 @@ uniy-#  WHERE state NOT IN ('CA', 'IL');
 (9 rows)
 ```
 
+
+3. **Problem subquery**: Let's display all **students** names who get only excellent scores (that is `grades 3 and 4`, `> 2`) sorted by student id.
+
+![uny erd](../00_basic_intro/images/11_uniy_erd.png)
+
+- **table**: students, enrolls
+- **columns**: student_id, student_name
+- **condition**: `grades 3 and 4`
+- **sorting**: student_id ASC
+
+- tables: `FROM`
+- columns: `SELECT`
+- condition: `WHERE`
+- sorting: `ORDER BY`
+
+```console
+*---------------------------------------*
+|table: students                        |
+|columns: student_id (*), student_name  |
+|sorting: student_id ASC                |
+*---------------------------------------*
+    ^
+    |
+    |      *-----------------------*
+    |      |table: enrolls         |
+    *----- |column: student_id (*) |
+           |condition: grade > 2   |
+           *-----------------------*
+```
+
+First let's find all the students who got a grade greater than 2 in any course.
+
+**SQL**
+```SQL
+SELECT student_id
+  FROM enrolls
+ WHERE grade > 2;
+```
+
+**Results**
+
+|student_id|
+|:--------:|
+|148|
+|210|
+|298|
+|`298`|
+|349|
+|473|
+|558|
+|649|
+|`649`|
+|654|
+
+
+**Query**
+```console
+uniy=# SELECT student_id
+uniy-#   FROM enrolls
+uniy-#  WHERE grade > 2;
+```
+
+**Output**
+```console
+ student_id
+------------
+        148
+        210
+        298
+      * 298
+        349
+        473
+        558
+        649
+      * 649
+        654
+(10 rows)
+```
+
+The output shows that there are 8 distincts `student_id` values, (`148, 210, 298, 349, 473, 558, 649, 654`). However, the name of these students must be retrieved in the **students** table. Therefore, we need to filter the `students_id` in the students table using the results of the previous query.
+Since the output is a list of numeric values, `(148, 210, 298, ..., 654)`, it can be used in a query with the `IN` operator as follow:
+
+![in subquery 1](./images/29_notin.png)
+
+**SQL**
+```SQL
+SELECT student_id,
+       student_name
+  FROM students
+ WHERE student_id IN (
+       SELECT student_id
+         FROM enrolls
+        WHERE grade > 2
+)ORDER BY student_id;
+```
+
+**Results**
+
+|student_id |    student_name|
+|:---------:|:--------------:|
+|148 | Susan Powell|
+|210 | Bob Dawson|
+|298 | Howard Mansfield|
+|349 | Joe Adams|
+|473 | Carol Dean|
+|558 | Val Shipp|
+|649 | John Anderson|
+|654 | Janet Thomas|
+
+
+
+**Query**
+```console
+uniy=# SELECT student_id,
+uniy-#        student_name
+uniy-#   FROM students
+uniy-#  WHERE student_id IN (
+uniy(#        SELECT student_id
+uniy(#          FROM enrolls
+uniy(#         WHERE grade > 2
+uniy(# )ORDER BY student_id;
+```
+
+**Output**
+```console
+ student_id |    student_name
+------------+--------------------
+        148 | Susan Powell
+        210 | Bob Dawson
+        298 | Howard Mansfield
+        349 | Joe Adams
+        473 | Carol Dean
+        558 | Val Shipp
+        649 | John Anderson
+        654 | Janet Thomas
+(8 rows)
+```
+
+3. **Problem subquery**: Let's display all **students** names `enrolled  in the course Compiler Writing`, sorted by student id.
+
+![uny erd](../00_basic_intro/images/11_uniy_erd.png)
+
+- **table**: students, enrolls, courses
+- **columns**: student_id, student_name
+- **condition**: `enrolled  in the course Compiler Writing`
+- **sorting**: student_id ASC
+
+```console
+*---------------------------------------*
+|table: students                        |
+|columns: student_id (*), student_name  |
+|sorting: student_id ASC                |
+*---------------------------------------*
+    ^
+    |
+    |      *-----------------------*
+    |      |table: enrolls         |
+    *----- |column: student_id (*) |
+           *-----------------------*
+              ^
+              |
+              |      *------------------------------------------*
+              |      |table: course                             |
+              *------|column: course_id (*)                     |
+                     |condition: course_name = Compiler Writing |
+                     *------------------------------------------*
+```
+
+**SQL**
+```SQL
+SELECT student_id,
+       student_name
+  FROM students
+ WHERE student_id = IN (
+       SELECT student_id
+         FROM enrolls
+        WHERE course_id IN (
+              SELECT course_id
+                FROM courses
+               WHERE course_name = 'Compiler Writing'
+        ) -- end inner subquery 1
+)ORDER BY student_id;
+```
+
+**Results**
+
+|student_id |    student_name|
+|:---------:|:--------------:|
+|298 | Howard Mansfield|
+|410 | Bill Jones|
+|473 | Carol Dean|
+|649 | John Anderson|
+
+
+**Query**
+```console
+uniy=# SELECT student_id,
+uniy-#        student_name
+uniy-#   FROM students
+uniy-#  WHERE student_id IN (
+uniy(#        SELECT student_id
+uniy(#          FROM enrolls
+uniy(#         WHERE course_id IN (
+uniy(#               SELECT course_id
+uniy(#                 FROM courses
+uniy(#                WHERE course_name = 'Compiler Writing'
+uniy(#         ) -- end inner subquery
+uniy(# )ORDER BY student_id;
+```
+
+**Output**
+```console
+ student_id |    student_name
+------------+--------------------
+        298 | Howard Mansfield
+        410 | Bill Jones
+        473 | Carol Dean
+        649 | John Anderson
+(4 rows)
+```
+
 ## DVDRENTAL IN and NOT IN examples
 
 We’ll use the `rental` and `customer` tables in the `dvdrental` sample database for the demonstration.
@@ -730,7 +951,7 @@ is not in the output.
 - **tables**: rental, customer
 - `columns`: customer_id, first_name, last_name
 - **condition**: `customer id is not 1 and 2`. rental_date: `2005-08-22 20`
-- **sorting**: customer_id
+- **sorting**: customer_id ASC
 
 - tables: `FROM`
 - columns: `SELECT`
@@ -1103,4 +1324,34 @@ hr-#  ORDER BY salary DESC;
          146 | Karen      | Partners  | 13500.00
          201 | Michael    | Hartstein | 13000.00
 (3 rows)
+```
+
+## P&P IN and NOT IN examples
+
+Imagine you are a sales manager at P&P and you want to see how several key accounts are performing.
+
+We will use the  `accounts` table in the sample database to demonstrate the functionality of the `IN` operator.
+
+```console
+parch_posey=# \d accounts
+                    Table "public.accounts"
+    Column    |     Type      | Collation | Nullable | Default
+--------------+---------------+-----------+----------+---------
+ id           | integer       |           | not null |
+ name         | bpchar        |           |          |
+ website      | bpchar        |           |          |
+ lat          | numeric(11,8) |           |          |
+ long         | numeric(11,8) |           |          |
+ primary_poc  | bpchar        |           |          |
+ sales_rep_id | integer       |           |          |
+Indexes:
+    "accounts_pkey" PRIMARY KEY, btree (id)
+```
+
+The `IN` function will allow you to filter data based on several possible values. So if you want to see information for the `Wallmart` and `Apple` accounts, here is how you do it:
+
+```SQL
+SELECT *
+  FROM accounts
+ WHERE name IN ('Wallmart', 'Apple');
 ```
