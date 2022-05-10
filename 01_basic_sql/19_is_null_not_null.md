@@ -275,8 +275,7 @@ You can test expression's value with these operators. For example the table belo
 |`0`| f| t|
 |`''`|f|t|
 
-
-### NULL and IS NOT NULL example
+It's clear that an empty string, a string with no characters, is not a missing value and therefore the comparison with a NULL value returns false.
 
 ## PostgreSQL NULL vs NOT NULL
 
@@ -381,7 +380,7 @@ hr->  WHERE postal_code = '';
 
 As you can see, PostgreSQL does not return any records. This happens because the insert has entered a `NULL` value in the `postal_code`'s field.
 
-:warning: Because **NULL** really means "**no value", representing it in query results is problematic. The default setting of many DBMS uses blanks to indicate a `NULL`, but different implementation of SQL use different representations. Luckily, PostgreSQL allows their users to choose how `NULL` values are represented in query results. The next step shows how.
+:warning: Because **NULL** really means "**no value**", representing it in query results is problematic. The default setting of many DBMS uses blanks to indicate a `NULL`, but different implementation of SQL use different representations. Luckily, PostgreSQL allows their users to choose how `NULL` values are represented in query results. The next step shows how.
 
 3. In order to see the `NULL` values present in the tables, let's execute the following command, `\pset null NULL`:
 

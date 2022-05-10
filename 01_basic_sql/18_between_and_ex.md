@@ -31,7 +31,7 @@ SELECT *
  ORDER BY occurred_at DESC;
 ```
 
-You will notice that using BETWEEN is tricky for dates! While BETWEEN is generally inclusive of endpoints, it assumes the time is at 00:00:00 (i.e. midnight) for dates. This is the reason why we set the right-side endpoint of the period at '2017-01-01'.
+**You will notice that using BETWEEN is tricky for dates! While BETWEEN is generally inclusive of endpoints, it assumes the time is at 00:00:00 (i.e. midnight) for dates. This is the reason why we set the right-side endpoint of the period at '2017-01-01'**.
 
 4. **Problem**: Find list of orders ids where either gloss_qty or poster_qty is greater than 4000. Only include the id field in the resulting table.
 
@@ -59,5 +59,5 @@ SELECT *
   FROM accounts
  WHERE (name LIKE 'C%' OR name LIKE 'W%') AND
        ((primary_poc LIKE '%ana%' OR primary_poc LIKE '%Ana%') AND
-         primary_poc NOT LIKE '%eana%'); 
+         primary_poc NOT LIKE '%eana%');
 ```
