@@ -6,9 +6,9 @@ To understand what joins are and why they are helpful let's think about at the f
 
 |id|name       |website     |address|city|state|zip|country|
 |:--:|:-------:|:----------:|:-----:|:--:|:---:|:--:|:----:|
-|**1001**|company_1|www.webA.com|add_1  |c1|s1|z1|c1|
-|**1011**|company_2|www.webB.com|add_2  |c2|s2|z2|c2|
-|1022|company_3|www.webC.com|add_3  |c3|s3|z3|c3|
+|**1001**|name_1|www.webA.com|add_1  |c1|s1|z1|c1|
+|**1011**|name_2|www.webB.com|add_2  |c2|s2|z2|c2|
+|1022|name_3|www.webC.com|add_3  |c3|s3|z3|c3|
 
 The table accounts keeps the information of a customer such as the name, website, address and etc.
 
@@ -112,9 +112,9 @@ By contrast, keeping account details in a separate table makes this only a total
 
 There are more reasons for this kind of structures but for now, what you really need to know is how to connect tables together with the join operator.
 
-Later in the course I'll talk about the idea behind Database design and Database Normalization.
+Later in the course I'll talk about the idea behind Database design and Database Normalization. In the next lesson we introduce the notion of join.
 
-## Database Normalization
+## Basic intro to Database Normalization
 
 When creating a database, it is really important to think about how data will be stored. This is known as normalization, and it is a huge part of most SQL classes. If you are in charge of setting up a new database, it is important to have a thorough understanding of database normalization.
 
