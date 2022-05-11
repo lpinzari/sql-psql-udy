@@ -147,7 +147,7 @@ In fact, the output shows all possible combinations of the selected columns from
 
 ![join combination](./images/02_join.png)
 
-In other words, the results begin with a line containing the value of `teacher_name` from the first record in **teachers** table,`Dr. Cook`, matched with the values of `teacher_id` and `course_id` from the first record in the **courses** table, `(180, 480)`. Next, comes a line matching the next `teacher_id` and `course_id` values, `(280, 790)`, with the selected value from the first record in the **teachers** table, and so one, until each records in the **sections** table has been matched with the first **teachers** record.
+In other words, the results begin with a line containing the value of `teacher_name` from the first record in **teachers** table,`Dr. Cook`, matched with the values of `teacher_id` and `course_id` from the first record in the **courses** table, `(180, 480)`. Next, comes a line matching the next `teacher_id` and `course_id` values, `(290, 730)`, with the selected value from the first record in the **teachers** table, and so one, until each records in the **sections** table has been matched with the first **teachers** record.
 
 ![join combination2](./images/03_join.png)
 
