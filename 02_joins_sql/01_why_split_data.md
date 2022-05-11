@@ -89,7 +89,6 @@ Another reason accounts and orders might be stored separately has to do with the
 |5|1011|time5|
 
 Imagine a world, where the account names and address are added into the orders table.
-For simplicity, let's drop the last record in  the account table.
 
 **orders**
 

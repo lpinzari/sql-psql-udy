@@ -12,6 +12,32 @@ In the Parch & Posey database there are five tables:
 4. **web_events**: all web event data for P&P's accounts
 5. **orders**: all orders made from 2014-12-08 to 2017-01-01.
 
+You will notice some of the columns in the tables have `PK` or `FK` next to the column name, while other columns don't have a label at all.
+
+If you look a little closer, you might notice that the PK is associated with the first column in every table. The `PK` here stands for **primary key**. As  discussed in the `uniY` sample database, a** primary key exists in every table**, and it is a column that has a **unique value for every row**.
+
+If you look at the first few rows of any of the tables in our database, you will notice that this first, PK, column is always unique. For this database it is always called `id`, but that is not true of all databases.
+
+It is **common that the primary key is the first column** in our tables in most databases.
+
+A **foreign key** is a **column in one table that is a primary key in a different table**. We can see in the `Parch & Posey ERD` that the foreign keys are:
+
+- region_id
+- account_id
+- sales_rep_id
+
+Each of these is linked to the primary key of another table. An example is shown in the image below:
+
+![erd 2 pandp](./images/25_posey.png)
+
+
+In the above image you can see that:
+
+- The `region_id` is the foreign key.
+- The `region_id` is linked to `id` - this is the primary-foreign key link that connects these two tables.
+- The crow's foot shows that the `FK` can actually appear in many rows in the sales_reps table.
+- While the single line is telling us that the `PK` shows that `id` appears only once per row in this table.
+
 
 ## region
 
