@@ -1,6 +1,6 @@
 # Adding Records Using SELECT
 
-SQL allows a second style of `INSERT` that allows to **insert the result of a query (which might be no rows, one row, or many rows)**. The genral form of this style is:
+SQL allows a second style of `INSERT` that allows to **insert the result of a query (which might be no rows, one row, or many rows)**. The general form of this style is:
 
 ```console
 INSERT INTO <table>
