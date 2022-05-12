@@ -169,7 +169,7 @@ The following picture illustrates the **Cartesian Product**:
 
 The picture above is a standard representation of a **Cartesian Product**. However, this representation is not helpful to visualize a **JOIN** as rows and tables.
 
-Hence, we propose a more informative picture including labels to indicate `rows` and `tables` emphasize the relationship between those objects and elements of a **Cartesian Product**.
+Hence, we propose a more informative picture including labels to indicate `rows` and `tables`, and emphasize the relationship between those objects and elements of a **Cartesian Product**.
 
 The picture below shows an alternative representation of the **Cartesian Product** for the **CROSS JOIN** example.
 
