@@ -24,6 +24,7 @@ SELECT teacher_name
 SELECT teacher_id,
        course_id
   FROM sections;
+ ORDER BY teacher_id;
 ```
 
 
@@ -54,7 +55,7 @@ SELECT teacher_id,
 
 (6 rows)
 
-In the previous two queries we did not limited the number of rows in the result since there is no `WHERE` clause condition in the `SELECT` statement. The results, therefore, return the number of rows or records in the **teachers** and **sections** tables, that is `7` and `6` rows respectively. So if you issue the query:
+In these two queries we did not filter the table's rows with a `WHERE` clause condition in the `SELECT` statement and, consequently, the results contain all the tables' rows. The results, therefore, return the total number of rows or records in the **teachers** and **sections** tables, that is `7` and `6` rows respectively. So if you issue the query:
 
 **SQL**
 ```SQL
@@ -76,12 +77,13 @@ what will come back in return?
 
 Obviously, the result will have three columns. But
 
-- What values will be contained in those three columns?
+- What values will be contained in those three columns? And
 - How many rows will be in the Output?
 
-The query does not have any condition to limit the number of rows in the output and, therefore, the values in the `teacher_name` column of **teachers** table must appear in the output as well as the values in the `teacher_id` and `course_id` columns of **section** table.
+The query does not have any filtering condition to restrict the number of rows in the output and, therefore, the values in the `teacher_name` column of **teachers** table must appear in the output as well as the values in the `teacher_id` and `course_id` columns of **sections** table.
 
 Hence, we'd expect to see each value for `teacher_name` from **teachers** along with each possible value for `teacher_id` and `course_id` from **sections**.
+
 
 **Query**
 ```console
@@ -92,7 +94,7 @@ uniy-#   FROM teachers, sections
 uniy-#  ORDER BY teacher_name, sections.teacher_id, course_id;
 ```
 
-To carry out this query, SQL will list values from each record of both tables (:warning: for convenience I included the `ORDER BY` clause to sort the results for a better understanding of the output).
+To carry out this query, SQL will list values from each record of both tables.
 
 **Results**
 
@@ -141,13 +143,20 @@ To carry out this query, SQL will list values from each record of both tables (:
 | Dr. Wright         |        560 |       450|
 | Dr. Wright         |        784 |       480|
 
+It follows that the total number of rows in the resulting table is given by the product of the total number of rows in the `teachers` and `sections` table.
+
 - `7 * 6` = (**42 rows**)
 
 In fact, the output shows all possible combinations of the selected columns from all records in the two tables.
 
 ![join combination](./images/02_join.png)
 
-In other words, the results begin with a line containing the value of `teacher_name` from the first record in **teachers** table,`Dr. Cook`, matched with the values of `teacher_id` and `course_id` from the first record in the **courses** table, `(180, 480)`. Next, comes a line matching the next `teacher_id` and `course_id` values, `(290, 730)`, with the selected value from the first record in the **teachers** table, and so one, until each records in the **sections** table has been matched with the first **teachers** record.
+In other words, the results begin with a line containing
+- the value of `teacher_name` from the first record in **teachers** table,`Dr. Cook`, matched with the values of `teacher_id` and `course_id` from the first record in the **sections** table, `(180, 480)`.
+  - (**Dr. Cook**) **->** (**180**,**480**)
+- Next, comes a line matching the next `teacher_id` and `course_id` values, `(290, 730)`, with the selected value from the first record in the **teachers** table,
+  - (**Dr. Cook**) **->** (**290**, **730**)
+- and so on, until each records in the **sections** table has been matched with the first **teachers** record.
 
 ![join combination2](./images/03_join.png)
 
@@ -157,6 +166,20 @@ The result of this seemingly simple query is a long list of combinations, each c
 
 In relational database theory, this long list of combinations is called a **cross join**, or even more technically a **Cartesian product**.
 
-**Cross joins** are used fairly rarely, but they can be useful in some situations for testing results or other tasks. (Most often, however, they're produced by accident :smile:)
+**Cross joins** are used fairly rarely, but they can be useful in some situations for testing results or other tasks as we'll see in the next lesson. (Most often, however, they're produced by accident :smile:)
 
-We illustrate the use of the **CROSS JOIN** operator in the next lesson.
+We illustrate the use of the **CROSS JOIN** clause more closely in the next lesson.
+
+## JOIN Definition
+
+So, **what is a join or joined table ?**
+
+A **joined table** is a table derived from two other tables (real or derived), `t1` and `t2`, according to the `rules` of a particular **join type**.
+
+In a **CROSS JOIN** `type`, a **joined table** is a table derived from two other tables, `t1` and `t2`, containing every possible combination of rows from `t1` and `t2`.
+
+Each combination `row` in the resulting table consists of all columns in `t1` followed by all columns in `t2`, indicated in the query's `SELECT` statement. Obviously, the order of columns in the results does not matter but what really matters is the number of columns or fields (row's values) in the resulting row.
+
+Now, hopefully :smile:, should be clear the meaning of **join** or **joined table**.
+
+As its name suggests, a **JOIN** means that some or all of the specified row's contents of two tables (i.e the tables's fields or cells for spreadsheets users :smile:), are joined together in the results' row of the query.
