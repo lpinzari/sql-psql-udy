@@ -176,6 +176,9 @@ So, **what is a join or joined table ?**
 
 A **joined table** is a table derived from two other tables (real or derived), `t1` and `t2`, according to the `rules` of a particular **join type**.
 
+![cartesian Product](./images/07_join.png)
+
+
 In a **CROSS JOIN** `type`, a **joined table** is a table derived from two other tables, `t1` and `t2`, containing every possible combination of rows from `t1` and `t2`.
 
 Each combination `row` in the resulting table consists of all columns in `t1` followed by all columns in `t2`, indicated in the query's `SELECT` statement. Obviously, the order of columns in the results does not matter but what really matters is the number of columns or fields (row's values) in the resulting row.
