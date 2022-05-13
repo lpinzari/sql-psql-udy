@@ -193,8 +193,14 @@ In the following section of this lesson, we'll show how to generate plenty of ro
 
 ## CROSS JOIN Testing rows generation
 
+In this section we present two basic examples to show how the **CROSS JOIN** clause can be used to populate tables in a database. We illustrate two cases:
 
-In this section, we create three tables named **inventories**, **products** and **wharehouses**.
+1. In the first example the **CROSS JOIN** returns a table consisting of a primary key resulted by a combination of the columns in the parent tables.
+2. In the second example the **CROSS JOIN** returns a table consisting of a primary key resulted by a combination of the columns in the parent tables and an additional column in the child table.
+
+## 1. Example CROSS JOIN
+
+In this example, we create three tables named **inventories**, **products** and **wharehouses**.
 
 - table: **inventories**
 - columns: `product_id`, `warehouse_id`, `quantity`
@@ -219,63 +225,97 @@ Suppose that the **products** and **wharehouses** tables have the following reco
 |300|
 |400|
 
-Each row in the **inventories** table requires data for `product_id`, `wharehouse_id` and `quantity`.
+Each row in the **inventories** table requires data for `product_id`, `wharehouse_id` and `quantity`. It's worth noting the `product_id` and `wharehouse_id`  columns forms the primary key of the **inventories** table.
 
-
-To generate the test data for inserting into the **inventories** table, you can use the **CROSS JOIN** clause as shown in the following statement:
+To generate the test data for inserting rows into the **inventories** table, you can use the **CROSS JOIN** clause as shown in the following statement:
 
 **SQL**
 ```SQL
+INSERT INTO inventories
+       (product_id, wharehouse_id, quantity)
 SELECT product_id,
        wharehouse_id,
-       floor(random()*(10 - 1 + 1) + 1)::int quantity
+       floor(random()*10 + 1)::int
   FROM products
  CROSS JOIN wharehouses;
 ```
 
 In the SQL statement we used the following function:
 
-- `floor(random()*(h - l +1) + 1)::int quantity`
+- `floor(random()*(10) + 1)::int`
 
-To generate a random integer number between `l` (low) and `h` (high).
+To generate a random integer number between `1` and `10`.
+
+
+- **Populating inventories table**
 
 **Results**
 
 |product_id | wharehouse_id | quantity|
-|:---------:|:-------------:|:--------:|
-|         1 |           100 |    10|
-|         1 |           200 |     6|
-|         1 |           300 |     7|
-|         1 |           400 |     8|
-|         2 |           100 |     7|
-|         2 |           200 |     3|
-|         2 |           300 |     7|
-|         2 |           400 |     3|
-|         3 |           100 |     4|
-|         3 |           200 |     9|
-|         3 |           300 |     7|
-|         3 |           400 |    10|
+|:---------:|:-------------:|:-------:|
+|         1 |           100 |        6|
+|         1 |           200 |        8|
+|         1 |           300 |       10|
+|         1 |           400 |        8|
+|         2 |           100 |        2|
+|         2 |           200 |        3|
+|         2 |           300 |       10|
+|         2 |           400 |        2|
+|         3 |           100 |        8|
+|         3 |           200 |        6|
+|         3 |           300 |        9|
+|         3 |           400 |        5|
 
 
+In the **Results** each row is uniquely identified by the primary key columns of both tables, that is `product_id` and `wharehouse_id` columns. Therefore, the primary key in the inventories table is the combination of the primary key columns of the parent tables.
 
 
-`Creating` the **products**, **wharehouses** and **inventory** tables.
-
+**Create tables: products, wharehouses**
 ```console
 uniy=# CREATE TABLE products (
-uniy(#    product_id INTEGER PRIMARY KEY
+uniy(#   product_id SMALLINT PRIMARY KEY
 uniy(# );
 CREATE TABLE
 uniy=# CREATE TABLE wharehouses (
-uniy(#    wharehouse_id INTEGER PRIMARY KEY
+uniy(#   wharehouse_id SMALLINT PRIMARY KEY
 uniy(# );
-CREATE TABLE
+```
+
+**Create table: inventories**
+```console
 uniy=# CREATE TABLE inventories (
-uniy(#    product_id INTEGER PRIMARY KEY,
-uniy(#    wharehouse_id INTEGER,
-uniy(#    quantity SMALLINT
+uniy(#    product_id SMALLINT,
+uniy(#    wharehouse_id SMALLINT,
+uniy(#    quantity SMALLINT DEFAULT 0,
+uniy(#    PRIMARY KEY (product_id, wharehouse_id),
+uniy(#    CONSTRAINT inventories_fkey_product
+uniy(#       FOREIGN KEY (product_id)
+uniy(#       REFERENCES products (product_id)
+uniy(#       ON DELETE CASCADE,
+uniy(#    CONSTRAINT inventories_fkey_wharehouse
+uniy(#       FOREIGN KEY (wharehouse_id)
+uniy(#       REFERENCES wharehouses (wharehouse_id)
+uniy(#       ON DELETE CASCADE
 uniy(# );
 CREATE TABLE
+```
+
+In the creation statement we included the foreign key constraints that link the **inventories** table to the **products** and **wharehouses** tables.
+
+**table: inventories**
+```console
+uniy=# \d inventories
+                Table "public.inventories"
+    Column     |   Type   | Collation | Nullable | Default
+---------------+----------+-----------+----------+---------
+ product_id    | smallint |           | not null |
+ wharehouse_id | smallint |           | not null |
+ quantity      | smallint |           |          | 0
+Indexes:
+    "inventories_pkey" PRIMARY KEY, btree (product_id, wharehouse_id)
+Foreign-key constraints:
+    "inventories_fkey_product" FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+    "inventories_fkey_wharehouse" FOREIGN KEY (wharehouse_id) REFERENCES wharehouses(wharehouse_id) ON DELETE CASCADE
 ```
 
 `Populating` the **products** and **wharehouses** tables.
@@ -291,32 +331,173 @@ uniy-# VALUES (100), (200), (300), (400);
 INSERT 0 4
 ```
 
-**CROSS JOIN QUERY** to generate testing rows.
+**CROSS JOIN QUERY** to generate testing rows fo the `child table` **inventories**.
 
-**Query**
+**QUERY**
 ```console
-uniy=# SELECT product_id,
+uniy=# INSERT INTO inventories
+uniy-#        (product_id, wharehouse_id, quantity)
+uniy-# SELECT product_id,
 uniy-#        wharehouse_id,
-uniy-#        floor(random()*(10 - 1 + 1) + 1)::int
+uniy-#        floor(random()*10 + 1)::int
 uniy-#   FROM products
 uniy-#  CROSS JOIN wharehouses;
+INSERT 0 12
 ```
 
 **Output**
 ```console
+uniy=# SELECT *
+uniy-#   FROM inventories;
  product_id | wharehouse_id | quantity
-------------+---------------+---------
-          1 |           100 |    10
-          1 |           200 |     6
-          1 |           300 |     7
-          1 |           400 |     8
-          2 |           100 |     7
-          2 |           200 |     3
-          2 |           300 |     7
-          2 |           400 |     3
-          3 |           100 |     4
-          3 |           200 |     9
-          3 |           300 |     7
-          3 |           400 |    10
+------------+---------------+----------
+          1 |           100 |        6
+          1 |           200 |        8
+          1 |           300 |       10
+          1 |           400 |        8
+          2 |           100 |        2
+          2 |           200 |        3
+          2 |           300 |       10
+          2 |           400 |        2
+          3 |           100 |        8
+          3 |           200 |        6
+          3 |           300 |        9
+          3 |           400 |        5
+(12 rows)
+```
+
+## 2. Example CROSS JOIN
+
+In this example, we create three tables named **courses**, **teachers** and **sections**.
+
+- table: **sections**
+- columns: `course_id`, `section_id`, `teacher_id`,`num_students`
+
+
+Suppose that the **courses** and **teachers** tables have the following records:
+
+**courses**
+
+|id|
+|:---------:|
+|1|
+|2|
+|3|
+
+**teachers**
+
+|id|
+|:-----------:|
+|100|
+|200|
+|300|
+|400|
+
+Each row in the **sections** table requires data for `course_id`, `section_id`, `teacher_id` and `num_students`. It's worth noting the `course_id` and `section_id`  columns forms the primary key of the **sections** table. However, the `section_id` is not a column of **courses** and **teachers** table. Hence, we define a surrogate sequential type to generate automatically the value for the `section_id` column.
+
+To generate the test data for inserting rows into the **sections** table, you can use the **CROSS JOIN** clause as shown in the following statement:
+
+**SQL**
+```SQL
+INSERT INTO sections
+       (course_id, teacher_id, num_students)
+ SELECT courses.id,
+        teachers.id,
+        floor(random()*10 + 1)::int
+   FROM courses
+  CROSS JOIN teachers;
+```
+
+**Results**
+
+|course_id | section_id | teacher_id | num_students|
+|:--------:|:----------:|:----------:|:-----------:|
+|        1 |          1 |        100 |            1|
+|        1 |          2 |        200 |            8|
+|        1 |          3 |        300 |            1|
+|        1 |          4 |        400 |            2|
+|        2 |          5 |        100 |           10|
+|        2 |          6 |        200 |            7|
+|        2 |          7 |        300 |            1|
+|        2 |          8 |        400 |            5|
+|        3 |          9 |        100 |            1|
+|        3 |         10 |        200 |            1|
+|        3 |         11 |        300 |            5|
+|        3 |         12 |        400 |            6|
+
+
+**Creating parent tables: courses and teachers**
+```console
+hr=# CREATE TABLE courses (
+hr(#     id SMALLINT PRIMARY KEY
+hr(# );
+CREATE TABLE
+hr=# CREATE TABLE teachers (
+hr(#     id SMALLINT PRIMARY KEY
+hr(# );
+```
+**Creating child table: sections**
+```console
+CREATE TABLE
+hr=# CREATE TABLE sections (
+hr(#     course_id SMALLINT,
+hr(#     section_id SERIAL,
+hr(#     teacher_id SMALLINT,
+hr(#     num_students SMALLINT DEFAULT 0,
+hr(#     PRIMARY KEY (course_id, section_id),
+hr(#     CONSTRAINT sections_fkey_course
+hr(#        FOREIGN KEY (course_id)
+hr(#        REFERENCES courses (id)
+hr(#        ON DELETE CASCADE,
+hr(#     CONSTRAINT sections_fkey_teachers
+hr(#        FOREIGN KEY (teacher_id)
+hr(#        REFERENCES teachers (id)
+hr(#        ON DELETE SET NULL
+hr(# );
+CREATE TABLE
+```
+
+**Popualating parent tables**
+```console
+hr=# INSERT INTO courses
+hr-#        (id)
+hr-# VALUES (1), (2), (3);
+INSERT 0 3
+hr=# INSERT INTO teachers
+hr-#        (id)
+hr-# VALUES (100), (200), (300), (400);
+INSERT 0 4
+```
+
+**Populating child table**
+```console
+hr=# INSERT INTO sections
+hr-#        (course_id, teacher_id, num_students)
+hr-#  SELECT courses.id,
+hr-#         teachers.id,
+hr-#         floor(random()*10 + 1)::int
+hr-#    FROM courses
+hr-#   CROSS JOIN teachers;
+INSERT 0 12
+```
+
+**Output**
+```console
+hr=# SELECT *
+hr-#   FROM sections;
+ course_id | section_id | teacher_id | num_students
+-----------+------------+------------+--------------
+         1 |          1 |        100 |            1
+         1 |          2 |        200 |            8
+         1 |          3 |        300 |            1
+         1 |          4 |        400 |            2
+         2 |          5 |        100 |           10
+         2 |          6 |        200 |            7
+         2 |          7 |        300 |            1
+         2 |          8 |        400 |            5
+         3 |          9 |        100 |            1
+         3 |         10 |        200 |            1
+         3 |         11 |        300 |            5
+         3 |         12 |        400 |            6
 (12 rows)
 ```
