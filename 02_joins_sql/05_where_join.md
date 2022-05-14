@@ -99,7 +99,7 @@ This result is better illustrated in the table below that contains only the **ro
 |:heavy_multiplication_x:`Dr. Olsen`          |           **560** |           **560** |       `450`|
 |:heavy_multiplication_x:`Dr. Scango`         |           **784** |           **784** |       `480`|
 
-As you can see the only teacher without courses is `Dr. Wright`. In fact, the value `213` in the `teacher_id` column of the **teachers** table does not appear in the **sections** table. For a quick reference we show the **teachers** and **sections** table below.
+As you can see the only teacher without courses is `Dr. Wright`. In fact, the value `213` in the `teacher_id` column of the **teachers** table does not appear in the **sections** table. For a quick reference we show the **teachers** and **sections** tables below.
 
 **teachers** table
 
@@ -125,7 +125,27 @@ As you can see the only teacher without courses is `Dr. Wright`. In fact, the va
 |450       |          2 |        560 |            2|
 |480       |          2 |        784 |            2|
 
-This example shows the simplicity and power of the Relational model and the importance in the keys definition of a database. The `primary` and `foreign keys` are sometimes called **join columns** for the way tables rows are **joined** in the results. The information stored in these join columns gives us a very powerful tool for accessing the stored data.
+This example shows the simplicity and power of the Relational model and the importance in the keys definition of a database. The `primary` and `foreign keys` are sometimes called **join columns** for the way tables' rows are **joined** in the results. The information stored in these join columns gives us a very powerful tool for accessing the stored data.
+
+The reason the `primary` and `foreign` keys are called **join columns** is obvious if you imagined a database with a single table containing the information of all tables. For instance, in the last example the **teachers** and **sections** table could be joined in a single table, **teachers_sections**, as follows:
+
+
+|    teacher_name    |   phone    |  salary |teacher_id |course_id | section_id | num_students|
+|:------------------:|:----------:|--------:|:----------|:---------|:----------:|:-----------:|
+| Dr. Horn           | 257-3049   | 27540.00|**303**    |450       |          1 |            2|
+| Dr. Lowe           | 257-2390   | 31450.00|**290**    |730       |          1 |            6|
+| Dr. Engle          | 256-4621   | 38200.00|**430**    |290       |          1 |            3|
+| Dr. Cooke          | 257-8088   | 29560.00|**180**    |480       |          1 |            3|
+| Dr. Olsen          | 257-8086   | 31778.00|**560**    |450       |          2 |            2|
+| Dr. Scango         | 257-3046   | 32098.00|**784**    |480       |          2 |            2|
+| **Dr. Wright** | **257-3393**   | **35000.00**|**213**| **NULL** | **NULL**   | **NULL**|
+
+In this table the first and last three columns belong to the **teachers** and **sections** tables, respectively. The `teacher_id` column in the middle is the `join column`.
+
+You may have noticed that a row in this table contains `NULL` values in the **sections** table columns. The last record identifies the only teacher, `Dr. Wright`, that does not teach courses; This means that the value `213` in the `teacher_id` column of **teachers** table does not matching rows in the **sections** table.
+
+We'll show later bin this chapter how to pull out this record from the database using the `OUTER JOIN` clause. For the moment this record can be ignored. However, this example shows the importance to split data into separate tables, as discussed at the beginning of this [chapter](./01_why_split_data.md),. We could have many records the last one in the **teachers** table. As a consequence, the table would have additional fields with NULL values and larger data storage overhead.
+
 
 Back to the original question:
 
@@ -133,7 +153,7 @@ Back to the original question:
 
 The SQL query should not be a surprise!
 
-Reminding that the `WHERE` clause indicates the conditions every row should satisfy in the result, it must be straightforward to guess the solution of the problem.
+Reminding that the `WHERE` clause indicates the conditions every row should satisfy in the result, it must be straightforward to guess the solution to this problem.
 
 To select just those records from the mass of information given previously, one could type:
 
@@ -149,6 +169,7 @@ SELECT teacher_name,
 The results are only those records that meet the condition specified in the `WHERE` clause: Those where the two `teacher_id` values are equal. We can now see easily which courses are taught by each teacher, and the teachers are identified by name:
 
 **Results**
+
 |teacher_name    | teacher_id |      course_id|
 |:--------------:|:----------:|:---------:|
 |Dr. Horn           |        303 |       450|
@@ -190,7 +211,7 @@ SELECT teacher_name,
 
 This time, the results include only the `teacher_name` and `course_id` values for those records that meet the `WHERE` clause's condition; that is, a list of teachers and the courses taught by each.
 
-Because the **sections** table contains records only for currently offered sections, we could see only the names of those teachers who are currently teaching some section with
+Because the **sections** table contains records only for currently offered sections, we could see only the **names of those teachers who are currently teaching some section** with
 
 ```SQL
 SELECT teacher_name
