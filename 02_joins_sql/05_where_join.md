@@ -144,7 +144,7 @@ In this table the first and last three columns belong to the **teachers** and **
 
 You may have noticed that a row in this table contains `NULL` values in the **sections** table columns. The last record identifies the only teacher, `Dr. Wright`, that does not teach courses; This means that the value `213` in the `teacher_id` column of **teachers** `parent` table does not have any matching rows in the **sections** table. In other words, the number `213` does not appear in the `teacher_id` column of the **sections** `child` table.
 
-We'll show later bin this chapter how to pull out this record from the database using the `OUTER JOIN` clause. For the moment this record can be ignored. However, this example shows the importance to split data into separate tables, as discussed at the beginning of this [chapter](./01_why_split_data.md),. We could have many records the last one in the **teachers** table. As a consequence, the table would have additional fields with NULL values and larger data storage overhead.
+We'll show later in this chapter how to pull out this record from the database using the `OUTER JOIN` clause. For the moment this record can be ignored. This example, however, shows the importance to split data into separate tables, as discussed at the beginning of this [chapter](./01_why_split_data.md),. We could have many records like the last one in the **teachers** table. As a consequence, the table would have additional fields with NULL values and larger data storage overhead.
 
 
 Back to the original question:
