@@ -181,7 +181,7 @@ A **joined table** is a table derived from two other tables (real or derived), `
 
 In a **CROSS JOIN** `type`, a **joined table** is a table derived from two other tables, `t1` and `t2`, containing every possible combination of rows from `t1` and `t2`.
 
-Each combination `row` in the resulting table consists of all columns in `t1` followed by all columns in `t2`, indicated in the query's `SELECT` statement. Obviously, the order of columns in the results does not matter but what really matters is the number of columns or fields (row's values) in the resulting row.
+Each combination `row` in the resulting table consists of all columns in `t1` followed by all columns in `t2`, indicated in the query's `SELECT` statement. Obviously, the order of columns in the results does not matter but what really matters is the number of columns or fields (row's values) in the resulting row. As a matter of fact, each row is essentially a **concatenation of columns' values and the way each value is concatenated depends on the column order indicated in the** `SELECT` **statement**. In a relation database, however, the order of the table's column is not relevant. In other words, the result permutation of columns does not matter.
 
 Now, hopefully :smile:, should be clear the meaning of **join** or **joined table**.
 

@@ -31,6 +31,7 @@ SELECT teacher_name,
 
 The results are like those previously specified - `a list of all possible combinations of the selected columns from the two tables` - **except that the column called** `teacher_id` appears twice. The results of this query are as follows:
 
+**Results**
 
 |teacher_name    | teacher_id_fk | teacher_id_pk |    course_id|
 |:--------------:|:-------------:|:-------------:|:-----------:|
@@ -77,9 +78,44 @@ The results are like those previously specified - `a list of all possible combin
 |Dr. Wright         |           213 |           560 |       450|
 |Dr. Wright         |           213 |           784 |       480|
 
-The `teacher_id_fk` and `teacher_id_pk` columns contain all possible combinations of values for `teacher_id` from the two tables.
+The `teacher_id_fk` and `teacher_id_pk` columns contain all possible combinations of values for `teacher_id` from the two tables. Each combination row is a **concatenation** of four columns: the first and last two columns identify a record in the **teachers** and **sections** tables, respectively.
 
-Usually, general results such as these are not very useful. Too much information is given, and it is difficult to pick out what is interesting.
+ Not all rows, however, are meaningful in the Cartesian Product. To see which row is not informative, look through the results.
+ Note that whenever the value of `teacher_id_fk` is not equal to `teacher_id_pk`, the values in the `teacher_name` and `course_id` columns are not related in the `uniy` relational model.  
+
+ To better illustrate those rows, all the records in the **Results**  have no icons :heavy_multiplication_x: in the first field.
+
+For instance, take the second row in the **Results**:
+
+|teacher_name    | teacher_id_fk | teacher_id_pk |    course_id|
+|:--------------:|:-------------:|:-------------:|:-----------:|
+|Dr. Cooke|**180**|**290**|730|
+
+The first impression is that `Dr. Cooke` is the teacher of course number `730`.
+In this record, however, the values `Dr. Cooke`, (**180**), and `730` are not related. To see why this is the case, take a look at the **sections** table:
+
+**sections** table:
+
+|course_id | section_id | teacher_id | num_students|
+|:---------|:----------:|:----------:|:-----------:|
+|450       |          1 |        303 |            2|
+|730       |          1 |        290 |            6|
+|290       |          1 |        430 |            3|
+|**480**       |          1 |        **180** |            3|
+|450       |          2 |        560 |            2|
+|480       |          2 |        784 |            2|
+
+The only `course_id` value related to `Dr. Cooke` is `480`.
+
+Usually, general results such as these are not very useful. Generally you want to answer one of the following questions:
+
+1. the courses **where** `Dr. Cooke` is not the teacher or
+2. the courses **where** `Dr. Cooke` is the teacher.
+
+To put it in another way, the column name `course_id` in the resulting table is misleading. Does it refer to the teaching courses or not teaching courses. Obviously, this column cannot contain both values.
+
+In the Cartesian Product, therefore, too much information is given, and it is difficult to pick out what is interesting.
+
 To reduce the size of the results and thereby zero in on the answer to some particular question, we can add a `WHERE` clause to the previous query.
 
 We might wish to know for example, `which teachers are teaching which courses`. Further, we might wish to identify those teachers by `name`, not just by their teacher numbers. This information is available in the **results** of the previous query, but it's not a very concise or usable form. **By adding a** `WHERE clause`, **we can retrieve only those results of the join in which we are interested**.
@@ -99,7 +135,7 @@ This result is better illustrated in the table below that contains only the **ro
 |:heavy_multiplication_x:`Dr. Olsen`          |           **560** |           **560** |       `450`|
 |:heavy_multiplication_x:`Dr. Scango`         |           **784** |           **784** |       `480`|
 
-As you can see the only teacher without courses is `Dr. Wright`. In fact, the value `213` in the `teacher_id` column of the **teachers** table does not appear in the **sections** table. For a quick reference we show the **teachers** and **sections** tables below.
+For a quick reference we show the **teachers** and **sections** tables below.
 
 **teachers** table
 
@@ -142,7 +178,7 @@ The reason the `primary` and `foreign` keys are called **join columns** is obvio
 
 In this table the first and last three columns belong to the **teachers** and **sections** tables, respectively. The `teacher_id` column in the middle is the `join column`.
 
-You may have noticed that a row in this table contains `NULL` values in the **sections** table columns. The last record identifies the only teacher, `Dr. Wright`, that does not teach courses; This means that the value `213` in the `teacher_id` column of **teachers** `parent` table does not have any matching rows in the **sections** table. In other words, the number `213` does not appear in the `teacher_id` column of the **sections** `child` table.
+You may have noticed that a row in this table contains `NULL` values in the **sections** table columns. The last record identifies the only teacher, `Dr. Wright`, that does not teach courses; This means that the value `213` in the `teacher_id` column of **teachers** `parent` table does not have any matching rows in the **sections** table. In other words, the number `213` does not appear in the `teacher_id` column of the **sections** `child` table. In relational database theory this kind of rows are often called **dangling** rows. A **dangling row** is a row in the `parent` table with no matching row in the `child` table, (i.e. the primary key is not paired with any foreign key value).
 
 We'll show later in this chapter how to pull out this record from the database using the `OUTER JOIN` clause. For the moment this record can be ignored. This example, however, shows the importance to split data into separate tables, as discussed at the beginning of this [chapter](./01_why_split_data.md),. We could have many records like the last one in the **teachers** table. As a consequence, the table would have additional fields with NULL values and larger data storage overhead.
 
