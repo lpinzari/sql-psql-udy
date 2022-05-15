@@ -261,14 +261,32 @@ Even though they are used in the `WHERE` clause, the values for `teacher_id` nee
 SELECT teacher_name,
        course_id
   FROM teachers, sections
- WHERE teachers.teacher_id = sections.teacher_id;
+ WHERE teachers.teacher_id = sections.teacher_id
+ ORDER BY teacher_name, course_id;
 ```
 
 This time, the results include only the `teacher_name` and `course_id` values for those records that meet the `WHERE` clause's condition; that is, a list of teachers and the courses taught by each.
 
 ![join where](./images/08_join.png)
 
-The picture above shows the filtered rows matching the condition of the `WHERE` clause. Each row in the **teachers** table could match with zero, one or more rows in the **sections** table. For this particular database instance, the rows in the **teachers** table have one matching except the last row with `teacher_id` equal to `213`. Moreover, the **sections** referential integrity constraint guarantees that the total number of matching is equal to the number of rows in the sections table, that is 6.
+The picture above shows the filtered rows matching the condition of the `WHERE` clause. Each row in the **teachers** table could match with zero, one or more rows in the **sections** table. For this particular database instance, the rows in the **teachers** table have one matching except the last row with `teacher_id` equal to `213`, as confirmed by the output of the following query:
+
+**Query**
+```console
+uniy=# SELECT teacher_name,
+uniy-#        course_id
+uniy-#   FROM teachers, sections
+uniy-#  WHERE teachers.teacher_id = sections.teacher_id AND
+uniy-#        teachers.teacher_id = 213;
+```
+**Output**
+```console
+ teacher_name | course_id
+--------------+-----------
+(0 rows)
+```
+
+Moreover, the **sections** table referential integrity constraint guarantees that the total number of matching rows is equal to the number of rows in the sections table, that is 6.
 
 - **Selecting columns in a single table**.
 
@@ -281,3 +299,9 @@ SELECT teacher_name
 ```
 
 The **important thing about this example** is its `FROM` clause: Despite the fact no values from the **sections** table are selected, that table must still appear in the `FROM` clause because a value from **sections** is referenced in the `WHERE` clause.
+
+Keep in mind that the order PostgreSQL processes the query is:
+
+`FROM` **->** `WHERE` **->** `SELECT`
+
+In other words, the variable scope of the `SELECT` clause in not visible in the `WHERE` clause. 
