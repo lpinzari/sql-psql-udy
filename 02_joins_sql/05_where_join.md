@@ -267,7 +267,7 @@ SELECT teacher_name,
 
 This time, the results include only the `teacher_name` and `course_id` values for those records that meet the `WHERE` clause's condition; that is, a list of teachers and the courses taught by each.
 
-![join where](./images/08_join.png)
+![join where](./images/09_join.png)
 
 The picture above shows the filtered rows matching the condition of the `WHERE` clause. Each row in the **teachers** table could match with zero, one or more rows in the **sections** table. For this particular database instance, the rows in the **teachers** table have one matching except the last row with `teacher_id` equal to `213`, as confirmed by the output of the following query:
 
@@ -304,4 +304,4 @@ Keep in mind that the order PostgreSQL processes the query is:
 
 `FROM` **->** `WHERE` **->** `SELECT`
 
-In other words, the variable scope of the `SELECT` clause in not visible in the `WHERE` clause. 
+In other words, the variable scope of the `SELECT` clause in not visible in the `WHERE` clause.
