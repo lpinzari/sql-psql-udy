@@ -172,11 +172,11 @@ On the other hand, whenever the value of `teacher_id` from the **teachers** tabl
 |Dr. Wright         |           213 |           560 |       450|
 |Dr. Wright         |           213 |           784 |       480|
 
-For example, the number of courses not taught by `Dr. Wright` are 7. Note that 7 is also the number of rows in the **sections** table. This means that `Dr. Wright` does not teach courses listed in the sections table. This result has an important implication as we'll show soon.
+For example, the number of courses not taught by `Dr. Wright` are 6. Note that 6 is also the number of rows in the **sections** table. This means that `Dr. Wright` does not teach courses listed in the sections table. This result has an important implication as we'll show soon.
 
 This example shows the simplicity and power of the Relational model and the importance in the keys definition of a database. The `primary` and `foreign keys` are sometimes called **join columns** for the way tables' rows are **joined** in the results. The information stored in these join columns gives us a very powerful tool for accessing the stored data.
 
-The reason the `primary` and `foreign` keys are called **join columns** is obvious if you imagined a database with a single table containing the information of all tables. For instance, in the last example the **teachers** and **sections** table could be joined in a single table, **teachers_sections**, as follows:
+The reason the `primary` and `foreign` keys are called **join columns** is obvious if you imagined a database with a single table containing the information of all tables. For instance, in the last example the **teachers** and **sections** tables could be joined in a single table, **teachers_sections**, as follows:
 
 
 |    teacher_name    |   phone    |  salary |teacher_id |course_id | section_id | num_students|
@@ -193,7 +193,7 @@ In this table the first and last three columns belong to the **teachers** and **
 
 You may have noticed that a row in this table contains `NULL` values in the **sections** table columns. The last record identifies the only teacher, `Dr. Wright`, that does not teach courses, as we discussed in the last example; This means that the value `213` in the `teacher_id` column of **teachers** `parent` table does not have any matching rows in the **sections** table. In other words, the number `213` does not appear in the `teacher_id` column of the **sections** `child` table. In relational database theory this kind of rows are often called **dangling** rows. A **dangling row** is a row in the `parent` table with no matching row in the `child` table, (i.e. the primary key is not paired with any foreign key value).
 
-We'll show later in this chapter how to pull out this record from the database using the `OUTER JOIN` clause. For the moment this record can be ignored. This example, however, shows the importance to split data into separate tables, as discussed at the beginning of this [chapter](./01_why_split_data.md),. We could have many records like the last one in the **teachers** table. As a consequence, the table would have additional fields with NULL values and larger data storage overhead.
+We'll show later in this chapter how to pull out this record from the database using the `OUTER JOIN` clause. For the moment this record can be ignored. This example, however, shows the importance to split data into separate tables, as discussed at the beginning of this [chapter](./01_why_split_data.md). We could have many records like the last one in the **teachers** table. As a consequence, the joined table would have additional fields with NULL values and larger data storage overhead.
 
 
 ## UniY JOIN WHERE clause: keep observation of both tables
@@ -257,6 +257,7 @@ Dr. Scango         |        784 |       480
 
 Even though they are used in the `WHERE` clause, the values for `teacher_id` need not be selected by the query. If we were interested in seeing only teachers' names and the numbers of courses they teach, we would have used:
 
+**SQL**
 ```SQL
 SELECT teacher_name,
        course_id
@@ -265,11 +266,22 @@ SELECT teacher_name,
  ORDER BY teacher_name, course_id;
 ```
 
+**Results**
+
+|teacher_name    | course_id|
+|:--------------:|:---------:|
+|Dr. Cooke          |       480|
+|Dr. Engle          |       290|
+|Dr. Horn           |       450|
+|Dr. Lowe           |       730|
+|Dr. Olsen          |       450|
+|Dr. Scango         |       480|
+
 This time, the results include only the `teacher_name` and `course_id` values for those records that meet the `WHERE` clause's condition; that is, a list of teachers and the courses taught by each.
 
 ![join where](./images/09_join.png)
 
-The picture above shows the filtered rows matching the condition of the `WHERE` clause. Each row in the **teachers** table could match with zero, one or more rows in the **sections** table. For this particular database instance, the rows in the **teachers** table have one matching except the last row with `teacher_id` equal to `213`, as confirmed by the output of the following query:
+The picture above shows the filtered rows matching the condition of the `WHERE` clause. Each row in the **teachers** table could match with `zero`, `one` or `more` rows in the **sections** table. For this particular database instance, the rows in the **teachers** table have one matching except the last row with `teacher_id` equal to `213`, as confirmed by the output of the following query:
 
 **Query**
 ```console
@@ -287,25 +299,3 @@ uniy-#        teachers.teacher_id = 213;
 ```
 
 Moreover, the **sections** table referential integrity constraint guarantees that the total number of matching rows is equal to the number of rows in the sections table, that is 6.
-
-## Semi-join: Keep all observations of a single table that have a match
-
-Because the **sections** table contains records only for currently offered sections, we could see only the **names of those teachers who are currently teaching some section** with
-
-```SQL
-SELECT teacher_name
-  FROM teachers, sections
- WHERE teachers.teacher_id = sections.teacher_id;
-```
-
-The **important thing about this example** is its `FROM` clause: Despite the fact no values from the **sections** table are selected, that table must still appear in the `FROM` clause because a value from **sections** is referenced in the `WHERE` clause.
-
-Keep in mind that the order PostgreSQL processes the query is:
-
-`FROM` **->** `WHERE` **->** `SELECT`
-
-In other words, the variable scope of the `SELECT` clause in not visible in the `WHERE` clause.
-
-## Anti-join: drop all observations of a single table that have a match
-
-We could also  
