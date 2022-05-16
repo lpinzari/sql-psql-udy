@@ -20,9 +20,26 @@ Joins can get complicated. By first thinking of (or actually drawing) the query 
 
 - **Tables**: teachers, sections
 - **Columns**: teacher_name, course_id
-- **Condition**: teachers.teacher_id = sections.teacher_id
+- **Condition**: (join) `teachers.teacher_id = sections.teacher_id`
 - **Sorting**: teacher_name, course_id
 
+```console
+uniy=# \d sections
+                 Table "public.sections"
+    Column    |   Type   | Collation | Nullable | Default
+--------------+----------+-----------+----------+---------
+ course_id    | smallint |           | not null |
+ section_id   | smallint |           | not null |
+ teacher_id   | smallint |           |          |
+ num_students | smallint |           |          |
+Indexes:
+    "sections_pkey" PRIMARY KEY, btree (course_id, section_id)
+Foreign-key constraints:
+    "sections_fkey_course" FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE
+    "sections_fkey_teacher" FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id) ON DELETE SET NULL
+Referenced by:
+    TABLE "enrolls" CONSTRAINT "enrolls_fkey_section" FOREIGN KEY (course_id, section_id) REFERENCES sections(course_id, section_id) ON DELETE CASCADE
+```
 
 **Query Diagram Join**  
 
