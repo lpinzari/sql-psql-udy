@@ -10,7 +10,7 @@ Since a **Join** is a binary operation that involves two entities or tables, the
 
 For the way a **Join** combines information from both tables as a concatenation of columns from `A` and `B` tables, is sometimes referred to as `Mutating JOIN`.
 
-- `JOIN(A,B)` ,**Mutating Join**: A mutating join of two tables, `A` and `B`, returns a new table that adds `B` columns to columns of table `A` from matching rows in table `B`.  
+- `JOIN(A,B)` ,**Mutating Join**: A mutating join of two tables, `A` and `B`, returns a new table that adds `B` columns to table `A` columns from matching rows in table `B`.  
 
 Later in the course we introduce the `INNER JOIN` operator to perform a `Mutating Join` query.
 
@@ -260,7 +260,7 @@ In this section we show how to retrieve all records that do not have a match in 
 
 In the **Anti Join** definition the query **drops** all rows in the table `A` that have a match in `B`. This means that this query is essentially the complementary of the **Semi Join** query type.  
 
-In the last example of the previous section, we used the **teachers** and **sections** tables to find the `names of the university's teachers who*` **are** `currently teaching some sections`.
+In the last example of the previous section, we used the **teachers** and **sections** tables to find the `names of the university's teachers who` **are** `currently teaching some sections`.
 
 The complementary row set, therefore, includes the `names of the university's teachers who` **are not** `currently teaching` **any courses sections**.
 
@@ -302,15 +302,15 @@ SELECT DISTINCT teacher_name
 
 **Results**
 
-|teacher_id |    teacher_name    |   phone    |  salary|
-|:---------:|:------------------:|:----------:|:-------:|
-|180 | Dr. Cooke          | 257-8088   | 29560.00|
-|430 | Dr. Engle          | 256-4621   | 38200.00|
-|303 | Dr. Horn           | 257-3049   | 27540.00|
-|290 | Dr. Lowe           | 257-2390   | 31450.00|
-|560 | Dr. Olsen          | 257-8086   | 31778.00|
-|784 | Dr. Scango         | 257-3046   | 32098.00|
-|213 | Dr. Wright         | 257-3393   | 35000.00|
+|    teacher_name    |
+|:------------------:|
+| Dr. Cooke          |
+| Dr. Engle          |
+| Dr. Horn           |
+| Dr. Lowe           |
+| Dr. Olsen          |
+| Dr. Scango         |
+| Dr. Wright         |
 
 The query returns all the records in the **teachers** table, Why?
 
@@ -399,19 +399,3 @@ The previous approach, however, has the following limitations compared to the us
 - In `JOINs` the RDBMS calculates an execution plan, that can predict, what data should be loaded and how much it will take to processed and as a result this process save some times, unlike the subquery there is no pre-process calculation and run all the queries and load all their data to do the processing.
 - A `JOIN` is checked conditions first and then put it into table and displays; where as a subquery take separate temp table internally and checking condition.
 - When joins are using, there should be connection between two or more than two tables and each table has a relation with other while subquery means query inside another query, has no need to relation, it works on columns and conditions.
-
-Because the **sections** table contains records only for currently offered sections, we could see only the **names of those teachers who are currently teaching some section** with
-
-```SQL
-SELECT teacher_name
-  FROM teachers, sections
- WHERE teachers.teacher_id = sections.teacher_id;
-```
-
-The **important thing about this example** is its `FROM` clause: Despite the fact no values from the **sections** table are selected, that table must still appear in the `FROM` clause because a value from **sections** is referenced in the `WHERE` clause.
-
-Keep in mind that the order PostgreSQL processes the query is:
-
-`FROM` **->** `WHERE` **->** `SELECT`
-
-In other words, the variable scope of the `SELECT` clause in not visible in the `WHERE` clause.
