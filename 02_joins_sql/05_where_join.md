@@ -4,7 +4,7 @@ In the previous lesson we introduced the **CROSS JOIN** clause to combine all th
 
 In this lesson, we'll show you how to restrict the results of a Join and filter the relevant information to our problem.
 
-## Filtering a Join: the WHERE clause
+## Join: the WHERE clause
 
 What happens if, in a query accessing two tables with columns of the same name, we specify the same column name twice, once for each table?
 
@@ -196,7 +196,7 @@ You may have noticed that a row in this table contains `NULL` values in the **se
 We'll show later in this chapter how to pull out this record from the database using the `OUTER JOIN` clause. For the moment this record can be ignored. This example, however, shows the importance to split data into separate tables, as discussed at the beginning of this [chapter](./01_why_split_data.md),. We could have many records like the last one in the **teachers** table. As a consequence, the table would have additional fields with NULL values and larger data storage overhead.
 
 
-## UniY JOIN WHERE cluse example
+## UniY JOIN WHERE clause: keep observation of both tables
 
 
 Back to the original question:
@@ -288,7 +288,7 @@ uniy-#        teachers.teacher_id = 213;
 
 Moreover, the **sections** table referential integrity constraint guarantees that the total number of matching rows is equal to the number of rows in the sections table, that is 6.
 
-- **Selecting columns in a single table**.
+## Semi-join: Keep all observations of a single table that have a match
 
 Because the **sections** table contains records only for currently offered sections, we could see only the **names of those teachers who are currently teaching some section** with
 
@@ -305,3 +305,7 @@ Keep in mind that the order PostgreSQL processes the query is:
 `FROM` **->** `WHERE` **->** `SELECT`
 
 In other words, the variable scope of the `SELECT` clause in not visible in the `WHERE` clause.
+
+## Anti-join: drop all observations of a single table that have a match
+
+We could also  

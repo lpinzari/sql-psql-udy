@@ -177,7 +177,17 @@ The picture below shows an alternative representation of the **Cartesian Product
 
 In this diagram each **dot**, indicated as the intersection of a pair of dotted lines linked to each row, represents an **element** of the **Cartesian Product**. It follows that the number of dots in the picture is the total number of rows in the **CROSS JOIN** table. For each row in Table A there are a number of dots equivalent to the number of elements in Table B, so the formula to compute the cardinality of the Cartesian Product is basically a product of the number rows in Table A and Table B.
 
-You may have noticed that the diagram does not show the values listed in the Cartesian Product as in the first picture. This choice is made on purpose as the order of the columns in the **CROSS JOIN** table is not relevant. This means that the following `SELECT n, z` statement is equivalent to `SELECT z, n` in the diagram.
+You may have noticed that the diagram does not show the values listed in the Cartesian Product as in the first picture.
+
+
+![cartesian Product2](./images/06_cartesian2.png)
+
+
+This choice is made on purpose as the order of the columns in the **CROSS JOIN** table is not relevant. The picture above shows that the Cartesian Product is not cummatative `|A| x |B|` is not equal to `|B| x |A|`, but the `CP` resulting table of the `CROSS JOIN` is commutative, that is `CP = {{|A| x |B|}, {|B| x |A|}}`.
+
+![cartesian Product3](./images/06_cartesian3.png)
+
+This means that the following `FROM a CROSS JOIN b` clause is equivalent to `FROM b CROSS JOIN a` in the diagram.
 
 This representation can be easily extended to two or more columns as it will be shown in further examples in the following lessons.
 
