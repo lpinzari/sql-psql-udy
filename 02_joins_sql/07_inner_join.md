@@ -51,6 +51,61 @@ SELECT *
 
 The two tables in the example are combined with the operator **INNER JOIN**, and the `WHERE` clause is replaced by an `ON` clause. An **INNER JOIN** is the most common type of join. It returns only those records from each table that match the criteria specified in the `ON` clause.
 
+> Note: In the following the terms `column` and `variable` have the same meaning. A `column` and a `variable` is a set of values.
+
+
+## Understanding INNER JOIN
+
+In lesson [5](.05_where_join.md), we introduced the **INNER JOIN** operator as a way to select a `subset of rows` in the **CROSS JOIN** resulting table.
+
+To help you learn how inner join works, I'm going to use the tables of the `CROSS JOIN` example presented in lesson [4](./04_cross_join.md). This time, however, we include two additional columns for the primary and foreign keys of the parent and child tables, respectively.
+
+![cross vs inner join](./images/14_innerjoin.png)
+
+In this picture, the first column in the A and B tables represents the "**primary key**" (**pk**) and "**foreign key**" (**fk**) variables. These variables are used to **match** the rows between the tables.
+
+To help you visualize a match between tables each distinct value in these columns have a colour (**100** = `green`, **200** = `pink`, **300** = `orange`). On the other hand, the grey colour is used to represent the values in the other column that is carried along for the ride. This example uses a table with a single key and column but it can be easily generalized to composite keys and multiple column values.
+
+In this example,
+- the **fk** column in table `B` references the `A` table using the **pk** column.
+- the **pk** column or variable uniquely identifies a row in table `A` and
+- the **fk** column or variable uniquely identifies a row in table `A`. In other word, the values in this column are a subset of the values in the **pk** column.
+
+In these definitions emerge an important connection between the values of the primary and foreign key variables. This connection or **join** is basically a **mapping** between a **primary key value** or **row** (a row is uniquely identified by it's primary key value) in the `A` table to `zero`, `one` or `more` **rows** in the `B` table, depending on the `foreign key value`.
+
+For example, the primary key values in column `pk` of table A:
+
+- **100** is mapped to `one` row in table `B`
+- **200** is mapped to `two` rows in table `B`
+- **300** is mapped to `zero` rows in table `B`.  
+
+Lastly, the referential integrity constraint enforces each record in the child table `B` to have a matching row in the parent table `A`. Consequently, the values of the `fk` columns will be in the results of the `INNER JOIN`.
+
+There are, therefore, three types of `primary-foreign` keys mapping:
+
+| A-B Mapping| Meaning |
+|:----------:|:-------:|
+|`one`-TO-**zero**| A row in the parent table A does not have a matching row (`zero`) in the child table B|
+|`one`-TO-**one**| A row in the parent table A has `one` matching row in the child table B|
+|`one`-TO-**many**| A row in the parent table A has two or `more` matching rows in the child table B|
+
+
+There are, therefore, 5 basic relationships that indicate the cardinality between tables in an ERD. In the picture below the `One` and `One(and only one)` can be grouped together in `One(and only one)` for simplicity.
+
+![foreign key 2](../00_psql_setup/images/04_relationship.png)
+
+Each mapping establishes an implicit function between two sets, `A`and `B`. The function `A`**->**`B` is a mapping between the primary key values in the `B` table and the primary key values in the `A` table, based on the foreign key values.
+
+The relationship in the picture above can be summarized in four types of function:
+
+|Relationship|function|
+|:----------:|:------:|
+|One(and only one)| bijective, (injective and surjective)|
+|Zero or One| injective|
+|One or Many, Many| surjective|
+|Zero or Many| Not injective and Not surjective|
+
+
 ## PostgreSQL INNER JOIN examples
 
 ![uny erd](../00_basic_intro/images/11_uniy_erd.png)
