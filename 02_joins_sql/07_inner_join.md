@@ -79,7 +79,7 @@ For example, the primary key values in column `pk` of table A:
 - **200** is mapped to `two` rows in table `B`
 - **300** is mapped to `zero` rows in table `B`.  
 
-Lastly, the referential integrity constraint enforces each record in the child table `B` to have a matching row in the parent table `A`. Consequently, the values of the `fk` columns will be in the results of the `INNER JOIN`.
+Lastly, assuming that the foreign key column dose not allow `NULL` values, the referential integrity constraint enforces each record in the child table `B` to have a matching row in the parent table `A`. Consequently, the values of the `fk` columns will be in the results of the `INNER JOIN`.
 
 There are, therefore, three types of `primary-foreign` keys mapping:
 
@@ -94,7 +94,7 @@ There are, therefore, 5 basic relationships that indicate the cardinality betwee
 
 ![foreign key 2](../00_psql_setup/images/04_relationship.png)
 
-Each mapping establishes an implicit function between two sets, `A`and `B`. The function `A`**->**`B` is a mapping between the primary key values in the `B` table and the primary key values in the `A` table, based on the foreign key values.
+Each mapping establishes an implicit function between two sets, `A`and `B`. The function `B`**->**`A` is a mapping between the primary key values in the `B` table and the primary key values in the `A` table, based on the foreign key values.
 
 The relationship in the picture above can be summarized in four types of function:
 

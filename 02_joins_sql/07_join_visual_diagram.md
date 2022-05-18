@@ -25,3 +25,9 @@ To help you learn how join works, I'm going to use a visual representation simil
 The `INNER JOIN` example is the one discussed in the previous lesson [inner join](./07_inner_join). For a quick reference, the example tables and the `INNER JOIN` results are illustrated below.
 
 ![cross vs inner join](./images/14_innerjoin.png)
+
+The following diagram shows each `potential match` as an `intersection of pair dotted lines`.
+
+![inner join](./images/15_join.png)
+
+If you look closely, you might notice that we've switched the order of the primary key `pk` and `n` columns in table **A**. This is to emphasise that **joins match based on the key**; the values in the other columns are just carried along for the ride.

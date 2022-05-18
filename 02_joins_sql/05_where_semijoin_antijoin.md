@@ -8,7 +8,7 @@ Since a **Join** is a binary operation that involves two entities or tables, the
 
 - `JOIN(A,B)`: A join of two tables `A` and `B` returns a new table that includes columns from both tables.
 
-For the way a **Join** combines information from both tables as a concatenation of columns from `A` and `B` tables, is sometimes referred to as `Mutating JOIN`.
+For the way a **Join** combines information from both tables as a concatenation of columns from `A` and `B` tables, is sometimes referred to as **Equi Join** or **Mutati Join**.
 
 - `JOIN(A,B)` ,**Mutating Join**: A mutating join of two tables, `A` and `B`, returns a new table that adds `B` columns to table `A` columns from matching rows in table `B`.  
 
