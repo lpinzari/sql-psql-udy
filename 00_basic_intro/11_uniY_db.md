@@ -314,6 +314,12 @@ To visualize the cardinality of relationships between tables in a database the s
 
 ![foreign key 2](../00_psql_setup/images/04_relationship.png)
 
+
+In the picture below the `One` and `Zero or One` can be grouped together in `Zero or One` for simplicity.
+
+**Note**: In mathematical logic, it's often desirable to make a distinction between `Zero or One` an `exactly One`. In that situation `One(and only one)` is used to indicate that the count cannot be less than one or more than one.
+
+
 Now, we can visualize the relationships between the uniY database tables using an **ERD**, which stands for **Entity Relationship Diagram**.
 
 An **entity relationship diagram** (**ERD**) is a common way to view data in a database. These diagrams help you **visualize** the data you are analyzing including:

@@ -60,7 +60,7 @@ In lesson [5](.05_where_join.md), we introduced the **INNER JOIN** operator as a
 
 To help you learn how inner join works, I'm going to use the tables of the `CROSS JOIN` example presented in lesson [4](./04_cross_join.md). This time, however, we include two additional columns for the primary and foreign keys of the parent and child tables, respectively.
 
-![cross vs inner join](./images/14_innerjoin.png)
+![cross vs inner join](./images/14_innerjoin2.png)
 
 In this picture, the first column in the A and B tables represents the "**primary key**" (**pk**) and "**foreign key**" (**fk**) variables. These variables are used to **match** the rows between the tables.
 
@@ -90,7 +90,9 @@ There are, therefore, three types of `primary-foreign` keys mapping:
 |`one`-TO-**many**| A row in the parent table A has two or `more` matching rows in the child table B|
 
 
-There are, therefore, 5 basic relationships that indicate the cardinality between tables in an ERD. In the picture below the `One` and `One(and only one)` can be grouped together in `One(and only one)` for simplicity.
+There are, therefore, 5 basic relationships that indicate the cardinality between tables in an ERD. In the picture below the `One` and `Zero or One` can be grouped together in `Zero or One` for simplicity.
+
+**Note**: In mathematical logic, it's often desirable to make a distinction between `Zero or One` and `exactly One`. In that situation `One(and only one)` is used to indicate that the count cannot be less than one or more than one.
 
 ![foreign key 2](../00_psql_setup/images/04_relationship.png)
 
