@@ -32,14 +32,12 @@ The following diagram shows each `potential match` as an `intersection of pair d
 
 ![inner join](./images/15_join.png)
 
-The number of dots in the picture, therefore, is basically the number of matches.
-
 If you look closely, you might notice that we've switched the order of the primary key `pk` and `n` columns in table **A**. This is to emphasise that **joins match based on the key**; the values in the other columns are just carried along for the ride.
 
 
 ![join match](./images/16_match.png)
 
-In this diagram each dot, indicated as the intersection of a pair of coloured lines linked to each row, represents a match. To be precise, in this example the keys are the `primary` and `foreign` key columns in `A` and `B` tables, indicated as **pk** and **fk** in the picture above.
+In this diagram each dot, indicated as the intersection of a pair of coloured lines linked to each row, represents a match. To be precise, in this example the keys are the `primary` and `foreign` key columns in `A` and `B` tables, indicated as **pk** and **fk** in the picture above. The number of dots in the picture, therefore, is basically the number of matches.
 
 
 ## INNER JOIN Visual Diagram
