@@ -69,9 +69,12 @@ To help you visualize a match between tables each distinct value in these column
 In this example,
 - the **fk** column in table `B` references the `A` table using the **pk** column.
 - the **pk** column or variable uniquely identifies a row in table `A` and
-- the **fk** column or variable uniquely identifies a row in table `A`. In other word, the values in this column are a subset of the values in the **pk** column.
+- the **fk** column or variable uniquely identifies a row in table `A`. In other words, the values in this column are a subset of the values in the **pk** column.
 
-In these definitions emerge an important connection between the values of the primary and foreign key variables. This connection or **join** is basically a **mapping** between a **primary key value** or **row** (a row is uniquely identified by it's primary key value) in the `A` table to `zero`, `one` or `more` **rows** in the `B` table, depending on the `foreign key value`.
+
+## ERD Revisited
+
+In the definitions of the previous example emerge an important connection between the values of the primary and foreign key variables. This connection or **join** is basically a **mapping** between a **primary key value** or **row** (a row is uniquely identified by it's primary key value) in the `A` table to `zero`, `one` or `more` **rows** in the `B` table, depending on the `foreign key value`.
 
 For example, the primary key values in column `pk` of table A:
 
@@ -90,15 +93,120 @@ There are, therefore, three types of `primary-foreign` keys mapping:
 |`one`-TO-**many**| A row in the parent table A has two or `more` matching rows in the child table B|
 
 
-There are, therefore, 5 basic relationships that indicate the cardinality between tables in an ERD. In the picture below the `One` and `Zero or One` can be grouped together in `Zero or One` for simplicity.
+There are, therefore, 5 basic relationships that indicate the cardinality between tables in an ERD. In the picture below the `One` and `Zero or One` can be grouped together in `Zero or One` for simplicity. The symbols in the diagram can be used interchangeably.
 
 **Note**: In mathematical logic, it's often desirable to make a distinction between `Zero or One` and `exactly One`. In that situation `One(and only one)` is used to indicate that the count cannot be less than one or more than one.
 
 ![foreign key 2](../00_psql_setup/images/04_relationship.png)
 
+
+To better understand the **referential integrity constraint mapping**, we included a surrogate primary key column (`id`) in table `B`.
+
+There is often confusion in the meaning and interpretation of the crow's foot symbols indicated in an ERD of a database.
+
+For a quick reference, the table below illustrates the ten cases for an `ERD` relationship between the primary and foreign key values in two tables, `A` (parent table) and `B` (child table).
+
+![erd relationship](./images/17_erd2.png)
+
+For now, we discuss only the first 4 cases. The cases `4` to `8` require to set up a `trigger` on the parent table that automatically insert a row into the child table whenever a parent row is inserted. The remaining cases, `9` and `10`, require the insertion of at least two or more rows. The notion of `Trigger` is introduced later in the course.
+
+The creation of table `A` does not need any particular needs.
+
+**SQL**
+```SQL
+CREATE TABLE a (
+  pk SMALLINT PRIMARY KEY,
+  n SMALLINT
+);
+```
+
+On the other hand, the creation of the child table `B` depends on the specific **relational integrity constraint**.
+
+To better understand the **referential integrity constraint mapping**, we included a surrogate primary key column (`id`) in table `B`.
+
+- **CASE**: `1`
+
+**SQL**
+```SQL
+CREATE TABLE b (
+  id SMALLINT PRIMARY KEY,
+  c CHAR,
+  fk SMALLINT NOT NULL
+  CONSTRAINT b_fkey_a
+     FOREIGN KEY (fk)
+     REFERENCES A (pk)
+     ON DELETE CASCADE
+);
+```
+
+The referential integrity constraint enforces table B to have values in column `fk` that exist in column `pk` of table A. Moreover, the constraint `NOT NULL` for the `fk` column enforces each row in table B to have one and only one matching row in table A.
+
+On the other hand, table A could have one or more unmatched rows in table B. Lastly, the `ON DELETE CASCADE` option delete a row in the child table whenever the corresponding matched row in table A is deleted.
+
+- **CASE**: `2`
+
+**SQL**
+```SQL
+CREATE TABLE b (
+  id SMALLINT PRIMARY KEY,
+  c CHAR,
+  fk SMALLINT
+  CONSTRAINT b_fkey_a
+     FOREIGN KEY (fk)
+     REFERENCES A (pk)
+     ON DELETE SET NULL
+);
+```
+
+The second case allows `NULL` values for the `fk` column. The insertion of a new row in table B, therefore, does not need any requirement for the `fk` column. Consequently, the number of unmatched rows in table B is equivalent to the number of `NULL` values in the `fk` column. Lastly, the `ON DELETE SET NULL` option set to `NULL` the `fk` column value for a row in the child table whenever the corresponding matched row in table A is deleted.
+
+- **CASE**: `3`
+
+**SQL**
+```SQL
+CREATE TABLE b (
+  id SMALLINT PRIMARY KEY,
+  c CHAR,
+  fk SMALLINT UNIQUE NOT NULL
+  CONSTRAINT b_fkey_a
+     FOREIGN KEY (fk)
+     REFERENCES A (pk)
+     ON DELETE CASCADE
+)
+```
+
+The third case requests Table `B` to have at most One row for each matched row in Table `A`. The definition of this constraint is easily obtained with the option `UNIQUE` for the `fk` column. Moreover, the constraint `NOT NULL` for the `fk` column enforces each row in table B to have one and only one matching row in table A. In other words, the `fk` column is also a primary key for table b.
+
+- **CASE**: `4`
+
+**SQL**
+```SQL
+CREATE TABLE b (
+  id SMALLINT PRIMARY KEY,
+  c CHAR,
+  fk SMALLINT UNIQUE
+  CONSTRAINT b_fkey_a
+     FOREIGN KEY (fk)
+     REFERENCES A (pk)
+     ON DELETE CASCADE
+)
+```
+
+Similarly, case `4` is basically a variation of case `3` without the `NULL` constraint on column `fk`.
+
+## Referential integrity constraint as a function
+
+You may have noticed that the relationships between two table do not include the `Many-To-Many` cardinality. A `Many-To-Many` relationship is often implemented with a `bridge` table  that creates two `One-To-Many` relationships with the `parent` and `child` tables.
+
+You may be wondering: `Why Do I need a bridge table to implement a Many-To-Many relationship`?
+
+The answer is obvious for the case both tables require a mandatory constraints for the existence of a record in the child table for each created record in the parent table. Suppose you insert a row  in the `A` table and automatically a trigger is executed to insert a row in the child table. The child table, however, will activate another trigger to insert a row in table `A`. This process will never terminate.
+
+The other cases will set to `NULL` or even delete all the records in both tables. To understand why, let's describe the mapping of two tables as a function.
+
 Each mapping establishes an implicit function between two sets, `A`and `B`. The function `B`**->**`A` is a mapping between the primary key values in the `B` table and the primary key values in the `A` table, based on the foreign key values.
 
-The relationship in the picture above can be summarized in four types of function:
+The relationships can be summarized in four types of function:
 
 |Relationship|function|
 |:----------:|:------:|

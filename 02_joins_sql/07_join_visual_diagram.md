@@ -58,3 +58,7 @@ SELECT fk as k,
 ```
 
 In this example, the keys are the `primary` and `foreign` key columns in `A` and `B` tables, indicated as **pk** and **fk** in the SQL query.
+
+![example inner join](./images/18_inner.png)
+
+To better understand the **referential integrity constraint mapping**, we included a surrogate primary key column (`id`) in table `B`.
