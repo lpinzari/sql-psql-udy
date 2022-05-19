@@ -165,9 +165,10 @@ The second case allows `NULL` values for the `fk` column. The insertion of a new
 **SQL**
 ```SQL
 CREATE TABLE b (
-  id SMALLINT PRIMARY KEY,
+  -- id SMALLINT PRIMARY KEY,
   c CHAR,
-  fk SMALLINT UNIQUE NOT NULL
+  fk SMALLINT NOT NULL
+  UNIQUE(fk)
   CONSTRAINT b_fkey_a
      FOREIGN KEY (fk)
      REFERENCES A (pk)
