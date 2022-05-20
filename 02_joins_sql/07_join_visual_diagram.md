@@ -222,7 +222,7 @@ Since the `NULL` value cannot be matched to any value, the number of matching ro
 
 |rows in A| NOT NULL rows in B| NULL rows in B| A -> B| B -> A| function| rows in Inner Join(A,B)|
 |:-------:|:--------:|:-----:|:----:|:-----:|:-----:|:---:|
-|n|m|k|Zero or One|One and only One|general|k|
+|n|m|k|Zero or One|One and only One|general|m|
 
 It follows that an `INNER JOIN` between the parent and child tables, `A` and `B`, returns a number of rows equal to the number of `NOT NULL` rows in the child table `B`.
 
