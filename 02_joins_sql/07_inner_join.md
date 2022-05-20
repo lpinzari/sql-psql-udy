@@ -199,15 +199,19 @@ Similarly, case `4` is basically a variation of case `3` without the `NULL` cons
 
 You may have noticed that the relationships between two table do not include the `Many-To-Many` cardinality. A `Many-To-Many` relationship is often implemented with a `bridge` table  that creates two `One-To-Many` relationships with the `parent` and `child` tables.
 
-You may be wondering: `Why Do I need a bridge table to implement a Many-To-Many relationship`?
+ You may be wondering:
 
-The answer is obvious for the case both tables require a mandatory constraints for the existence of a record in the child table for each created record in the parent table. Suppose you insert a row  in the `A` table and automatically a trigger is executed to insert a row in the child table. The child table, however, will activate another trigger to insert a row in table `A`. This process will never terminate.
+- `Why Do I need a bridge table to implement a Many-To-Many relationship`?
+
+The answer is obvious for the case both tables require a mandatory constraint that enforces the existence of a record in the child table for each created record in the parent table. In this case, both tables play the role of `parent` and `child` tables. Consequently, the `A` and `B` tables have a foreign key that references the primary key of the other table. The referential integrity constraints in the `A` and `B` tables can, therefore, activate a never ending process for the `INSERT INTO` event.  
+
+For example, suppose you insert a row  in the `A` table and automatically a trigger is executed to insert a row in the child table. The child table, however, will activate another trigger to insert a row in table `A`, based on the primary key value of the newly inserted row in table `B`, referenced by the foreign key column in table `A`. This process will never terminate.
 
 The other cases will set to `NULL` or even delete all the records in both tables. To understand why, let's describe the mapping of two tables as a function.
 
 Each mapping establishes an implicit function between two sets, `A`and `B`. The function `B`**->**`A` is a mapping between the primary key values in the `B` table and the primary key values in the `A` table, based on the foreign key values.
 
-The relationships can be summarized in four types of function:
+In the next lesson, we further explore this concept by illustrating the mechanism behind the `JOIN` operator with a visual diagram representation. In the table below, we list the four types of functions that a Relational model includes in its definition. Don't worry if you do not understand immediately the meaning of these functions as it will be explained soon in the following lesson of this chapter.
 
 |Relationship|function|
 |:----------:|:------:|
