@@ -47,8 +47,8 @@ An **INNER JOIN** matches pairs of rows or observations whenever their key are e
 
 **SQL**
 ```SQL
-SELECT fk as k,
-       n,
+SELECT n,
+       fk as k,
        c
   FROM A INNER JOIN B
     ON A.pk = B.fk
@@ -57,7 +57,7 @@ SELECT fk as k,
 
 In this example, the keys are the `primary` and `foreign` key columns in `A` and `B` tables, indicated as **pk** and **fk** in the SQL query.
 
-![example inner join](./images/18_inner.png)
+![example inner join](./images/18_inner2.png)
 
 To better understand the **referential integrity constraint mapping**, we included a surrogate primary key column (`id`) in table `B`. Each row in table `B` is, therefore, uniquely identified by the `id` column values. Similarly, each row in table `A` is uniquely identified by the `pk` column values.
 
@@ -81,9 +81,17 @@ For example, the primary key values in column `pk` of table A:
 - **200** is mapped to `two` rows in table `B`, `ROW 2` and `ROW 3`,or **7** and **9**.
 - **300** is mapped to `zero` rows in table `B`. No ROWS.
 
-As a result, the first and second row in table `A` will be in the output of the inner join, indicated on the top right hand side of the picture. Similarly, all the rows in table `B` will be in the inner join resulting table, indicated on the top left hand side of the picture.
+Consequently, the primary key values in column `id` of table B:
 
-You may have notice that the primary key values of table `B` are implicitly mapped to the primary key values of the `A` table. This implicit mapping defines a **function**.
+- **5** is mapped to **100**
+- **7** is mapped to **200**
+- **9** is mapped to **200**
+
+As a result, all the rows in table `B` will be in the inner join resulting table, indicated as `Matching Rows Table B` on the top right hand side of the picture. It follows that the values in the `id` column of table `B` uniquely identify each matching row in the inner join resulting table.
+
+It follows that the set of `Matching Rows in Table A`, indicated on the top left hand side of the picture, is also defined in terms of the values in the `id` column of table `B`, indicated on the left hand side. For instance, the value **5** identifies the first matching  linked to the value **100** in the pk column of table `A` and the values **7** and **9** identify the second and third matching linked to the value **200**.
+
+As a result, those values are implicitly mapped to the primary key values of the `A` table. This implicit mapping defines a **function**.
 
 This implicit mapping was first mentioned in the previous [lesson](./07_inner_join.md) and classified in 4 different functions.
 
@@ -102,7 +110,7 @@ In the next section we discuss the 4 types of functions and the implication for 
 
 ## INNER JOIN CARDINALITY
 
-For the sake of clarity we remind the definition of function between two sets. This trivial introduction, maybe boring for somebody :smile:, is essential for understanding the relational model mapping.
+For the sake of clarity we remind the definition of function between two sets. This trivial introduction, (might be boring for somebody :smile:), is essential for understanding the relational model mapping.
 
 A **function** between two sets is a **rule** that assigns to each member in the first set (called the *domain*) **ONE AND ONLY ONE** member in the second set (called the *range*). Intuitively, a function is an operation that takes an `INPUT` and produces an `OUTPUT` based on the input.
 
@@ -111,10 +119,10 @@ In relational algebra or Relational Database, the functions we are interested ar
 ### (One and Only One) TO (Zero or Many): General function
 
 
-![example inner join](./images/18_inner.png)
+![example inner join](./images/18_inner2.png)
 
 
-An example of a simple function for the `INNER JOIN` between tables `B` (**INPUT**) and `A` (**OUTPUT**) of the previous example is given below.
+An example of a simple function for the `INNER JOIN` between tables `B` (**INPUT**) and `A` (**OUTPUT**) illustrated in the picture above is given below.
 
 - **f**: `B`**->**`A`
 
@@ -128,24 +136,7 @@ An example of a simple function for the `INNER JOIN` between tables `B` (**INPUT
 
 In this example, the domain of **f** is the set `B` **=** `{5, 7, 9}` and the range of **f** is the set `f(B)`**=** `{100,200}`. Moreover, for each value in set `B` there is **one and only one** value in set `A`. This function falls in the general case.
 
-In order for an operator to be a valid function, each input must produces one and only one output. However, it is valid for a function to produce the same output with different inputs. Notice in the above example that **f** gives `200` as output for both the inputs `7` and `9` which still makes **f** a function. This result exclude the possibility of **f** to be an `injective` function. We also notice that **f** does not map any value in `B` to `300` in `A`. This excludes the possibility of **f** to be a `surjective` function. It follows that **f** falls in the general case.
-
-Following the definition of table `B` given in the previous lesson:
-
-**SQL**
-```SQL
-CREATE TABLE b (
-  id SMALLINT PRIMARY KEY,
-  c CHAR,
-  fk SMALLINT NOT NULL
-  CONSTRAINT b_fkey_a
-     FOREIGN KEY (fk)
-     REFERENCES A (pk)
-     ON DELETE CASCADE
-);
-```
-
-It's straightforward to tell the number of rows for the `INNER JOIN` operation. We notice that the `fk` column does not allow `NULL` values and therefore all the rows of `B` will be in the output. The cardinality for a `general function` is `|B|`, where `B` is the child table.
+In order for an operator to be a valid function, each input must produces one and only one output. However, it is valid for a function to produce the same output with different inputs. Notice in the above example that **f** gives `200` as output for both the inputs `7` and `9` which still makes **f** a function. This result excludes the possibility of **f** to be an `injective` function. We also notice that **f** does not map any value in `B` to `300` in `A`. This excludes the possibility of **f** to be a `surjective` function. It follows that **f** falls in the general case.
 
 On the other hand, the mapping between the primary key `A` and `B` is not a function.
 
@@ -163,8 +154,76 @@ On the other hand, the mapping between the primary key `A` and `B` is not a func
 
 In this example, the input `200` has two outputs, `7` and `9`. We clearly see that this table defines a **Zero or Many** mapping.
 
-|rows in A| rows in B| A -> B| B -> A| function| rows in Inner Join(A,B)|
-|:-------:|:--------:|:-----:|:----:|:-----:|:-----:|
-|n|m|Zero or Many|One and only One|general|m|
+Following the definition of table `B` given in the previous lesson:
 
-It follows that an `INNER JOIN` between two tables, `A` and `B`, and a `Zero or Many` relationship returns a number of rows equal to the number of rows in the child table `B`.
+**SQL**
+```SQL
+CREATE TABLE b (
+  id SMALLINT PRIMARY KEY,
+  c CHAR,
+  fk SMALLINT NOT NULL
+  CONSTRAINT b_fkey_a
+     FOREIGN KEY (fk)
+     REFERENCES A (pk)
+     ON DELETE CASCADE
+);
+```
+
+It's straightforward to tell the number of rows for the `INNER JOIN` operation. We notice that the `fk` column does not allow `NULL` values and therefore all the rows of `B` will be in the output.
+
+|rows in A| NOT NULL rows in B| NULL rows in B| A -> B| B -> A| function| rows in Inner Join(A,B)|
+|:-------:|:--------:|:-----:|:----:|:-----:|:-----:|:---:|
+|n|m|0|Zero or Many|One and only One|general|m|
+
+It follows that an `INNER JOIN` between the parent and child tables, `A` and `B`, returns a number of rows equal to the number of rows in the child table `B`.
+
+The **Zero or Many** and **One and only One** mapping, indicated as `A->B` and `B->A` in the table above, define a `general` function. It follows that an `INNER JOIN` between the parent and child tables and a **One and only One** `To` **Zero or Many** relationship returns a number of rows equal to the number of rows in the child table `B`.
+
+### (Zero Or One) TO (Zero or Many): General function
+
+In this section we examine the case a child table `B` allows `NULL` values in the foreign key column.
+
+**SQL**
+```SQL
+CREATE TABLE b (
+  id SMALLINT PRIMARY KEY,
+  c CHAR,
+  fk SMALLINT
+  CONSTRAINT b_fkey_a
+     FOREIGN KEY (fk)
+     REFERENCES A (pk)
+     ON DELETE CASCADE
+);
+```
+
+![inner join 2](./images/22_inner.png)
+
+In this example the function for the `INNER JOIN` between tables `B` (**INPUT**) and `A` (**OUTPUT**) is given below.
+
+- **f**: `B`**->**`A`
+
+|INPUT|OUTPUT|
+|:---:|:----:|
+|5|100|
+|7|100|
+|9|NULL|
+
+![function 2](./images/23_functions.png)
+
+In this example, the domain of **f** is the set `B` **=** `{5, 7, 9}` and the range of **f** is the set `f(B)`**=** `{100,100,NULL}`.
+
+What is `NULL` for a function?
+
+The definition of `NULL` in a relational database is `undefined` or `missing` value. Similarly, in mathematics the notion of `NULL` is equivalent to `NAN`, standing for Not A Number. NAN is a **member** of a numeric data type that can be interpreted as a value that is undefined or to represent missing values in computations.
+
+In this example, the value `9` in set `B` is assigned to `NULL`. The value `9` is, therefore, not assigned to anything. You could say that there is a **zero or one** mapping for the function f. We also notice that **f** gives `100` as output for both the inputs `5` and `7`. This result excludes the possibility of **f** to be an `injective` function. We also notice that **f** does not map any value in `B` to `200` and `300` in `A`. This excludes the possibility of **f** to be a `surjective` function. It follows that **f** falls in the general case.
+
+Since the `NULL` value cannot be matched to any value, the number of matching rows is equal to the number of `NOT NULL` rows in the child table.
+
+|rows in A| NOT NULL rows in B| NULL rows in B| A -> B| B -> A| function| rows in Inner Join(A,B)|
+|:-------:|:--------:|:-----:|:----:|:-----:|:-----:|:---:|
+|n|m|k|Zero or One|One and only One|general|k|
+
+It follows that an `INNER JOIN` between the parent and child tables, `A` and `B`, returns a number of rows equal to the number of `NOT NULL` rows in the child table `B`.
+
+The **Zero or Many** and **Zero or One** mapping, indicated as `A->B` and `B->A` in the table above, define a `general` function. It follows that an `INNER JOIN` between the parent and child tables and a **Zero or One** `To` **Zero or Many** relationship returns a number of rows equal to the number of `NOT NULL` rows in the child table `B`.
