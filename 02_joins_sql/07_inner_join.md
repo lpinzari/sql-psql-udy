@@ -108,7 +108,7 @@ For a quick reference, the table below illustrates the ten cases for an `ERD` re
 
 ![erd relationship](./images/17_erd2.png)
 
-For now, we discuss only the first 4 cases. The cases `4` to `8` require to set up a `trigger` on the parent table that automatically insert a row into the child table whenever a parent row is inserted. The remaining cases, `9` and `10`, require the insertion of at least two or more rows. The notion of `Trigger` is introduced later in the course.
+For now, we discuss only the first 4 cases. The cases `5` to `8` require to set up a `trigger` on the parent table that automatically insert a row into the child table whenever a parent row is inserted. The remaining cases, `9` and `10`, require the insertion of at least two or more rows. The notion of `Trigger` is introduced later in the course.
 
 The creation of table `A` does not need any particular needs.
 

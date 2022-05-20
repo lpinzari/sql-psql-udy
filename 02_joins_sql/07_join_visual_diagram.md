@@ -198,6 +198,8 @@ CREATE TABLE b (
 
 ![inner join 2](./images/22_inner.png)
 
+> In the picture the Row label for the second record in the table on the top left hand side is Row 1.
+
 In this example the function for the `INNER JOIN` between tables `B` (**INPUT**) and `A` (**OUTPUT**) is given below.
 
 - **f**: `B`**->**`A`
@@ -227,3 +229,60 @@ Since the `NULL` value cannot be matched to any value, the number of matching ro
 It follows that an `INNER JOIN` between the parent and child tables, `A` and `B`, returns a number of rows equal to the number of `NOT NULL` rows in the child table `B`.
 
 The **Zero or Many** and **Zero or One** mapping, indicated as `A->B` and `B->A` in the table above, define a `general` function. It follows that an `INNER JOIN` between the parent and child tables and a **Zero or One** `To` **Zero or Many** relationship returns a number of rows equal to the number of `NOT NULL` rows in the child table `B`.
+
+### (Zero or One) TO (Zero or One): Injective function
+
+In this section we examine the case a child table `B` allows `NULL` values in the foreign key column and dose not allow duplicates.
+
+**SQL**
+```SQL
+CREATE TABLE b (
+  id SMALLINT PRIMARY KEY,
+  c CHAR,
+  fk SMALLINT UNIQUE
+  CONSTRAINT b_fkey_a
+     FOREIGN KEY (fk)
+     REFERENCES A (pk)
+     ON DELETE CASCADE
+)
+```
+
+![inner join 2](./images/24_inner.png)
+
+In this example the function for the `INNER JOIN` between tables `B` (**INPUT**) and `A` (**OUTPUT**) is given below.
+
+- **f**: `B`**->**`A`
+
+|INPUT|OUTPUT|
+|:---:|:----:|
+|5|100|
+|7|200|
+|9|NULL|
+
+In this example, the value `9` in set `B` is assigned to `NULL`. The value `9` is, therefore, not assigned to anything. You could say that there is a **zero or one** mapping for the function f. We also notice that distinct values in `B` are mapped to distinct values in `A`. It follows that **f** is an `injective` function. We also notice that **f** does not map any value in `B` to `300` in `A`. This excludes the possibility of **f** to be a `surjective` function. It follows that **f** falls in the `injective` case.
+
+|rows in A| NOT NULL rows in B| NULL rows in B| A -> B| B -> A| function| rows in Inner Join(A,B)|
+|:-------:|:--------:|:-----:|:----:|:-----:|:-----:|:---:|
+|n|m|k|Zero or One|Zero or One|injective|m|
+
+
+### Relationship cardinality table
+
+
+The analysis of the previous cases can be easily extended to the other relationships. The table below gives a summary of the `INNER JOIN` cardinality of two tables.
+
+|rows in A| NOT NULL rows in B| NULL rows in B| A -> B| B -> A| function| rows in Inner Join(A,B)|
+|:-------:|:--------:|:-----:|:----:|:-----:|:-----:|:---:|
+|n|m|0|Zero or Many|One and only One|general|m|
+|n|m|k|Zero or Many|Zero or One|general|m|
+|n|m|0|Zero or One|One and only One|injective|m|
+|n|m|k|Zero or One|Zero or One|injective|m|
+|n|m|0|One and only One|One and only One|bijective|m=n|
+|n|m|k|One and only One|Zero or One|injective|m|
+|n|m|0|One or Many|One and only One|surjective|m|
+|n|m|k|One or Many|Zero or One|general|m|
+|n|m|0|Many|One and only One|surjective|m|
+|n|m|k|Many|Zero or One|general|m|
+
+
+The table above shows that the number of rows in an `INNER JOIN` is equal to the number of `NOT NULL` values in the foreign key column in the child table.
