@@ -207,11 +207,15 @@ The answer is obvious for the case both tables require a mandatory constraint th
 
 For example, suppose you insert a row  in the `A` table and automatically a trigger is executed to insert a row in the child table. The child table, however, will activate another trigger to insert a row in table `A`, based on the primary key value of the newly inserted row in table `B`, referenced by the foreign key column in table `A`. This process will never terminate.
 
-The other cases will set to `NULL` or even delete all the records in both tables. To understand why, let's describe the mapping of two tables as a function.
+Apart from this technical reason, a logical explanation is that a `Many-To-Many` relationship results in a `CROSS PRODUCT` between two tables. The resulting table conveys too much information in the joining result and is not helpful to extract the relevant column values when combining rows from both tables.
+
+In the next lesson, we illustrate the mechanism behind the `JOIN` operator with a visual diagram representation. In this visual representation we describe the mapping of rows between tables as a function between two sets.
 
 Each mapping establishes an implicit function between two sets, `A`and `B`. The function `B`**->**`A` is a mapping between the primary key values in the `B` table and the primary key values in the `A` table, based on the foreign key values.
 
-In the next lesson, we further explore this concept by illustrating the mechanism behind the `JOIN` operator with a visual diagram representation. In the table below, we list the four types of functions that a Relational model includes in its definition. Don't worry if you do not understand immediately the meaning of these functions as it will be explained soon in the following lesson of this chapter.
+In the table below, we list the four types of functions that a Relational model includes in its definition.
+
+Don't worry if you do not understand immediately the meaning of these functions as it will be explained soon in the following lesson of this chapter.
 
 |Relationship|function|
 |:----------:|:------:|

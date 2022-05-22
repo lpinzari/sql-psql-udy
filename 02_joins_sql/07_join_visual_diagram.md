@@ -57,7 +57,10 @@ SELECT n,
 
 In this example, the keys are the `primary` and `foreign` key columns in `A` and `B` tables, indicated as **pk** and **fk** in the SQL query.
 
+
 ![example inner join](./images/18_inner2.png)
+
+Note that I’ve put the key column in the middle position in the output. This reflects that **joins match based on the key**; the values in the other columns are just carried along for the ride.
 
 To better understand the **referential integrity constraint mapping**, we included a surrogate primary key column (`id`) in table `B`. Each row in table `B` is, therefore, uniquely identified by the `id` column values. Similarly, each row in table `A` is uniquely identified by the `pk` column values.
 
@@ -89,7 +92,9 @@ Consequently, the primary key values in column `id` of table B:
 
 As a result, all the rows in table `B` will be in the inner join resulting table, indicated as `Matching Rows Table B` on the top right hand side of the picture. It follows that the values in the `id` column of table `B` uniquely identify each matching row in the inner join resulting table.
 
-It follows that the set of `Matching Rows in Table A`, indicated on the top left hand side of the picture, is also defined in terms of the values in the `id` column of table `B`, indicated on the left hand side. For instance, the value **5** identifies the first matching  linked to the value **100** in the pk column of table `A` and the values **7** and **9** identify the second and third matching linked to the value **200**.
+It follows that the set of `Matching Rows in Table A`, indicated on the top left hand side of the picture, is also defined in terms of the values in the `id` column of table `B`, indicated on the left hand side.
+
+Note that I’ve put the `id` key column in a slightly different position in the `Matching Rows Table A`. This reflects that the key is a primary key in `B` and the primary key `pk` is  the first column  starting from the right. For instance, the value **5** identifies the first matching row of table `A` linked to the value **100** in the pk column and the values **7** and **9** identify the second and third matching row linked to the value **200**.
 
 As a result, those values are implicitly mapped to the primary key values of the `A` table. This implicit mapping defines a **function**.
 
@@ -106,9 +111,19 @@ The following picture illustrates the different categories. For a quick referenc
 
 ![functions](./images/19_functions.png)
 
-In the next section we discuss the 4 types of functions and the implication for the cardinality of the `INNER JOIN` resulting tables.
+In the next section we discuss the 4 types of functions and illustrate the corresponding visual diagram of the `INNER JOIN` resulting tables.
 
-## INNER JOIN CARDINALITY
+At this point, you might be asking yourself:
+
+- What is the number of rows in the resulting table of an `INNER JOIN`?
+
+The answer is straightforward if one of the two tables has a **referential integrity constraint**. In this case the common columns, used to connect each pair of tables, are the **primary** and **foreign** columns of the parent and child table. The values in the foreign key column are drawn from the primary key column and, therefore, for each row in the child table there is one and only one matching row in the parent table. Consequently, the number of rows in the `INNER JOIN` is exactly equal to the number of** `NOT NULL`**values in the foreign key column of the child table**. It follows that the number of rows will correspond to the number of records in the child table if the foreign key column does not contain `NULL` values.
+
+In the remaining sections of this lesson we discuss a number of examples to explain the various types of relationships in a Relational Database and illustrate the corresponding visual diagram to better understand how an `INNER JOIN` works; and more importantly why a relationship between tables is essential in a Database.
+
+Lastly, we discuss the case an `INNER JOIN` is performed with not related tables.
+
+## INNER JOIN RELATIONSHIPS
 
 For the sake of clarity we remind the definition of function between two sets. This trivial introduction, (might be boring for somebody :smile:), is essential for understanding the relational model mapping.
 
@@ -266,23 +281,83 @@ In this example, the value `9` in set `B` is assigned to `NULL`. The value `9` i
 |n|m|k|Zero or One|Zero or One|injective|m|
 
 
-### Relationship cardinality table
+## Relationship cardinality table
 
 
 The analysis of the previous cases can be easily extended to the other relationships. The table below gives a summary of the `INNER JOIN` cardinality of two tables.
 
 |rows in A| NOT NULL rows in B| NULL rows in B| A -> B| B -> A| function| rows in Inner Join(A,B)|
 |:-------:|:--------:|:-----:|:----:|:-----:|:-----:|:---:|
-|n|m|0|Zero or Many|One and only One|general|m|
-|n|m|k|Zero or Many|Zero or One|general|m|
-|n|m|0|Zero or One|One and only One|injective|m|
-|n|m|k|Zero or One|Zero or One|injective|m|
-|n|m|0|One and only One|One and only One|bijective|m=n|
-|n|m|k|One and only One|Zero or One|injective|m|
-|n|m|0|One or Many|One and only One|surjective|m|
-|n|m|k|One or Many|Zero or One|general|m|
-|n|m|0|Many|One and only One|surjective|m|
-|n|m|k|Many|Zero or One|general|m|
+|n|**m**|0|Zero or Many|One and only One|general|      **m**|
+|n|**m**|k|Zero or Many|Zero or One|general|           **m**|
+|n|**m**|0|Zero or One|One and only One|injective|     **m**|
+|n|**m**|k|Zero or One|Zero or One|injective|          **m**|
+|n|**m**|0|One and only One|One and only One|bijective|**m**=**n**|
+|n|**m**|k|One and only One|Zero or One|injective|     **m**|
+|n|**m**|0|One or Many|One and only One|surjective|    **m**|
+|n|**m**|k|One or Many|Zero or One|general|            **m**|
+|n|**m**|0|Many|One and only One|surjective|           **m**|
+|n|**m**|k|Many|Zero or One|general|                   **m**|
 
 
-The table above shows that the number of rows in an `INNER JOIN` is equal to the number of `NOT NULL` values in the foreign key column in the child table.
+The table above shows that the number of rows in an `INNER JOIN` based on the `primary-foreign key relationship` of tables in a Relational database, **is exactly equal to the number of** `NOT NULL` **values in the foreign key column in the child table**.
+
+
+## Complete and Incomplete JOIN: No relationship tables
+
+So far all the diagrams have assumed the existence of a primary and foreign keys. But that's not always the case. This section explains what happens when there is no correspondence between rows of the two tables.
+
+Let us look at some different examples of join, in order to highlight some important points.
+
+### Complete JOIN
+
+In the previous section we proof that joining related tables returns a table with a number of rows **exactly equal to the number of** `NOT NULL`**values in the foreign key column of the child table**. Consequently, this number will correspond to the total number of rows in the child table if there is no `NULL` values in the foreign key column. This is true for all the surjective functions that map each record in the child table to one and only one record in the parent table. Consequently, All the rows in the parent table are matched with at least one row in the child table.
+
+![complete join](./images/25_completejoin.png)
+
+For instance, in the example illustrated in the picture above we can say that each of the tables contributes to at least one row of the result. In this case, the **JOIN** is said to be **Complete**. In the diagram illustrated above, each row in the `A` table have at least one matching row in the `B` table and similarly for rows in the `B` table. In this case, each row in the `B` table has **exactly one matching row** in the `A` table. The number of rows in the joining table is, therefore, equal to the number of rows in the `B` table. This property does not hold in general, because **it requires a correspondence between the rows of the two tables**. As discussed in the previous section, the mapping `B` **->** `A` can be only of two types:
+
+- `Zero or One`
+- `One`
+
+It follows that a **Complete** `JOIN` of two related tables will always return a number of rows equal to the number of records in the child table.
+
+In the case table `B` **has more than one matching row**, the joining column is not a primary key in the `A` table and there is no mapping function `B`**->**`A`. In other words, there is no correspondence between the rows of the two tables.
+
+In this scenario, we would like to answer the following two questions:
+
+1. What is the `minimum` number of rows a complete `INNER JOIN` returns in the case there is no correspondence between the rows of the two tables?
+
+2. What is the `maximum` number of rows a **Complete** `INNER JOIN` might have?
+
+The answer to the first question is obvious. Since each row in both tables contributes to at least one row in the result, we expect the `INNER JOIN` to return a table with a number of rows `at least` equal to the maximum of the number of rows in the first and second table. In terms of a formal notation, the number of rows `p` is given by `p = max(|A|,|B|)`, where `|A|` and `|B|` are the number of rows (aka cardinalities) in the A and B tables, respectively.
+
+The next question is:
+
+What is the maximum number of rows a **Complete** `INNER JOIN` might have?
+
+![complete join 2](./images/26_completejoin.png)
+
+**SQL**
+```SQL
+SELECT n,
+       fk as k,
+       c
+  FROM A INNER JOIN B
+    ON A.ak = B.bk;
+```
+
+
+The example illustrated in the picture above shows the `INNER JOIN` of two tables, `A` and `B`. You may have noticed that the joining columns are indicated as `ak` and `bk` for tables `A` and `B`. This is to emphasize that those columns are not related to each other except for the same numeric data type required in the comparison clause of the `INNER JOIN`.
+
+The important point of this example is that both tables have duplicate values in the joining columns (the number of `100` in this case). This is usually an error because in neither table do the join columns uniquely identify an observation. In order to understand how a JOIN works in the general case is useful to add a surrogate primary key for both tables, `A` and `B`, indicated as `idA` and `idB` in the columns of the diagram example.
+
+For instance, the numbers `10` and `20` in the picture uniquely identify the first and second record of table `A`, while the numbers `5` and `7` are the identifiers of the first two records in table `B`.
+
+When you join duplicate keys, each row of each table can be combine with all the rows of the other, as shown in the figure. In other word, you get all possible combinations. In this case, the result contains a number of rows equal to the product of the cardinalities of the tables and thus, `|A|x|B|` rows.
+
+This is not a surprising result since the `INNER JOIN` table is a subset of the **Cartesian Product** or `CROSS JOIN` table. The diagram example should be already familiar to you since we discussed the `CROSS JOIN` operation in [lesson](./04_cross_join.md).
+
+
+
+## Veen Diagram: An alternative representation  
