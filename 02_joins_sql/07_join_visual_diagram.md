@@ -76,7 +76,12 @@ And the primary key values in column `pk` of table A:
 - **200** uniquely identifies `ROW 2`.
 - **300** uniquely identifies `ROW 3`.
 
+> Note: In the tables illustrated in the picture above, the `ROW` number is used only for **visualization purposes** and to emphasize that a **primary key value uniquely identifies a record**. We can then remind that a table does not have a defined order between the rows. Hence, the row number is used to visualize a particular table instance and there is no obviously a *presentation* order since two tables with the same rows, but in different order, represent the same table. Consequently, the example can be **generalized to any row permutation order**. What really matters is that the values in the **primary key column** are distinct one from another and, therefore, they constitute a **SET OF VALUES**. It follows that for each instance table, the terms `ROW #`, where the symbol `#` indicates a whole number, and the corresponding primary key value are equivalent.
+
 In the picture above, the values in the `pk` column of table `A` are mapped to `zero`, `one` and `more` rows in the `B` table, depending on the foreign key value.
+
+
+![mapping row](./images/27_mappingrow.png)
 
 For example, the primary key values in column `pk` of table A:
 
@@ -84,17 +89,51 @@ For example, the primary key values in column `pk` of table A:
 - **200** is mapped to `two` rows in table `B`, `ROW 2` and `ROW 3`,or **7** and **9**.
 - **300** is mapped to `zero` rows in table `B`. No ROWS.
 
+
+![mapping row](./images/28_mappingrow.png)
+
+
 Consequently, the primary key values in column `id` of table B:
 
-- **5** is mapped to **100**
-- **7** is mapped to **200**
-- **9** is mapped to **200**
+- **5** is mapped to **100**, `ROW 1` in table A
+- **7** is mapped to **200**, `ROW 2` in table A
+- **9** is mapped to **200**, `ROW 2` in table A
+
+
+This simple example gives a visual representation of the meaning for a **referential integrity constraint mapping** in a relationship between tables. The values in the `fk` columns is a **subset of the values** in the primary key column, (`pk`), in table A. Hence, **the combination of the primary and foreign key values in table B uniquely identifies the matching rows in both tables**.
+
+![mapping row](./images/29_mappingrow.png)
+
+In this picture, the set of tuples in the middle are the primary and foreign key columns in table `B`. The combination of the `id` and `fk` fields of each record uniquely determines the matching rows in both tables.
+
+For example, the tuple `(5,100)` uniquely determines the mapping between the first rows in both tables. Next, the tuples `(7,200)` and `(9,200)` determine the mapping of the second and third row in table `B` with the second row in table `A`.
+
+![example inner join](./images/18_inner2.png)
 
 As a result, all the rows in table `B` will be in the inner join resulting table, indicated as `Matching Rows Table B` on the top right hand side of the picture. It follows that the values in the `id` column of table `B` uniquely identify each matching row in the inner join resulting table.
 
 It follows that the set of `Matching Rows in Table A`, indicated on the top left hand side of the picture, is also defined in terms of the values in the `id` column of table `B`, indicated on the left hand side.
 
-Note that I’ve put the `id` key column in a slightly different position in the `Matching Rows Table A`. This reflects that the key is a primary key in `B` and the primary key `pk` is  the first column  starting from the right. For instance, the value **5** identifies the first matching row of table `A` linked to the value **100** in the pk column and the values **7** and **9** identify the second and third matching row linked to the value **200**.
+Note that I’ve put the `id` key column in a slightly different position in the `Matching Rows Table A`. This reflects that the key is a primary key in `B` and the primary key `pk` is  the first column  starting from the right. For instance, the value **5** identifies the first matching row of table `A` linked to the value **100** in the pk column and the values **7** and **9** identify the second matching row linked to the value **200**.
+
+As a result, the `INNER JOIN` of two tables, determines `two implicit mappings` between two finite sets:
+
+- **B<sub>R</sub>** = {1, ... , `|B|`}: represents the set of rows in table `B`.
+- **A<sub>R</sub>** = {1, ... , `|A|`}: represents the set of rows in table `A`.
+
+As usual, the notation `|B|` and `|A|` indicates the total number of rows in table `B` and `A`, respectively. It follows that the `INNER JOIN` resulting table is a correspondence between the following two sets:
+
+- **B<sub>MR</sub>** = {1, ... ,`p <= |B|`}: represents the set of matching rows in table `B`.
+- **A<sub>MR</sub>** = {1, ... ,`q <= |A|`}: represents the set of matching rows in table `A`.
+
+Hence, **B<sub>R</sub>** and **A<sub>R</sub>** are subsets of the Natural numbers. It's worth noting that the number of matching rows in **B<sub>MR</sub>** is exactly equal to `|B|`, `p = |B|`, if and only if the foreign key column does not contain `NULL` values. In this section we illustrate the case `p = B`, later in this lesson we discuss the existence of `NULL` values in the foreign key column.
+
+![mapping row](./images/30_mappingrow2.png)
+
+The first mapping, **B<sub>R</sub>** `->` **A<sub>R</sub>**:
+- Assigns to each row number in table `B`, the corresponding matching row number in table `A`. It's worth noting that the **matching rows** in table `A`, indicated as **A<sub>MR</sub>** is a proper subset of **A<sub>R</sub>**.  
+
+![mapping row2](./images/31_mappingrow.png)
 
 As a result, those values are implicitly mapped to the primary key values of the `A` table. This implicit mapping defines a **function**.
 
@@ -315,7 +354,7 @@ In the previous section we proof that joining related tables returns a table wit
 
 ![complete join](./images/25_completejoin.png)
 
-For instance, in the example illustrated in the picture above we can say that each of the tables contributes to at least one row of the result. In this case, the **JOIN** is said to be **Complete**. In the diagram illustrated above, each row in the `A` table have at least one matching row in the `B` table and similarly for rows in the `B` table. In this case, each row in the `B` table has **exactly one matching row** in the `A` table. The number of rows in the joining table is, therefore, equal to the number of rows in the `B` table. This property does not hold in general, because **it requires a correspondence between the rows of the two tables**. As discussed in the previous section, the mapping `B` **->** `A` can be only of two types:
+For instance, in the example illustrated in the picture above we can say that each of the tables contributes to at least one row of the result. In this case, the **JOIN** is said to be **Complete**. In the diagram illustrated above, each row in the `A` table have at least one matching row in the `B` table and similarly for rows in the `B` table. In this case, each row in the `B` table has **exactly one matching row** in the `A` table. The number of rows in the joining table is, therefore, equal to the number of rows in the `B` table. This property does not hold in general, because **it requires a correspondence between the rows of the two tables**. As discussed in the previous section, the `primary-foreign key` **mapping** `B` **->** `A` can be only of two types:
 
 - `Zero or One`
 - `One`
@@ -350,7 +389,7 @@ SELECT n,
 
 The example illustrated in the picture above shows the `INNER JOIN` of two tables, `A` and `B`. You may have noticed that the joining columns are indicated as `ak` and `bk` for tables `A` and `B`. This is to emphasize that those columns are not related to each other except for the same numeric data type required in the comparison clause of the `INNER JOIN`.
 
-The important point of this example is that both tables have duplicate values in the joining columns (the number of `100` in this case). This is usually an error because in neither table do the join columns uniquely identify an observation. In order to understand how a JOIN works in the general case is useful to add a surrogate primary key for both tables, `A` and `B`, indicated as `idA` and `idB` in the columns of the diagram example.
+The important point of this example is that both tables have duplicate values in the joining columns (the number of `100` in this case). This is usually an `error` **because in neither table do the join columns uniquely identify an observation**. In order to understand how a JOIN works in the general case is useful to add a surrogate primary key for both tables, `A` and `B`, indicated as `idA` and `idB` in the columns of the diagram example.
 
 For instance, the numbers `10` and `20` in the picture uniquely identify the first and second record of table `A`, while the numbers `5` and `7` are the identifiers of the first two records in table `B`.
 
