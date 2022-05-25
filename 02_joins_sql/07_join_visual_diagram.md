@@ -76,19 +76,22 @@ And the primary key values in column `pk` of table A:
 - **200** uniquely identifies `ROW 2`.
 - **300** uniquely identifies `ROW 3`.
 
-> Note: In the tables illustrated in the picture above, the `ROW` number is used only for **visualization purposes** and to emphasize that a **primary key value uniquely identifies a record**. We can then remind that a table does not have a defined order between the rows. Hence, the row number is used to visualize a particular table instance and there is no obviously a *presentation* order since two tables with the same rows, but in different order, represent the same table. Consequently, the example can be **generalized to any row permutation order**. What really matters is that the values in the **primary key column** are distinct one from another and, therefore, they constitute a **SET OF VALUES**. It follows that for each instance table, the terms `ROW #`, where the symbol `#` indicates a whole number, and the corresponding primary key value are equivalent.
+> Note: In the tables illustrated in the picture above, the `ROW` number is used only for **visualization purposes** and to emphasize that a **primary key value uniquely identifies a record**. We can then remind that a table does not have a defined order between the rows. Hence, the row number is used to visualize a particular table instance and there is no obviously a *presentation* order since two tables with the same rows, but in different order, represent the same table. Consequently, the example can be **generalized to any row permutation order**. What really matters is that the values in the **primary key column** are distinct one from another and, therefore, they constitute a **SET OF VALUES**. It follows that for each instance table, the terms `ROW #`, where the symbol `#` indicates a whole number, and the corresponding primary key value are equivalent. **It's basically a mapping of the primary key values in a Table to the set of Natural numbers**.
 
 In the picture above, the values in the `pk` column of table `A` are mapped to `zero`, `one` and `more` rows in the `B` table, depending on the foreign key value.
+
+The following diagrams show the mapping relation as connecting arrows between the elements of two sets, indicated as two parallel columns of dots contained in circle shapes. The arrows indicate the relation direction that connects the elements in the *set of departure* or **domain of the relation** to the *set of destination* or **codomain of the relation**.
 
 
 ![mapping row](./images/27_mappingrow.png)
 
-For example, the primary key values in column `pk` of table A:
+For example, in this diagram the set of departure is the set of primary key values in column `pk` of table A, illustrated inside the blue circle on the right hand side of the picture above, indicated as `a = pk`, and the codomain is the set of primary key values in table B, illustrated inside the middle circle and indicated as `b = (id,fk)`. The `fk` column is carried to illustrate the relation between the primary and foreign key values. Lastly, the dotted bidirectional arrows connecting the the left hand side and middle circles show the corresponding row for each primary key value. Bear in mind that this correspondence is only for visual representation, there is no relation order between rows in a table. As mentioned earlier, *it's basically a mapping of the primary key values in a Table to the set of Natural numbers*. This representation is helpful to visualize the relation in the Cartesian plane, as it will be shown soon in this lesson. In this mapping the primary values in table A appears in the second position of the tuple `b = (id, fk)` and therefore it can be easily substitute with `(id, fk=pk)`. It follows that the values:
 
-- **100** is mapped to `one` row in table `B`, `ROW 1` or **5**.
-- **200** is mapped to `two` rows in table `B`, `ROW 2` and `ROW 3`,or **7** and **9**.
-- **300** is mapped to `zero` rows in table `B`. No ROWS.
+- **100**, (`5`,**100**), is mapped to `one` row in table `B`, `ROW 1` or **5**.
+- **200**, (`7`,**200**), is mapped to `two` rows in table `B`, `ROW 2` and `ROW 3`,or **7** and **9**.
+- **300**, `NO Mapping`, is mapped to `zero` rows in table `B`. No ROWS.
 
+You might have noticed that not all elements in the domain are mapped to the codomain. This type of mapping is usually called a *partial mapping*. In this case the *domain** is called **domain definition of the instance relation** just to make a distinction with the general case of not matching rows in a set.
 
 ![mapping row](./images/28_mappingrow.png)
 
@@ -99,8 +102,11 @@ Consequently, the primary key values in column `id` of table B:
 - **7** is mapped to **200**, `ROW 2` in table A
 - **9** is mapped to **200**, `ROW 2` in table A
 
+On the other hand, this mapping includes all the elements in the domain and, therefore, is a *complete mapping*.
 
-This simple example gives a visual representation of the meaning for a **referential integrity constraint mapping** in a relationship between tables. The values in the `fk` columns is a **subset of the values** in the primary key column, (`pk`), in table A. Hence, **the combination of the primary and foreign key values in table B uniquely identifies the matching rows in both tables**.
+This simple example gives a visual representation of the meaning for a **referential integrity constraint mapping** in a relationship between tables. The values in the `fk` columns is a **subset of the values** in the primary key column, (`pk`), in table A. Hence, **the combination of the primary and foreign key values in the parent and child table B uniquely identifies the matching rows in both tables**.
+
+The **uniqueness of the joining table rows can even be determined by the primary key values in the child table **!**, as we'll see soon.
 
 ![mapping row](./images/29_mappingrow.png)
 
@@ -110,30 +116,88 @@ For example, the tuple `(5,100)` uniquely determines the mapping between the fir
 
 ![example inner join](./images/18_inner2.png)
 
-As a result, all the rows in table `B` will be in the inner join resulting table, indicated as `Matching Rows Table B` on the top right hand side of the picture. It follows that the values in the `id` column of table `B` uniquely identify each matching row in the inner join resulting table.
+As a result, all the rows in table `B` will be in the inner join resulting table, indicated as `Matching Rows Table B` on the top right hand side of the picture. It follows that **the values in the** `id` **column of table** `B` **uniquely identify each matching row in the inner join resulting table**.
 
 It follows that the set of `Matching Rows in Table A`, indicated on the top left hand side of the picture, is also defined in terms of the values in the `id` column of table `B`, indicated on the left hand side.
 
-Note that I’ve put the `id` key column in a slightly different position in the `Matching Rows Table A`. This reflects that the key is a primary key in `B` and the primary key `pk` is  the first column  starting from the right. For instance, the value **5** identifies the first matching row of table `A` linked to the value **100** in the pk column and the values **7** and **9** identify the second matching row linked to the value **200**.
+Note that I’ve put the `id` key column in a slightly different position in the `Matching Rows Table A`. This reflects that the key is a `primary key` in `B` and the primary key `pk` is  the first column  starting from the right. For instance, the value **5** identifies the first matching row of table `A` linked to the value **100** in the pk column and the values **7** and **9** identify the second matching row linked to the value **200**.
 
 As a result, the `INNER JOIN` of two tables, determines `two implicit mappings` between two finite sets:
 
 - **B<sub>R</sub>** = {1, ... , `|B|`}: represents the set of rows in table `B`.
 - **A<sub>R</sub>** = {1, ... , `|A|`}: represents the set of rows in table `A`.
 
-As usual, the notation `|B|` and `|A|` indicates the total number of rows in table `B` and `A`, respectively. It follows that the `INNER JOIN` resulting table is a correspondence between the following two sets:
+As usual, the notation `|B|` and `|A|` indicates the total number of rows in table `B` and `A`, respectively. Hence, **B<sub>R</sub>** and **A<sub>R</sub>** are subsets of the Natural numbers. It follows that the `INNER JOIN` resulting table is a correspondence between the following two sets:
 
 - **B<sub>MR</sub>** = {1, ... ,`p <= |B|`}: represents the set of matching rows in table `B`.
 - **A<sub>MR</sub>** = {1, ... ,`q <= |A|`}: represents the set of matching rows in table `A`.
 
-Hence, **B<sub>R</sub>** and **A<sub>R</sub>** are subsets of the Natural numbers. It's worth noting that the number of matching rows in **B<sub>MR</sub>** is exactly equal to `|B|`, `p = |B|`, if and only if the foreign key column does not contain `NULL` values. In this section we illustrate the case `p = B`, later in this lesson we discuss the existence of `NULL` values in the foreign key column.
+It's worth noting that the number of matching rows in **B<sub>MR</sub>** is exactly equal to `|B|`, `p = |B|`, if and only if the foreign key column does not contain `NULL` values. In this section we illustrate the case `p = B`, later in this lesson we discuss the existence of `NULL` values in the foreign key column.
 
 ![mapping row](./images/30_mappingrow2.png)
 
 The first mapping, **B<sub>R</sub>** `->` **A<sub>R</sub>**:
-- Assigns to each row number in table `B`, the corresponding matching row number in table `A`. It's worth noting that the **matching rows** in table `A`, indicated as **A<sub>MR</sub>** is a proper subset of **A<sub>R</sub>**.  
+- Assigns to each row number in table `B`, the corresponding matching row number in table `A`. It's worth noting that the **matching rows** in table `A`, indicated as **A<sub>MR</sub>**, is a proper subset of **A<sub>R</sub>**.  
 
 ![mapping row2](./images/31_mappingrow.png)
+
+The second mapping, **A<sub>R</sub>** `->` **B<sub>R</sub>**:
+- Assigns to each row number in **A<sub>MR</sub>**, the corresponding matching row number in table `B`. It's worth noting that the mapping notation in the picture is **A<sub>R</sub>** `->` **B<sub>R</sub>**, although this notation is not formally correct, we keep the whole set of primary key values to make a distinction between a partial and complete mapping. This distinction is helpful to understand the `OUTER JOIN` operator, as it will be shown later in this course.  
+
+The implicit mappings described earlier can be visualized in a Cartesian plane, since the row number implicitly defines a relation order between rows.
+
+Assuming there is a correspondence between the set of *Natural numbers*, **N**, and the rows in a table, **it's possible to access the values in the columns using a positional index**, as follow:
+
+![eq1](./images/eq1.png)
+
+In this notation:
+
+1. The positional index is **i** and the range is between `1` and the number of rows in table A, `|A|`.
+2. **t<sub>a<sub>i</sub></sub>** and **T<sub>A</sub>** denote the row in position `i` and the sequence of rows in table A. For example, **t<sub>a<sub>1</sub></sub>** denotes the row in position `1` and, therefore, is the first element in the **T<sub>A</sub>** sequence.
+3. **cl<sub>A</sub>** and **CL<sub>A</sub>** denote a table's column and the set of columns in table A.
+4. **t<sub>a<sub>i</sub></sub>[cl<sub>A</sub>]** is, therefore, the value of column **cl<sub>A</sub>** in row `i`.
+
+This notation might be helpful to formulate the referential integrity constraint mapping in the Carrtesian plane. I cannot stress enough that this notation is based on the assumption of natural ordering between rows in a table. This assumption is not valid in the Relational Model, however we'll show how to overcome this issue later in this lesson.
+
+Later in the course, we also propose a formulation based on `Set theory` **more appropriate** for a definition of the `JOIN` operator in the `Relational Model`. Lastly, we illustrate a `set representation` using `Venn Diagrams`.
+
+### The Positional Representation of a Table
+
+In the previous section we introduced a formalism to describe a table using a positional notation. In this section, we show how to apply the notation to a specific instance table and illustrate how to generalize the notation for a relational model.
+
+Let us look a simple example.
+
+![eq2](./images/eq2.png)
+
+In the example illustrated above, the positional index **i** ranges between `1` and `3` and the cardinality of table B is, **|CL<sub>B</sub>| =** `2`. It follows that table B has 3 rows and two columns, indicated with the identifiers `id` and `fk`. A generic row in the table can be easily acessed with the positional index `i` and the column **cl<sub>B</sub>** belonging to the set **CL<sub>B</sub>**.
+
+For example, the second row, `i=2`, is defined as follow:
+
+- **t<sub>b</sub><sub>2</sub>** = (**t<sub>b</sub><sub>2</sub>[id]**,**t<sub>b</sub><sub>2</sub>[fk]**) = **(7,200)**.
+
+![tabulaeq](./images/32_tabular.png)
+
+In this example, we illustrated how to use the positional index to described the tabular representation of an instance table. This notation assumes a Natural order between rows in a table.
+
+This, however, begs the question: `What does it mean to be in order and how do we specify that?`
+
+A deceptively obvious answer is that the output must respect the ordering relation of a Total Order on their respective primary keys. This choice actually depends on the table involved in the `JOIN` operation, as we'll show in the next section.
+
+In this problem, the elements to be sorted are the rows in the table and each row **R<sub>j</sub>** has a primary key, `pk` or `id`, which governs the sorting process.
+
+The sorting algorithm transforms the input sequence into a rearranged sequence containing the same elements. The output sequence is a permutation such that an order relation, `(`**<=**`)` or `(`**>=**`)`, criterion on the primary keys is satisfied.
+
+For the example discussed earlier, the group of permutation for 3 rows is illustrated below.
+
+![eq3](./images/eq3.png)
+
+In this example, each row number in the current table is mapped to a row number in the same range of values, (i.e. `1`,`2`,`3`). For example, the first permutationmaps each row number to the same position and, therefore, the primary keys keeps the same mapping. this permutation is called the identical permutation.
+
+In the following examples, the rows will be sorted in `ASCENDING` order of the `primary` and `foreign` key columns in the parent and child table.
+
+In other words, the criterion to be satisfied in the parent and child table is:
+
+ 
 
 As a result, those values are implicitly mapped to the primary key values of the `A` table. This implicit mapping defines a **function**.
 
