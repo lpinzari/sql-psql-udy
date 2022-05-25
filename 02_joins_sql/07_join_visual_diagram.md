@@ -163,7 +163,7 @@ Later in the course, we also propose a formulation based on `Set theory` **more 
 
 ### The Positional Representation of a Table
 
-In the previous section we introduced a formalism to describe a table using a positional notation. In this section, we show how to apply the notation to a specific instance table and illustrate how to generalize the notation for a relational model.
+In the previous section we introduced a formalism to describe a table using a positional notation. In this section, we show how to apply the notation to a specific instance table and illustrate how to generalize the positional representation for any instance table in the relational model.
 
 Let us look a simple example.
 
@@ -189,15 +189,34 @@ The sorting algorithm transforms the input sequence into a rearranged sequence c
 
 For the example discussed earlier, the group of permutation for 3 rows is illustrated below.
 
-![eq3](./images/eq3.png)
+![eq3](./images/eq3a.png)
 
-In this example, each row number in the current table is mapped to a row number in the same range of values, (i.e. `1`,`2`,`3`). For example, the first permutationmaps each row number to the same position and, therefore, the primary keys keeps the same mapping. this permutation is called the identical permutation.
+In this example, each row number in the current table is mapped to a row number in the same range of values, (i.e. `1`,`2`,`3`). For example, the first permutation maps each row number to the same position and, therefore, the primary keys keeps the same mapping. This permutation is called the identical permutation since the table before and after the permutation remains the same.
 
-In the following examples, the rows will be sorted in `ASCENDING` order of the `primary` and `foreign` key columns in the parent and child table.
+In the following examples, the rows will be sorted in `ASCENDING` order of the `primary` and `foreign` key values in the parent and child table.
 
 In other words, the criterion to be satisfied in the parent and child table is:
 
- 
+![eq4](./images/eq4.png)
+
+
+For the example discussed earlier, the B table is already sorted in ascending order of the primary key values. We also notice that the foreign key values follow the same order as the primary key column.
+
+Let's discuss the **parent table** case first.
+
+![permutation group](./images/33_permutation.png)
+
+It's clear that the group of permutation **S<sub>3</sub>** gives 6 possible configurations only in the case we sort distinct values. It follows that **there is one and only one configuration for the sorted primary key parent table** and , therefore, for each initial configuration there has to be one and only one permutation. It follows that, there is `only one mapping between the primary key values and the Natural numbers`.
+
+The table representing this mapping is indicated as **A<sub><=pk</sub>**, denoting the equivalence class of all `3` rows matrices. In other words, given any instance table in the space of any matrices of `3` rows, the **A<sub><=pk</sub>** gives the same visual representation in the Cartesian plane and there is no ambiguity for the `INNER` join resulting table.
+
+![permutation group](./images/34_permutation.png)
+
+On the other hand, there might be more than a single configuration in the foreign key child table in case of duplicates or multiple values. As a result, it's necessary to use a different criterion to sort the child table records. A simple idea that comes in mind is that for each foreign key value there will be always distinct primary key values. Consequently, a solution is to sort the records by foreign key values first and then sort the corresponding primary key values. This solution uniquely determines the equivalence class matrix **B<sub><=fk,pk</sub>**.
+
+### Postional representation of a JOIN
+
+
 
 As a result, those values are implicitly mapped to the primary key values of the `A` table. This implicit mapping defines a **function**.
 
