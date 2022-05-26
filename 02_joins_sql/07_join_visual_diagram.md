@@ -229,7 +229,7 @@ It follows that, there is `only one mapping between the primary key values and t
 - `200` **->** `2`
 - `300` **->** `3`
 
-The sorted table representing this mapping is indicated as **A<sub><=pk</sub>**, denoting the representative table of the `3` rows tables equivalence class. In other words, the visual representation of the 6 tables in the Cartesian plane is illustrated by the **A<sub><=pk</sub>** and there is no ambiguity for the `INNER` join resulting table. We then remind that a Cartesian plane requires a relation order for its elements.
+The sorted table representing this mapping is indicated as **A<sub>>=pk</sub>**, denoting the representative table of the `3` rows tables equivalence class. In other words, the visual representation of the 6 tables in the Cartesian plane is illustrated by the **A<sub><=pk</sub>** and there is no ambiguity for the `INNER` join resulting table. We then remind that a Cartesian plane requires a relation order for its elements.
 
 ![permutation group](./images/34_permutation4.png)
 
@@ -239,7 +239,7 @@ For example, in the picture above the sequence (`100`,`200`,`200`) appears in th
 
 As a result, it's necessary to use a different criterion to sort the child table records. A natural way to uniquely identify each record in a table is the choice of a column with distinct values.
 
-The answer is obviously: `The primary key column`. The reason is that for each foreign key value there will be always distinct primary key values. Consequently, a solution is to sort the records by foreign key values first and then sort the corresponding primary key values. This solution uniquely determines the equivalence class matrix **B<sub><=fk,pk</sub>**.
+The answer is obviously: `The primary key column`. The reason is that for each foreign key value there will be always distinct primary key values. Consequently, a solution is to sort the records by foreign key values first and then sort the corresponding primary key values. This solution uniquely determines the equivalence class matrix **B<sub>>=fk,pk</sub>**.
 
 It follows that the definitive sorting criterion for the parent and child tables is:
 
@@ -256,7 +256,25 @@ The sorting criterion must respect an ascending order relation on the primary ke
 
 The sorted table is a bijection between the Natural numbers and the values in the selected column keys that uniquely identifies each record in a table. The set of Natural numbers, `N`, is a total ordered set and, therefore, there is a correspondence between the Cartesian Product `N x N` and the `CROSS JOIN` operator.
 
+Following the notation introduced in the previous section we define the `CROSS JOIN` operator as follow:
 
+![eq9](./images/eq10.png)
+
+You may have noticed that an element in the Cartesian Product is a combination of the child and parent tables records, where the first and second elements are the rows in position `i` and `j`.
+
+- `(i,j)`
+- **i**: row in position i in the child table
+- **j**: row in position j in the parent table
+
+The resulting table in a `CROSS JOIN` is, however, a tuple of values and not a tuple of records. In a Relational database the columns order is not relevant and, therefore, the `CROSS JOIN` of two tables can be generalized to any columns permutation. For the sake of clarity and to be consistent in the visualization of the results, the columns in the parent and child tables will have the primary key in the first position whilst the foreign key is in the last position.
+
+The simplicity of this notation is better illustrated with an example. For instance, the Cross Join of the tables illustrated in the picture below:
+
+![example tables](./images/35_example.png)
+
+is represented in the Cartesian Plane below:
+
+![cartesian plane](./images/cartesian.png)
 
 As a result, those values are implicitly mapped to the primary key values of the `A` table. This implicit mapping defines a **function**.
 
