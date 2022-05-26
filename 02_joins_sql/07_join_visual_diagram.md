@@ -153,21 +153,32 @@ Assuming there is a correspondence between the set of *Natural numbers*, **N**, 
 In this notation:
 
 1. The positional index is **i** and the range is between `1` and the number of rows in table A, `|A|`.
-2. **t<sub>a<sub>i</sub></sub>** and **T<sub>A</sub>** denote the row in position `i` and the sequence of rows in table A. For example, **t<sub>a<sub>1</sub></sub>** denotes the row in position `1` and, therefore, is the first element in the **T<sub>A</sub>** sequence.
+2. **t<sub>a<sub>i</sub></sub>** and **T<sub>A</sub>** denote the row or tuple in position `i` and the sequence of rows in table A. For example, **t<sub>a<sub>1</sub></sub>** denotes the row in position `1` and, therefore, is the first element in the **T<sub>A</sub>** sequence.
 3. **cl<sub>A</sub>** and **CL<sub>A</sub>** denote a table's column and the set of columns in table A.
 4. **t<sub>a<sub>i</sub></sub>[cl<sub>A</sub>]** is, therefore, the value of column **cl<sub>A</sub>** in row `i`.
 
-This notation might be helpful to formulate the referential integrity constraint mapping in the Carrtesian plane. I cannot stress enough that this notation is based on the assumption of natural ordering between rows in a table. This assumption is not valid in the Relational Model, however we'll show how to overcome this issue later in this lesson.
+This notation does not include the column position in table A, since it is not relevant for the representation of a relationship in the cartesian plane, as it will be shown later in this section. It follows that column **cl<sub>A</sub>** represents any column in the `unordered set` of columns indicated as **CL<sub>A</sub>**. On the other hand, **T<sub>A</sub>** indicates a sequence of rows and therefore is an **ordered set of objects** since each row in a table is unique. This distinction between `ordered` and `unordered` sets is intentionally indicated with a small and capital case subscript letter in the set elements t<sub>**a**<sub>i</sub></sub> and cl<sub>**A**</sub>.   
 
-Later in the course, we also propose a formulation based on `Set theory` **more appropriate** for a definition of the `JOIN` operator in the `Relational Model`. Lastly, we illustrate a `set representation` using `Venn Diagrams`.
+This basic idea is essential to establish a correspondence between the coordinates on a cartesian axis and the ordered set **T<sub>A</sub>**. Hence, there is a bijiection between a sequence or ordered set of `p` positive integers on a cartesian axis, indicated as **N<sub>p</sub> = {1,2,..,p}**, and a table with `p` rows.  
+
+This positional notation is fundamental to formulate the referential integrity constraint mapping in the Cartesian plane. I cannot stress enough that this notation is based on the assumption of natural ordering between rows in a table. This assumption is not valid in the Relational Model, however we'll show how to overcome this issue later in this lesson.
+
+Later in this course, we also propose a formulation based on `Set theory` **more appropriate** for a definition of the `JOIN` operator in the `Relational Model`. Lastly, we illustrate a `set representation` using `Venn Diagrams`.
 
 ### The Positional Representation of a Table
 
 In the previous section we introduced a formalism to describe a table using a positional notation. In this section, we show how to apply the notation to a specific instance table and illustrate how to generalize the positional representation for any instance table in the relational model.
 
-Let us look a simple example.
+Before looking at a specific example, let us generalise the notion illustrated in the previous section for a two columns table B.
 
-![eq2](./images/eq2.png)
+![notation B](./images/eq6.png)
+
+This extended notation includes the set of integer numbers with the symbol **N** and the subscript to the symbol **T<sub>B<sub>n</sub></sub>**. this additional change is to still make a distinction between an ordered and unordered set, such as **CL<sub>B</sub>**.
+
+Now, let's look a simple example.
+
+![notation child](./images/eq8.png)
+
 
 In the example illustrated above, the positional index **i** ranges between `1` and `3` and the cardinality of table B is, **|CL<sub>B</sub>| =** `2`. It follows that table B has 3 rows and two columns, indicated with the identifiers `id` and `fk`. A generic row in the table can be easily acessed with the positional index `i` and the column **cl<sub>B</sub>** belonging to the set **CL<sub>B</sub>**.
 
@@ -177,7 +188,7 @@ For example, the second row, `i=2`, is defined as follow:
 
 ![tabulaeq](./images/32_tabular.png)
 
-In this example, we illustrated how to use the positional index to described the tabular representation of an instance table. This notation assumes a Natural order between rows in a table.
+In this example, we illustrated how to use the positional index to describe the tabular representation of an instance table. This notation assumes a Natural order between rows in a table.
 
 This, however, begs the question: `What does it mean to be in order and how do we specify that?`
 
@@ -193,28 +204,57 @@ For the example discussed earlier, the group of permutation for 3 rows is illust
 
 In this example, each row number in the current table is mapped to a row number in the same range of values, (i.e. `1`,`2`,`3`). For example, the first permutation maps each row number to the same position and, therefore, the primary keys keeps the same mapping. This permutation is called the identical permutation since the table before and after the permutation remains the same.
 
-In the following examples, the rows will be sorted in `ASCENDING` order of the `primary` and `foreign` key values in the parent and child table.
+In the following examples, the rows will be sorted in `ASCENDING` order of the `primary` and `foreign` key values in the parent and child table. This choice is only a preliminary attempt, the definitive criterion is given at the end of this section.
 
 In other words, the criterion to be satisfied in the parent and child table is:
 
 ![eq4](./images/eq4.png)
 
 
-For the example discussed earlier, the B table is already sorted in ascending order of the primary key values. We also notice that the foreign key values follow the same order as the primary key column.
+For the example discussed earlier, table B is already sorted in ascending order of the primary key values. We also notice that the foreign key values follow the same order as the primary key column. The sorting algorithm output is, therefore, the identical permutation.
 
 Let's discuss the **parent table** case first.
 
 ![permutation group](./images/33_permutation.png)
 
-It's clear that the group of permutation **S<sub>3</sub>** gives 6 possible configurations only in the case we sort distinct values. It follows that **there is one and only one configuration for the sorted primary key parent table** and , therefore, for each initial configuration there has to be one and only one permutation. It follows that, there is `only one mapping between the primary key values and the Natural numbers`.
+It's clear that the group of permutations **S<sub>3</sub>** gives 6 possible configurations only for tables with distinct values. There is, therefore, **one and only one configuration for the sorted primary key parent table**. Consequently, the permutation that transforms each table to a sorted table is unique. In other words, each inital configuration has one and only one sorting permutation.
 
-The table representing this mapping is indicated as **A<sub><=pk</sub>**, denoting the equivalence class of all `3` rows matrices. In other words, given any instance table in the space of any matrices of `3` rows, the **A<sub><=pk</sub>** gives the same visual representation in the Cartesian plane and there is no ambiguity for the `INNER` join resulting table.
+In the picture above, a set of 3 distinct primary key values (`100`,`200`,`300`) can be arranged in 6 possible ways and, therefore, `6 different tables`, (illustrated on the left and right hand side of the picture). It follows that only one table or configuration respects the ascending order relation on the primary keys. The sequence (`100`,`200`,`300`) appears only in the column of the first table on the top left hand side.
 
-![permutation group](./images/34_permutation.png)
+Hence, each table has one and only one sorting permutation. For instance, the permutation (`1` **->** `3`,`2` **->** `1`, `3` **->** `2`)  transforms the sequence of primary key values (`300`,`100`,`200`) that appears in the second table on the left hand side of the picture, to the sorted sequence (`100`,`200`,`300`).
 
-On the other hand, there might be more than a single configuration in the foreign key child table in case of duplicates or multiple values. As a result, it's necessary to use a different criterion to sort the child table records. A simple idea that comes in mind is that for each foreign key value there will be always distinct primary key values. Consequently, a solution is to sort the records by foreign key values first and then sort the corresponding primary key values. This solution uniquely determines the equivalence class matrix **B<sub><=fk,pk</sub>**.
+It follows that, there is `only one mapping between the primary key values and the Natural numbers`. In this example, the mapping is:
+
+- `100` **->** `1`
+- `200` **->** `2`
+- `300` **->** `3`
+
+The sorted table representing this mapping is indicated as **A<sub><=pk</sub>**, denoting the representative table of the `3` rows tables equivalence class. In other words, the visual representation of the 6 tables in the Cartesian plane is illustrated by the **A<sub><=pk</sub>** and there is no ambiguity for the `INNER` join resulting table. We then remind that a Cartesian plane requires a relation order for its elements.
+
+![permutation group](./images/34_permutation4.png)
+
+On the other hand, the existence of duplicates values in the foreign key column has more than a single configuration with sorted records.
+
+For example, in the picture above the sequence (`100`,`200`,`200`) appears in the foreign key column of two tables, illustrated on the top left and bottom right corners.
+
+As a result, it's necessary to use a different criterion to sort the child table records. A natural way to uniquely identify each record in a table is the choice of a column with distinct values.
+
+The answer is obviously: `The primary key column`. The reason is that for each foreign key value there will be always distinct primary key values. Consequently, a solution is to sort the records by foreign key values first and then sort the corresponding primary key values. This solution uniquely determines the equivalence class matrix **B<sub><=fk,pk</sub>**.
+
+It follows that the definitive sorting criterion for the parent and child tables is:
+
+![eq4](./images/eq5.png)
+
+
+It's worth noting that the sorting criterion is not unique in the case of composite primary keys since it depends on the order the primary key columns values are sorted. This limitation can be ignored if we follow the rule to sort the values in the columns respecting the alphabetical order of the columns' name. For instance if the primary key is (`course_id, student_id`), the primary key columns values are sorted following the order `course_id` and `student_id`. It's an arbitrary choice, the point is to be consistent and avoid any ambiguity. In this way, we provide a general rule to represent both tables in the Cartesian plane.  
 
 ### Postional representation of a JOIN
+
+The previous section determined a general sorting criterion to uniquely represent any instance table and overcome the ambiguity to interpret the result of an `INNER JOIN` between tables in a cartesian Plane.
+
+The sorting criterion must respect an ascending order relation on the primary key values in the parent table and a foreign-primary keys combination in the child table.
+
+The sorted table is a bijection between the Natural numbers and the values in the selected column keys that uniquely identifies each record in a table. The set of Natural numbers, `N`, is a total ordered set and, therefore, there is a correspondence between the Cartesian Product `N x N` and the `CROSS JOIN` operator.
 
 
 
