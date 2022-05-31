@@ -264,7 +264,13 @@ You may have noticed that the definition of set **B** does not have a listing of
 
 - **(P<sub>i</sub>** `OR` **P<sub>j</sub>)** = `F` **<->** **P<sub>i</sub>** = **P<sub>j</sub>**, otherwise `T`
 
+
+It follows that:
+
 ![equation 11](./images/eq11.png)
+
+The Boolean table is represented below:
+
 
 
 *IMMAGINI*
