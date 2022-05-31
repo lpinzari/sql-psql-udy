@@ -235,7 +235,12 @@ It's worth noting that the domain cartesian product is still the same but the me
 
 This happens because each of the two domains integer and string appears twice in the relation, and the two occurrences are distinguished on the basis of their positions: the first appearance of the domain string refers to the home team, and the second to the visiting team.
 
-For this reason, we introduce a `non-positional` notation, by associating names with the domains in a relation, referred to as attributes, which describe the `roles` played by the domains. For example, for the relation concerning the matches, we can use names such as `Home_Team`, `Visiting_Team`, `Home_Goals`, `Visitor_Goals` and two additional columns `Home_Continent` and `Visitor_Continent` (it's not the best solution in terms of database design, it's only for teaching purposes); in the tabular representation, we use the attributes as column headings. **Given the necessity of identifying the components unambiguously**, **the attributes of a relation** (and therefore the `column headings`) must be different from each other and must have an unambiguos meaning.
+For this reason, we introduce a `non-positional` notation, by associating names with the domains in a relation, referred to as attributes, which describe the `roles` played by the domains. For example, for the relation concerning the matches, we can use names such as `Home_Team`, `Visiting_Team`, `Home_Goals`, `Visitor_Goals` and two additional columns `Home_Continent` and `Visitor_Continent` (it's not the best solution in terms of database design, it's only for teaching purposes); in the tabular representation, we use the attributes as column headings.
+
+**Given the necessity of identifying the components unambiguously**, **the attributes of a relation** (and therefore the `column headings`) must be
+
+- `different from each other` and
+- must have `identifiers with unambiguous meaning`. In other words, there must be a logical connection between the columns names that establishes a relation based only the column headings.
 
 |Home_Continent|Visitng_Continent|Home_Team| Visiting_Team| Home_Goals | Visitor_Goals |
 |:--:|:--:|:-----:|:-----:|:-------:|:--------:|
@@ -243,6 +248,35 @@ For this reason, we introduce a `non-positional` notation, by associating names 
 |South America|Europe|Argentina|Spain|3|0|
 
 By modifying the definition of relation with the introduction of attributes, and still before giving the formal definition, we can see that the ordering of attributes (and of the columns in the tabular representation) is irrelevant: it is no longer necessary to speak of first domain, second domain, and so on; it is sufficient to refer to the attributes.
+
+A naive representation of a relation is a dictionary data structure that stores mappings of unique identifiers to values. For the soccer matches example an implementation in the Python language is given below:
+
+```python
+Matches = { "alpha": {"Home_Continent": "South America",
+                      "Visiting_Continent": "Europe",
+                      "Home_Team": "Brazil",
+                      "Visiting_Team": "Italy",
+                      "Home_Goals": 2,
+                      "Visitor_Goals": 1},
+             "beta": {"Home_Continent": "South America",
+                      "Visiting_Continent": "Europe",
+                      "Home_Team": "Argentina",
+                      "Visiting_Team": "Spain",
+                      "Home_Goals": 3,
+                      "Visitor_Goals": 0}}
+```
+
+The relation or table **Matches** is a set of `homogeneous` tuples, indicated as `alpha` and `beta`, defined on the domain of the attributes or column headings,
+
+- H = {`Home_Continent`,`Visiting_Continent`,`Home_Team`,`Visiting_Team`,`Home_Goals`,`Visitor_Goals`}.
+
+This data structure allows reference to the fields of a record by means of symbolic names:
+
+```python
+print(Matches['beta']['Home_Team'] + " " + Matches['beta']['Visitng_Team'])
+Argentina Spain 
+```
+
 
 Then, let us say that a tuple on a set of attributes or columns names in a table B, **CL<sub>B</sub>**, is a function **t**, which associates with each attribute **cl<sub>B</sub>** in the set **CL<sub>B</sub>** a value of the domain *dom(cl<sub>B</sub>)*. We can therefore give the definition of a **relation**:
 
