@@ -159,7 +159,7 @@ In this notation:
 
 This notation does not include the column position in table A, since it is not relevant for the representation of a relationship in the cartesian plane, as it will be shown later in this section. It follows that column **cl<sub>A</sub>** represents any column in the `unordered set` of columns indicated as **CL<sub>A</sub>**. On the other hand, **T<sub>A</sub>** indicates a sequence of rows and therefore is an **ordered set of objects** since each row in a table is unique. This distinction between `ordered` and `unordered` sets is intentionally indicated with a small and capital case subscript letter in the set elements t<sub>**a**<sub>i</sub></sub> and cl<sub>**A**</sub>.   
 
-This basic idea is essential to establish a correspondence between the coordinates on a cartesian axis and the ordered set **T<sub>A</sub>**. Hence, there is a bijiection between a sequence or ordered set of `p` positive integers on a cartesian axis, indicated as **N<sub>p</sub> = {1,2,..,p}**, and a table with `p` rows.  
+This basic idea is essential to establish a correspondence between the coordinates on a cartesian axis and the ordered set **T<sub>A</sub>**. Hence, there is a bijiection between a **sequence or ordered set of** `p` **positive integers** on a cartesian axis, indicated as **N<sub>p</sub> = {1,2,..,p}**, and a table with `p` rows.  
 
 This positional notation is fundamental to formulate the referential integrity constraint mapping in the Cartesian plane. I cannot stress enough that this notation is based on the assumption of natural ordering between rows in a table. This assumption is not valid in the Relational Model, however we'll show how to overcome this issue later in this lesson.
 
@@ -171,11 +171,95 @@ In the previous section we introduced a formalism to describe a table using a po
 
 Before looking at a specific example, let us generalise the notion illustrated in the previous section for a two columns table B.
 
-![notation B](./images/eq6.png)
+![notation B](./images/eq6b.png)
 
-This extended notation includes the set of integer numbers with the symbol **N** and the subscript to the symbol **T<sub>B<sub>n</sub></sub>**. this additional change is to still make a distinction between an ordered and unordered set, such as **CL<sub>B</sub>**.
+This extended notation includes the **sequence or ordered set of** `p` **positive integers**, indicated as **N<sub>p</sub> = {1,2,..,p}**. Moreover, we establish a correspondence between columns identifiers and domains (the set of values in a column or data type) by means of a function *dom*. This function returns for each identifier in the table header **CL<sub>B</sub>**, (`id`,`fk`), or set of columns in table B a domain of values. For instance, the columns with identifiers `id` and `fk` contain natural integers. It's worth noting that `id` and `fk` are just labels that indicate the meaning of a table's column. In this simple example, `id` is a surrogate primary key of table B and `fk` is a generic foreign key.
 
-Now, let's look a simple example.
+Lastly, the inclusion of a subscript `p` to the symbol T<sub>B</sub>, **T<sub>B<sub>p</sub></sub>**. This additional change is to still make a distinction between an ordered and unordered set, such as a generic table **B** or the columns set **CL<sub>B</sub>**.
+
+To formalize the concepts and understand the difference between a table positional notation for an ordered set of records, indicated with the symbol **B<sub>p</sub>**, and an unordered set, indicated with the symbol **B**, let us show a simple example.
+
+We start with a **non positional representation** of a relation or table `B` defined on two columns or attributes `id` and `fk`.
+
+### Not positional representation of a Table
+
+
+![notation B](./images/eq6e.png)
+
+
+As usual, the first two listing points indicate that table B has two integer columns, `id` and `fk`.
+
+The next point in the list introduces a notation to indicate any value in the domains of these column identifiers, `id` and `fk`. For instance, **t**[`id`] is a **partial function** *t*, which associates with the column `id` a *value* of the domain *dom(id)=N*. Similarly, **t**[`fk`] returns a *value* for the column identifier `fk`. The usefulness of this notation is clear in the case there is more than a single column value. For example, the notation **t**[`id`,`fk`] indicates **any ordered couple** of *values* or **permutation** of *values* in the columns `id` and `fk`, as indicated in the second last point of the list.
+
+The notion of tuple, therefore, formalizes the notion of row or record in a table:
+
+- **Tuple**: is a partial function from attribute names to atomic values. Consequently, the domain of the tuple function, **t**`[`..`]`, is a finite subset since any table has a finite number of columns. The function **t** maps a `n-tuple` from 1 up to n to the set of domain values.
+
+- **Header**: is a finite set of `n` attribute names for an `n-tuple`.
+
+In this notation the position of a column is not relevant. The values in a column are *independent* to the `postion` of the values in the other columns. To better understand this difference we also use a mathematical notation for a single column value as **x<sub>dom(cl<sub>b</sub>)</sub>**. For example, **x<sub>int</sub>** references any value in the set of values in the domain *dom(id)=N* or positive integer numbers.
+
+For example the following relation contains the data relating to the results of a set of soccer matches between European and South American teams, indicated as `E_Team` and `SA_Team` in the table below.
+
+|E_Team| SA_Team| Home_Goals | Visitor_Goals |
+|:-----:|:-----:|:-------:|:--------:|
+|Italy| Brazil| 2|1|
+|Spain|Argentina|3|0|
+
+It's defined with reference to two domains *integers* or **N** and *string*, each of which appears twice. the relation is in fact a subset of the cartesian product:
+
+- **String** `X` **String** `X` **Integers** `X` **Integers**
+
+A generic element in this subset is:
+
+- (**x<sub>Str</sub>**,**x<sub>Str</sub>**,**x<sub>Int<sub>**,**x<sub>Int</sub>**)
+
+It follows that **x<sub>Integers</sub>** belongs to the integer set `Int` and **x<sub>String</sub>** belongs to the alphanumeric set `Str`. If the columns position in the table have a meaning then the first `n-tuple` in the example table:
+
+- (Italy,Brazil,2,1): indicates that the result match between Italy and Brazil is 2-1 and Italy is the Home Team.
+
+If we were to swap the first and second components around in the relation, it would completely change the meaning of our relation, in that the results of the matches would be inverted.
+
+|SA_Team| E_Team| Home_Goals | Visitor_Goals |
+|:-----:|:-----:|:-------:|:--------:|
+|Brazil| Italy| 2|1|
+|Argentina|Spain|3|0|
+
+
+- (Brazil,Italy,2,1): indicates that the result match between Brazil and Italy is 2-1 and Brazil is the Home Team.
+
+It's worth noting that the domain cartesian product is still the same but the meaning of the tuple is different.
+
+- - **String** `X` **String** `X` **Integers** `X` **Integers**
+- `(Italy,Brazil,2,1)` **is not equal to** `(Brazil,Italy,2,1)`.
+
+This happens because each of the two domains integer and string appears twice in the relation, and the two occurrences are distinguished on the basis of their positions: the first appearance of the domain string refers to the home team, and the second to the visiting team.
+
+For this reason, we introduce a `non-positional` notation, by associating names with the domains in a relation, referred to as attributes, which describe the `roles` played by the domains. For example, for the relation concerning the matches, we can use names such as `Home_Team`, `Visiting_Team`, `Home_Goals`, `Visitor_Goals` and two additional columns `Home_Continent` and `Visitor_Continent` (it's not the best solution in terms of database design, it's only for teaching purposes); in the tabular representation, we use the attributes as column headings. **Given the necessity of identifying the components unambiguously**, **the attributes of a relation** (and therefore the `column headings`) must be different from each other and must have an unambiguos meaning.
+
+|Home_Continent|Visitng_Continent|Home_Team| Visiting_Team| Home_Goals | Visitor_Goals |
+|:--:|:--:|:-----:|:-----:|:-------:|:--------:|
+|South America|Europe|Brazil| Italy| 2|1|
+|South America|Europe|Argentina|Spain|3|0|
+
+By modifying the definition of relation with the introduction of attributes, and still before giving the formal definition, we can see that the ordering of attributes (and of the columns in the tabular representation) is irrelevant: it is no longer necessary to speak of first domain, second domain, and so on; it is sufficient to refer to the attributes.
+
+Then, let us say that a tuple on a set of attributes or columns names in a table B, **CL<sub>B</sub>**, is a function **t**, which associates with each attribute **cl<sub>B</sub>** in the set **CL<sub>B</sub>** a value of the domain *dom(cl<sub>B</sub>)*. We can therefore give the definition of a **relation**:
+
+- A **relation B** on **CL<sub>B</sub>** is **a set of tuples** on **CL<sub>B</sub>**.
+
+The next definition defines relation that formalizes the contents of a table as it is defined in the relational model.
+
+- A relation is a tuple **(H, B)** with `H`, the header, and `B`, the body, **a set of tuples that all have the domain** `H`.
+
+It follows that **B** represents a table or **unordered set** of 3 records and two columns, that can be represented as any permutation of the columns in the Cartesian plane. For now, we assigned to the identifiers `id` and `fk` the first and second component of the Cartesian coordinates. Later, we give a rule to order the columns in a relationship and illustrate a visual diagram. The principle is to be consistent and avoid any ambiguity in the presentation of the results.
+
+You may have noticed that the definition of set **B** does not have a listing of elements neither a positional index. Instead, the elements definition is based on a **proposition**.
+
+- **P** = **(** **(P<sub>1</sub>** `OR` **P<sub>1</sub>)** `AND` **(** **(P<sub>3</sub>** **)** `OR` **(P<sub>4</sub>** `OR` **P<sub>5</sub>)** **)**
+
+*IMMAGINI*
+
 
 ![notation child](./images/eq8.png)
 
