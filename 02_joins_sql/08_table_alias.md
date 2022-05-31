@@ -3,6 +3,7 @@
 In lesson [13](../01_basic_sql/13_derived_column_op_alias.md) we introduced the notion of `column alias` as a way to assign a column or an expression in the select list of a `SELECT` statement a temporary name. Similarly, we can assign **aliases to tables**.
 
 
+
 ## Why Tables Aliases?
 
 Every table in a database must have a unique name. Sometimes it's useful to assign an `alias` to a table, a name that can be used in place of the table's real name.
