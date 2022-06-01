@@ -361,11 +361,60 @@ The example illustrated above shows that three tuples, indicated with the greek 
 
 Table `B` can be represented in the Cartesian Plane. After all a table is a Relation on its attributes and a Relation is a subset of the Cartesian product.
 
-![tuple visual](./images/37_tuple.png)
+![tuple visual](./images/39_tuples.png)
 
 In this picture, the table heading is indicated with the capital letter `X`. The set `X` includes two identifiers, `id` and `fk`. The tuple function is a kind of mapping between the coordinated of the cartesian plane and the column labels.
 
 For example, the tuple t<sub>alpha</sub> row indicates that column `id` and `fk` have values `5` and `100`. Thus, without loss of generality any permutation of these values can be represented by t<sub>alpha</sub>.
+
+Moreover, the components of tuple `alpha`, (5,100), are projected on the respective columns' axis. This operation is executed for each tuple in table B, indicated with the yellow circle dot in the picture. The result is a decomposition of relation B in two sets.
+
+The set `ID` contains all the **distinct** values in column `ID`. Similarly, the set `FK` contains all the distinct values in column `FK` in table B.
+
+|id|fk|
+|:-:|:-:|
+|5|100|
+|7|200|
+|9|200|
+
+
+This operation is equivalent to the following SQL statements:
+
+```SQL
+SELECT DISTINCT id
+  FROM B;
+```
+
+|id|
+|:-:|
+|5|
+|7|
+|9|
+
+The projection allows the vertical decomposition of relations: the result of the projection contains in this case as many tuples as its operand, defined however only on some of the attributes.
+
+And for column `FK`:
+
+```SQL
+SELECT DISTINCT fk
+  FROM B;
+```
+
+|fk|
+|:-:|
+|100|
+|200|
+
+
+We note a different situation. The result contains fewer tuples than the operand, because all the tuples in the operand that have equal values on all the attributes of the projection give the same contribution to the projection itself. As relations are defined as sets, they are not allowed to have tuples with the same values: equal contributions ‘collapse’ into a single tuple.
+
+This mathematical operator has a specific name in relational algebra: The `projection` operator and is indicated with the greek letter pi.
+
+![equation 13](./images/eq13.png)
+
+
+The projection allows the vertical decomposition of relations: the result of the projection contains in this case as many tuples as its operand, defined however only on some of the attributes.
+
 
 ![notation child](./images/eq8.png)
 
