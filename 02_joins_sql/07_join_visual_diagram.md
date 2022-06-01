@@ -165,7 +165,7 @@ This positional notation is fundamental to formulate the referential integrity c
 
 Later in this course, we also propose a formulation based on `Set theory` **more appropriate** for a definition of the `JOIN` operator in the `Relational Model`. Lastly, we illustrate a `set representation` using `Venn Diagrams`.
 
-### The Positional Representation of a Table
+### The Positional Notation of a Table
 
 In the previous section we introduced a formalism to describe a table using a positional notation. In this section, we show how to apply the notation to a specific instance table and illustrate how to generalize the positional representation for any instance table in the relational model.
 
@@ -181,7 +181,7 @@ To formalize the concepts and understand the difference between a table position
 
 We start with a **non positional representation** of a relation or table `B` defined on two columns or attributes `id` and `fk`.
 
-### Not positional representation of a Table
+### Example: Not positional notation of a Table
 
 
 ![notation B](./images/eq6e.png)
@@ -193,11 +193,11 @@ The next point in the list introduces a notation to indicate any value in the do
 
 The notion of tuple, therefore, formalizes the notion of row or record in a table:
 
-- **Tuple**: is a **partial function from attribute names to atomic values**. Consequently, the domain of the tuple function, **t**`[`..`]`, is a finite subset since any table has a finite number of elements. The function **t** maps a `n-tuple` from 1 up to n to the set of domain values.
+- **Tuple**: is a **partial function from attribute names to atomic values**. It's a partial function because of the possible presence of NULL values in atomic formulae. Consequently, the domain of the tuple function, **t**`[`..`]`, is a finite subset since any table has a finite number of elements. The function **t** maps a `n-tuple` from 1 up to n to the set of domain values.
 
 - **Header**: is a finite set of `n` attribute names for an `n-tuple`.
 
-In this notation the position of a column is not relevant. The values in a column are *independent* to the `postion` of the values in the other columns. To better understand this difference we also use a mathematical notation for a single column value as **x<sub>dom(cl<sub>b</sub>)</sub>**. For example, **x<sub>int</sub>** references any value in the set of values in the domain *dom(id)=N* or positive integer numbers.
+In this notation the position of a column is not relevant. The values in a column are *independent* to the `position` of the values in the other columns. To better understand this difference we also use a mathematical notation for a single column value as **x<sub>dom(cl<sub>b</sub>)</sub>**. For example, **x<sub>int</sub>** references any value in the set of values in the domain *dom(id)=N* or positive integer numbers.
 
 For example the following relation contains the data relating to the results of a set of soccer matches between European and South American teams, indicated as `E_Team` and `SA_Team` in the table below.
 
@@ -214,9 +214,9 @@ A generic element in this subset is:
 
 - (**x<sub>Str</sub>**,**x<sub>Str</sub>**,**x<sub>Int<sub>**,**x<sub>Int</sub>**)
 
-It follows that **x<sub>Integers</sub>** belongs to the integer set `Int` and **x<sub>String</sub>** belongs to the alphanumeric set `Str`. If the columns position in the table have a meaning then the first `n-tuple` in the example table:
+It follows that **x<sub>Integers</sub>** belongs to the set of positive integer values  `Int` and **x<sub>String</sub>** belongs to the set of alphanumeric strings `Str`. If the columns position in the table have a meaning then the first `n-tuple` in the example table:
 
-- (Italy,Brazil,2,1): indicates that the result match between Italy and Brazil is 2-1 and Italy is the Home Team.
+- `(Italy,Brazil,2,1)` : indicates that the result match between `Italy` and `Brazil` is `2-1` and `Italy` is the `Home Team`.
 
 If we were to swap the first and second components around in the relation, it would completely change the meaning of our relation, in that the results of the matches would be inverted.
 
@@ -226,11 +226,11 @@ If we were to swap the first and second components around in the relation, it wo
 |Argentina|Spain|3|0|
 
 
-- (Brazil,Italy,2,1): indicates that the result match between Brazil and Italy is 2-1 and Brazil is the Home Team.
+- `(Brazil,Italy,2,1)` : indicates that the result match between `Brazil` and `Italy` is `2-1` and `Brazil` is the `Home Team`.
 
 It's worth noting that the domain cartesian product is still the same but the meaning of the tuple is different.
 
-- - **String** `X` **String** `X` **Integers** `X` **Integers**
+- **String** `X` **String** `X` **Integers** `X` **Integers**
 - `(Italy,Brazil,2,1)` **is not equal to** `(Brazil,Italy,2,1)`.
 
 This happens because each of the two domains integer and string appears twice in the relation, and the two occurrences are distinguished on the basis of their positions: the first appearance of the domain string refers to the home team, and the second to the visiting team.
@@ -240,7 +240,7 @@ For this reason, we introduce a `non-positional` notation, by associating names 
 **Given the necessity of identifying the components unambiguously**, **the attributes of a relation** (and therefore the `column headings`) must be
 
 - `different from each other` and
-- must have `identifiers with unambiguous meaning`. In other words, there must be a logical connection between the columns names that establishes a relation based only the column headings.
+- must have `identifiers with unambiguous meaning`. In other words, there must be a logical connection between the columns names that establishes a relation based only on the column headings.
 
 |Home_Continent|Visitng_Continent|Home_Team| Visiting_Team| Home_Goals | Visitor_Goals |
 |:--:|:--:|:-----:|:-----:|:-------:|:--------:|
@@ -266,17 +266,65 @@ Matches = { "alpha": {"Home_Continent": "South America",
                       "Visitor_Goals": 0}}
 ```
 
-The relation or table **Matches** is a set of `homogeneous` tuples, indicated as `alpha` and `beta`, defined on the domain of the attributes or column headings,
+In this data structure:
 
-- H = {`Home_Continent`,`Visiting_Continent`,`Home_Team`,`Visiting_Team`,`Home_Goals`,`Visitor_Goals`}.
+- There is no defined order between the `alpha` and `beta` tuples.
+- The `alpha` and `beta` tuples are distinct one from the other, since among elements of a set there cannot be two identical elements; therefore the rows are different from one another. Keep in mind that the insert method must check equality in the data structure.
 
 This data structure allows reference to the fields of a record by means of symbolic names:
 
 ```python
 print(Matches['beta']['Home_Team'] + " " + Matches['beta']['Visitng_Team'])
-Argentina Spain 
+Argentina Spain
 ```
 
+The relation or table **Matches** is a set of `homogeneous` tuples, indicated as `alpha` and `beta`, defined on the domain of the attributes or column headings,
+
+- H = {`Home_Continent`,`Visiting_Continent`,`Home_Team`,`Visiting_Team`,`Home_Goals`,`Visitor_Goals`}.
+
+The application of the `non-positional` notation to the `alpha` tuple is given below:
+
+```console
+alpha = {t[H]: t[Home_Continent] = South America AND
+               t[Visitng_Continent] = Europe AND
+               t[Home_Team] = Brazil AND
+               t[Visitng_Team] = Italy AND
+               t[Home_Goals] = 2 AND
+               t[Visitng_Goals] = 1 AND
+               dom(Home_Continent) = dom(Visitng_Continent) = dom(Home_Team) = dom(Visitng_Team = STRING AND
+               dom(Home_Goals) = dom(Visitor_Goals)=INTEGER)}
+```
+
+Abusing the notation for the sake of simplicity the set representation of a tuple is given below:
+
+```console
+# tuple function
+(Str, Str, Str, Str, Str, Str) -> (Str, Str, Str, Str, Int, Int)
+
+# tuple alpha
+alpha = {    Home_Continent -> South America,
+         Visiting_Continent -> Europe,
+                  Home_Team -> Brazil,
+               Visitng_Team -> Italy,
+                 Home_Goals -> 2,
+              Visitng_Goals -> 1}
+
+# tuple beta
+beta = {    Home_Continent -> South America,
+        Visiting_Continent -> Europe,
+                 Home_Team -> Argentina,
+              Visitng_Team -> Spain,
+                Home_Goals -> 3,
+             Visitng_Goals -> 0}
+
+# Matches table
+Matches = {alpha, beta}
+```
+The curly braces in this example indicates that the order in the tuple is not important and, therefore, it represents any permutation of the cartesian product components.
+
+It follows that the Matches table is a set of two tuples: **Matches**={`alpha`,`beta`}.
+
+Now, we are ready to give a formal definition for the example introduced at the beginning of this section.
 
 Then, let us say that a tuple on a set of attributes or columns names in a table B, **CL<sub>B</sub>**, is a function **t**, which associates with each attribute **cl<sub>B</sub>** in the set **CL<sub>B</sub>** a value of the domain *dom(cl<sub>B</sub>)*. We can therefore give the definition of a **relation**:
 
@@ -286,29 +334,38 @@ The next definition defines relation that formalizes the contents of a table as 
 
 - A relation is a tuple **(H, B)** with `H`, the header, and `B`, the body, **a set of tuples that all have the domain** `H`.
 
+![notation B](./images/eq6e.png)
+
 It follows that **B** represents a table or **unordered set** of 3 records and two columns, that can be represented as any permutation of the columns in the Cartesian plane. For now, we assigned to the identifiers `id` and `fk` the first and second component of the Cartesian coordinates. Later, we give a rule to order the columns in a relationship and illustrate a visual diagram. The principle is to be consistent and avoid any ambiguity in the presentation of the results.
 
 
-![notation B](./images/eq6e.png)
-
-
-You may have noticed that the definition of set **B** does not have a listing of elements neither a positional index. Instead, the elements definition is based on a **proposition**. We then remind the `AND` and `OR` boolean bynary operator:
+You may have noticed that the definition of set **B** does not have a listing of elements neither a positional index. Instead, the elements definition is based on a **proposition**. We then remind the `AND` and `OR` boolean binary operator definition:
 
 - **(P<sub>i</sub>** `AND` **P<sub>j</sub>)** = `T` **<->** **P<sub>i</sub>** = **P<sub>j</sub>**, otherwise `F`
 
 - **(P<sub>i</sub>** `OR` **P<sub>j</sub>)** = `F` **<->** **P<sub>i</sub>** = **P<sub>j</sub>**, otherwise `T`
 
+The application of the boolean operator `AND` returns true if and only if both Propositions are True, otherwise the result is False. On the other hand, the `OR` operator returns False only when both Propositions are False.
 
-It follows that:
+It follows that an element or tuple belongs to set B if the following proposition is True:
 
 ![equation 11](./images/eq11.png)
 
-The Boolean table is represented below:
+The Boolean table for a set of input elements is represented below:
 
+![true table](./images/36_true_tb.png)
 
+The example illustrated above shows that three tuples, indicated with the greek letters `alpha`, `beta` and `gamma`,  belong to the relation `B`. On the other hand the last input does not belong to set B.
 
-*IMMAGINI*
+![equation 12](./images/eq12.png)
 
+Table `B` can be represented in the Cartesian Plane. After all a table is a Relation on its attributes and a Relation is a subset of the Cartesian product.
+
+![tuple visual](./images/37_tuple.png)
+
+In this picture, the table heading is indicated with the capital letter `X`. The set `X` includes two identifiers, `id` and `fk`. The tuple function is a kind of mapping between the coordinated of the cartesian plane and the column labels.
+
+For example, the tuple t<sub>alpha</sub> row indicates that column `id` and `fk` have values `5` and `100`. Thus, without loss of generality any permutation of these values can be represented by t<sub>alpha</sub>.
 
 ![notation child](./images/eq8.png)
 

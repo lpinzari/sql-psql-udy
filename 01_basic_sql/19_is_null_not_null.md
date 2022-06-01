@@ -153,7 +153,84 @@ There are only two exceptions:
   - last if you do ORDER BY ... DESC.
 
 
+Let us look at the following relational table `People`:
+
+|Name|Age|Salary|
+|:--:|:--:|:---:|
+|Aldo|35|15|
+|Andrea|27|21|
+|Maria|NULL|42|
+
+Let's say we want all records with age over 30:
+
+```SQL
+SELECT *
+  FROM people
+ WHERE age > 30;
+```
+
+Now, the first row of the relation must contribute to the result and the second must not, but what can we say about the third?
+
+Intuitively, the age value is a `null` of unknown type, in that the value exists for each person, and the null means that we ignore it. With respect to these queries, instead of the conventional `two-valued` logic (in which formulas are either `true` or `false`) a **three-valued logic** can be used. In this logic, a formula can be `true` or `false` or can assume a `third`, new truth value that we call unknown and represent by the symbol `U`. An atomic condition assumes this value when at least one of the terms of the comparison assumes the `null` value. Thus, referring to the case under discussion, the first row certainly belongs to the result (true), the second certainly does not belong (false) and the **third perhaps belongs and perhaps does not** (`unknown`). The selection produces as a result the tuples for which the formula is true.
+
+The following are the truth tables of the logical connectives not, and and or extended in order to take the unknown value into account. The semantic basis of the three connectives is the idea that the `unknown` value is `somewhere between true and false`.
+
+|NOT||
+|:--:|:--:|
+|**F**|T|
+|**U**|U|
+|**T**|F|
+
+|AND| T | U | F |
+|:-:|:-:|:-:|:-:|
+|**T**  | T | U | F |
+|**U**  | U | U | F |
+|**F**  | F | F | F |
+
+|OR| T | U | F |
+|:-:|:-:|:-:|:-:|
+|**T**  | T | T | T |
+|**U**  | T | U | U |
+|**F**  | T | U | F |
+
+We should point out that the three-valued logic for algebraic operators also presents some unsatisfactory properties. For example, let us consider the following query:
+
+```SQL
+SELECT *
+  FROM people
+ WHERE age > 30 OR age <= 30;
+```
+
+Logically, this expression should return precisely the `people` relation, given that the age value is either higher than 30 (first sub-expression) or is not higher than 30 (second sub-expression). On the other hand, if the two sub- expressions are evaluated separately, the third tuple of the example (just like any other tuple with a null value for Age), has an unknown result for each sub-expression and thus for the union. Only by means of a global evaluation (definitely impractical in the case of complex expressions) can we arrive at the conclusion that such a tuple must certainly appear in the result.
+
+In practice the best method for overcoming the difficulties described above is to treat the null values from a purely syntactic point of view. This approach works in the same way for both two-valued logic and three-valued logic.
+
 Since the comparisons operators, `=` and `!=`, cannot be used to compare a value to `NULL` any DBMS provides two operators to check if a data field record is a missing value or a data type value. The operators are **IS NULL** and **IS NOT NULL**.
+
+In this context, the query:
+
+```SQL
+SELECT *
+  FROM people
+ WHERE age > 30;
+```
+
+returns the people whose age is known and over 30, whereas to obtain those who are or could be over 30 (that is, those whose age is known and over 30 or not known), we can use the query:
+
+```SQL
+SELECT *
+  FROM people
+ WHERE age > 30 OR age IS NULL;
+```
+
+If we want the entire relation as the result, then we have to add an ‘is null’ condition:
+
+```SQL
+SELECT *
+  FROM people
+ WHERE age > 30 OR age <= 30 OR age IS NULL;
+```
+
 
 ## The IS NULL and IS NOT NULL operators syntax
 
