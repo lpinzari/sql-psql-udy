@@ -416,6 +416,9 @@ This mathematical operator has a specific name in relational algebra: The `proje
 
 We now turn our attention to the representation of a Relation on a Cartesian axis based on a positional notation.
 
+![tuple visual](./images/39_tuples.png)
+
+
 In the previous section, we visualized a binary Relation `B` of two positive integers sets, linked to the columns `id` and `fk`, in the Cartesian plane. Consequently, there is a natural ordering in columns' values that can be easily represented on the Cartesian axises. Thus, table `B` is a set of bidimensional tuples represented in the Cartesian plane.
 
 Obviously, a Cartresian plane cannot visualize a Relation that includes three or more attributes and, therefore, is not appropriate to represent a `JOIN` between tables of multiple columns.
@@ -444,7 +447,7 @@ gamma = { id -> 9, fk -> 200}
 B = { alpha, beta, gamma}
 ```
 
-is a set of three tuples that can be indexed in 6 possible ways. For the sake of simplicity and avoid verbose mathematical notation let's assume columns `id` and `fk` corresponds to the first and second component of a bidimensional vector. Then set B is indicated as follow:
+is a set of three tuples that can be indexed in 6 possible ways. For the sake of simplicity and avoid verbose mathematical notation let's assume columns `id` and `fk` correspond to the first and second component of a bidimensional vector. Then set B is indicated as follow:
 
 ```console
 B = {(5,100),(7,200),(9,200)}
@@ -453,6 +456,10 @@ B = {(5,100),(7,200),(9,200)}
 The `Family of Indexed Functions`, indicated as **F<sub>I</sub>**, and the corresponding 6 assignment functions are given below.
 
 ![indexed family](./images/eq15.png)
+
+The `Family of Indexed Functions`, **F<sub>I</sub>**, returns a `Family of Indexed Sets`, indicated as:
+
+![indexed family](./images/eq16.png)
 
 Indexed family
 
