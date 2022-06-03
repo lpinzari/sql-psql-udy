@@ -475,50 +475,46 @@ Since the objects in **B<sub>3</sub>** are tuples defined on a relational table,
 
  **T<sub>B<sub>3</sub></sub>** denotes `the sequence of three rows` in table B. For the sake of simplicity, the tuples curly braces have been replaced by parentheses. Bare in mind, however, that a tuple does not have an implicit order between columns.
 
- A naive data structure suitable to store a sequeence of tuples is an `array of dictionaries`. The Python implementation is given below:
+ A naive data structure suitable to store a sequence of tuples is an `array of dictionaries`. The Python implementation is given below:
 
  ```Python
  T_B3 = [{"id":5, "fk":100},{"id":7, "fk":200},{"id":9,"fk":200}]
  ```
 
-In the Python array data structure indexing starts from zero and, therefore, any number between 0 and 2 can be used to acces a tuple in `T_B3`. For example, to print the second tuple in the array we could use the following instruction:
+In the Python array data structure indexing starts from zero and, therefore, any number between 0 and 2 can be used to access a tuple in `T_B3`. For example, to print the second tuple in the array we could use the following instruction:
 
 ```Python
 print(T_B3[1])
-{id:5,fk:100}
+{id:7,fk:200}
 ```
 Similarly, the acces of any field in the tuple is done with the column's identifiers. For instance the the value of column `id` in the second tuple in the array is:
 
 ```Python
 print(T_B3[1]["id"])
-5 
+7
 ```
 
 A summary notation for this example is given below:
 
+![tuples set](./images/eq18.png)
 
 
-
-![notation child](./images/eq8.png)
-
-
-In the example illustrated above, the positional index **i** ranges between `1` and `3` and the cardinality of table CLB is `2`. It follows that table B has 3 rows and two columns, indicated with the identifiers `id` and `fk`. A generic row in the table can be easily acessed with the positional index `i` and the column **cl<sub>B</sub>** belonging to the set **CL<sub>B</sub>**.
+A generic row in the table can be easily accessed with the positional index `i` and the column **cl<sub>B</sub>** belonging to the set **CL<sub>B</sub>**.
 
 For example, the second row, `i=2`, is defined as follow:
 
 - **t<sub>b</sub><sub>2</sub>** = (**t<sub>b</sub><sub>2</sub>[id]**,**t<sub>b</sub><sub>2</sub>[fk]**) = **(7,200)**.
 
-![tabulaeq](./images/32_tabular.png)
 
 In this example, we illustrated how to use the positional index to describe the tabular representation of an instance table. This notation assumes a Natural order between rows in a table.
 
 This, however, begs the question: `What does it mean to be in order and how do we specify that?`
 
-A deceptively obvious answer is that the output must respect the ordering relation of a Total Order on their respective primary keys. This choice actually depends on the table involved in the `JOIN` operation, as we'll show in the next section.
+A deceptively obvious answer is that the output must respect the ordering relation of a **Strict Total Order** on their respective primary keys. This choice actually depends on the table involved in the `JOIN` operation, as we'll show in the next section.
 
 In this problem, the elements to be sorted are the rows in the table and each row **R<sub>j</sub>** has a primary key, `pk` or `id`, which governs the sorting process.
 
-The sorting algorithm transforms the input sequence into a rearranged sequence containing the same elements. The output sequence is a permutation such that an order relation, `(`**<=**`)` or `(`**>=**`)`, criterion on the primary keys is satisfied.
+The sorting algorithm transforms the input sequence into a rearranged sequence containing the same elements. The output sequence is a permutation such that an order relation, `(`**<**`)` or `(`**>**`)`, criterion on the primary keys is satisfied.
 
 For the example discussed earlier, the group of permutation for 3 rows is illustrated below.
 
@@ -526,18 +522,12 @@ For the example discussed earlier, the group of permutation for 3 rows is illust
 
 In this example, each row number in the current table is mapped to a row number in the same range of values, (i.e. `1`,`2`,`3`). For example, the first permutation maps each row number to the same position and, therefore, the primary keys keeps the same mapping. This permutation is called the identical permutation since the table before and after the permutation remains the same.
 
-In the following examples, the rows will be sorted in `ASCENDING` order of the `primary` and `foreign` key values in the parent and child table. This choice is only a preliminary attempt, the definitive criterion is given at the end of this section.
+In the following examples, the rows will be sorted in `ASCENDING` order of the `primary` and `foreign` key values in the parent and child table. This choice is only a `preliminary attempt`, the definitive criterion is given at the end of this section.
 
-In other words, the criterion to be satisfied in the parent and child table is:
-
-![eq4](./images/eq4.png)
-
-
-For the example discussed earlier, table B is already sorted in ascending order of the primary key values. We also notice that the foreign key values follow the same order as the primary key column. The sorting algorithm output is, therefore, the identical permutation.
 
 Let's discuss the **parent table** case first.
 
-![permutation group](./images/33_permutation.png)
+![permutation group](./images/33_permutation2.png)
 
 It's clear that the group of permutations **S<sub>3</sub>** gives 6 possible configurations only for tables with distinct values. There is, therefore, **one and only one configuration for the sorted primary key parent table**. Consequently, the permutation that transforms each table to a sorted table is unique. In other words, each inital configuration has one and only one sorting permutation.
 
@@ -551,9 +541,9 @@ It follows that, there is `only one mapping between the primary key values and t
 - `200` **->** `2`
 - `300` **->** `3`
 
-The sorted table representing this mapping is indicated as **A<sub>>=pk</sub>**, denoting the representative table of the `3` rows tables equivalence class. In other words, the visual representation of the 6 tables in the Cartesian plane is illustrated by the **A<sub><=pk</sub>** and there is no ambiguity for the `INNER` join resulting table. We then remind that a Cartesian plane requires a relation order for its elements.
+The sorted table representing this mapping is indicated as **A<sub><pk</sub>**, denoting the equivalence class of tables sorted in ascending order of `pk`'s values. In other words, the visual representation of the 6 tables in the Cartesian plane is illustrated by the **A<sub><pk</sub>** and there is no ambiguity for the `INNER` join resulting table. We then remind that a Cartesian plane requires a relation order for its elements.
 
-![permutation group](./images/34_permutation4.png)
+![permutation group](./images/34_permutation2.png)
 
 On the other hand, the existence of duplicates values in the foreign key column has more than a single configuration with sorted records.
 
@@ -561,11 +551,11 @@ For example, in the picture above the sequence (`100`,`200`,`200`) appears in th
 
 As a result, it's necessary to use a different criterion to sort the child table records. A natural way to uniquely identify each record in a table is the choice of a column with distinct values.
 
-The answer is obviously: `The primary key column`. The reason is that for each foreign key value there will be always distinct primary key values. Consequently, a solution is to sort the records by foreign key values first and then sort the corresponding primary key values. This solution uniquely determines the equivalence class matrix **B<sub>>=fk,pk</sub>**.
+The answer is obviously: `The primary key column`. The reason is that for each foreign key value there will be always distinct primary key values. Consequently, a solution is to sort the records by foreign key values first and then sort the corresponding primary key values. This solution uniquely determines the equivalence class **B<sub><(fk,pk)</sub>**.
 
 It follows that the definitive sorting criterion for the parent and child tables is:
 
-![eq4](./images/eq5.png)
+![eq4](./images/eq19.png)
 
 
 It's worth noting that the sorting criterion is not unique in the case of composite primary keys since it depends on the order the primary key columns values are sorted. This limitation can be ignored if we follow the rule to sort the values in the columns respecting the alphabetical order of the columns' name. For instance if the primary key is (`course_id, student_id`), the primary key columns values are sorted following the order `course_id` and `student_id`. It's an arbitrary choice, the point is to be consistent and avoid any ambiguity. In this way, we provide a general rule to represent both tables in the Cartesian plane.  
