@@ -419,7 +419,7 @@ We now turn our attention to the representation of a Relation on a Cartesian axi
 ![tuple visual](./images/39_tuples.png)
 
 
-In the previous section, we visualized a binary Relation `B` of two positive integers sets, linked to the columns `id` and `fk`, in the Cartesian plane. Consequently, there is a natural ordering in columns' values that can be easily represented on the Cartesian axises. Thus, table `B` is a set of bidimensional tuples represented in the Cartesian plane.
+In the previous section, we visualized a binary Relation `B` of two positive integers sets, linked to the columns `id` and `fk`, in the Cartesian plane. Consequently, there is a natural ordering among the values of a column that can be easily represented on the Cartesian axises. Thus, table `B` is a set of bidimensional tuples represented in the Cartesian plane.
 
 Obviously, a Cartresian plane cannot visualize a Relation that includes three or more attributes and, therefore, is not appropriate to represent a `JOIN` between tables of multiple columns.
 
@@ -461,12 +461,48 @@ The `Family of Indexed Functions`, **F<sub>I</sub>**, returns a `Family of Index
 
 ![indexed family](./images/eq16.png)
 
-Indexed family
+In this notation B indicates an *unordered set* (Please note the wrapping curly braces). On the other hand **B<sub>p</sub>** is an **indexed set** or **sequence** (Please note the wrapping parentheses).
+
+The indexed tabular representation of **B<sub>3</sub>** is given below:
+
+![tabulaeq](./images/32_tabular.png)
+
+In the example illustrated above, the positional index **i** ranges between `1` and `3` and the cardinality of CLB is `2`. It follows that table B has 3 rows and two columns, indicated with the identifiers `id` and `fk`.
+
+Since the objects in **B<sub>3</sub>** are tuples defined on a relational table, we indicate this set as **T<sub>B<sub>3</sub></sub>**.
+
+![tuples set](./images/eq17.png)
+
+ **T<sub>B<sub>3</sub></sub>** denotes `the sequence of three rows` in table B. For the sake of simplicity, the tuples curly braces have been replaced by parentheses. Bare in mind, however, that a tuple does not have an implicit order between columns.
+
+ A naive data structure suitable to store a sequeence of tuples is an `array of dictionaries`. The Python implementation is given below:
+
+ ```Python
+ T_B3 = [{"id":5, "fk":100},{"id":7, "fk":200},{"id":9,"fk":200}]
+ ```
+
+In the Python array data structure indexing starts from zero and, therefore, any number between 0 and 2 can be used to acces a tuple in `T_B3`. For example, to print the second tuple in the array we could use the following instruction:
+
+```Python
+print(T_B3[1])
+{id:5,fk:100}
+```
+Similarly, the acces of any field in the tuple is done with the column's identifiers. For instance the the value of column `id` in the second tuple in the array is:
+
+```Python
+print(T_B3[1]["id"])
+5 
+```
+
+A summary notation for this example is given below:
+
+
+
 
 ![notation child](./images/eq8.png)
 
 
-In the example illustrated above, the positional index **i** ranges between `1` and `3` and the cardinality of table B is, **|CL<sub>B</sub>| =** `2`. It follows that table B has 3 rows and two columns, indicated with the identifiers `id` and `fk`. A generic row in the table can be easily acessed with the positional index `i` and the column **cl<sub>B</sub>** belonging to the set **CL<sub>B</sub>**.
+In the example illustrated above, the positional index **i** ranges between `1` and `3` and the cardinality of table CLB is `2`. It follows that table B has 3 rows and two columns, indicated with the identifiers `id` and `fk`. A generic row in the table can be easily acessed with the positional index `i` and the column **cl<sub>B</sub>** belonging to the set **CL<sub>B</sub>**.
 
 For example, the second row, `i=2`, is defined as follow:
 
