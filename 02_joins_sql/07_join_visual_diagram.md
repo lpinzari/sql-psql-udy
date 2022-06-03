@@ -412,7 +412,11 @@ This mathematical operator has a specific name in relational algebra: The `proje
 
 ![equation 13](./images/eq13.png)
 
+### Example: positional representation of a Table
 
+We now turn our attention to the representation of a Relation on a Cartesian axis based on a positional notation.
+
+In the previous section, we visualized a Relation `B` of two ordered sets, linked to the columns `id` and `fk`, in the Cartesian plane. Obviously, a Cartresian plane cannot visualize a Relation that includes three or more attributes and, therefore, is not appropriate to represent a `JOIN` between tables of multiple columns.
 
 
 
