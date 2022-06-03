@@ -422,15 +422,29 @@ Obviously, a Cartresian plane cannot visualize a Relation that includes three or
 
 Thus, a natural question would be:
 
-- What criteria should be used to represent a Relation of two or more columns on a Cartesian axis?
+- `What criteria should be used to represent a Relation of two or more columns on a Cartesian axis?`
 
-An obvious observation is that a set of bidimensional or multidimensional tuples do not have a natural order and, therefore, there is no definitive rule for ordering the elements in a table.
+It's obvious that a set of bidimensional or multidimensional tuples do not have a natural order and, therefore, there is no definitive rule for ordering the elements in a table.
 
 We understand that a table with `p` rows is any finite collection of certain distinct tuples into a whole. It's, therefore, possible to assign a sequence of `p` positive integers, indicated as **N<sub>p</sub>**, to a set of `p` rows.
 
 Let's indicate this assignment as follow:
 
+![notation eq 14b](./images/eq14b.png)
 
+In this notation, `f`**<sub>I</sub>** is an `Indexed function` and **B<sub>p</sub>** is an `Indexed set of p elements`. In the case `p=3` there are `6`,(3!), possible assingments of **N<sub>3</sub>={1,2,3}** to the elements in set **B={alpha,beta,gamma}**.
+
+For example, the relation B:
+
+```console
+B = { {id -> 5, fk -> 100}, {id -> 7, fk -> 200}, {id -> 9, fk -> 200}}
+```
+
+can be indexed in 6 possible ways. For the sake of simplicity and avoid verbose mathematical notation let's assume columns `id` and `fk` corresponds to the first and second component of a bidimensional vector. Then set B is indicated as follow:
+
+```console
+B = {(5,100),(7,200),(9,200)}
+```
 
 
 
