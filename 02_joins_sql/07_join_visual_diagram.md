@@ -416,7 +416,15 @@ This mathematical operator has a specific name in relational algebra: The `proje
 
 We now turn our attention to the representation of a Relation on a Cartesian axis based on a positional notation.
 
-In the previous section, we visualized a Relation `B` of two ordered sets, linked to the columns `id` and `fk`, in the Cartesian plane. Obviously, a Cartresian plane cannot visualize a Relation that includes three or more attributes and, therefore, is not appropriate to represent a `JOIN` between tables of multiple columns.
+In the previous section, we visualized a binary Relation `B` of two positive integers sets, linked to the columns `id` and `fk`, in the Cartesian plane. Consequently, there is a natural ordering in columns' values that can be easily represented on the Cartesian axises. Thus, table `B` is a set of bidimensional tuples represented in the Cartesian plane.
+
+Obviously, a Cartresian plane cannot visualize a Relation that includes three or more attributes and, therefore, is not appropriate to represent a `JOIN` between tables of multiple columns.
+
+Thus, a natural question would be:
+
+- What criteria should be used to represent a Relation of two or more columns on a Cartesian axis?
+
+
 
 
 
