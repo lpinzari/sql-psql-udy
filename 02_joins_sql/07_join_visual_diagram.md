@@ -413,7 +413,7 @@ This mathematical operator has a specific name in relational algebra: The `proje
 ![equation 13](./images/eq13.png)
 
 
-The projection allows the vertical decomposition of relations: the result of the projection contains in this case as many tuples as its operand, defined however only on some of the attributes.
+
 
 
 ![notation child](./images/eq8.png)
