@@ -437,16 +437,24 @@ In this notation, `f`**<sub>I</sub>** is an `Indexed function` and **B<sub>p</su
 For example, the relation B:
 
 ```console
-B = { {id -> 5, fk -> 100}, {id -> 7, fk -> 200}, {id -> 9, fk -> 200}}
+alpha = {id -> 5, fk -> 100}
+beta = {id -> 7, fk -> 200}
+gamma = { id -> 9, fk -> 200}
+
+B = { alpha, beta, gamma}
 ```
 
-can be indexed in 6 possible ways. For the sake of simplicity and avoid verbose mathematical notation let's assume columns `id` and `fk` corresponds to the first and second component of a bidimensional vector. Then set B is indicated as follow:
+is a set of three tuples that can be indexed in 6 possible ways. For the sake of simplicity and avoid verbose mathematical notation let's assume columns `id` and `fk` corresponds to the first and second component of a bidimensional vector. Then set B is indicated as follow:
 
 ```console
 B = {(5,100),(7,200),(9,200)}
 ```
 
+The `Family of Indexed Functions`, indicated as **F<sub>I</sub>**, and the corresponding 6 assignment functions are given below.
 
+![indexed family](./images/eq15.png)
+
+Indexed family
 
 ![notation child](./images/eq8.png)
 
