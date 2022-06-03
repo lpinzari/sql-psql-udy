@@ -424,6 +424,12 @@ Thus, a natural question would be:
 
 - What criteria should be used to represent a Relation of two or more columns on a Cartesian axis?
 
+An obvious observation is that a set of bidimensional or multidimensional tuples do not have a natural order and, therefore, there is no definitive rule for ordering the elements in a table.
+
+We understand that a table with `p` rows is any finite collection of certain distinct tuples into a whole. It's, therefore, possible to assign a sequence of `p` positive integers, indicated as **N<sub>p</sub>**, to a set of `p` rows.
+
+Let's indicate this assignment as follow:
+
 
 
 
