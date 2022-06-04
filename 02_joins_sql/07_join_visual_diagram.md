@@ -421,7 +421,7 @@ We now turn our attention to the representation of a Relation on a Cartesian axi
 
 In the previous section, we visualized a binary Relation `B` of two positive integers sets, linked to the columns `id` and `fk`, in the Cartesian plane. Consequently, there is a natural ordering among the values of a column that can be easily represented on the Cartesian axises. Thus, table `B` is a set of bidimensional tuples represented in the Cartesian plane.
 
-Obviously, a Cartresian plane cannot visualize a Relation that includes three or more attributes and, therefore, is not appropriate to represent a `JOIN` between tables of multiple columns.
+Obviously, a Cartesian plane cannot visualize a Relation that includes three or more attributes and, therefore, is not appropriate to represent a `JOIN` between tables of multiple columns.
 
 Thus, a natural question would be:
 
@@ -435,7 +435,7 @@ Let's indicate this assignment as follow:
 
 ![notation eq 14b](./images/eq14b.png)
 
-In this notation, `f`**<sub>I</sub>** is an `Indexed function` and **B<sub>p</sub>** is an `Indexed set of p elements`. In the case `p=3` there are `6`,(3!), possible assingments of **N<sub>3</sub>={1,2,3}** to the elements in set **B={alpha,beta,gamma}**.
+In this notation, `f`**<sub>I</sub>** is an `Indexed function` and **B<sub>p</sub>** is an `Indexed set of p elements`. In the case `p=3` there are `6`,(3!), possible assignments of **N<sub>3</sub>={1,2,3}** to the elements in set **B={alpha,beta,gamma}**.
 
 For example, the relation B:
 
@@ -457,7 +457,7 @@ The `Family of Indexed Functions`, indicated as **F<sub>I</sub>**, and the corre
 
 ![indexed family](./images/eq15.png)
 
-The `Indexed functions` assign indexed labels to the elements in a set denoting a positional index. In this way, it's possible to identify the first, second and .. n-th element in a set of n elements.
+The `Indexed functions` assign indexed labels, denoting a positional index, to the elements in a set. In this way, it's possible to identify the first, second and .. n-th element in a set of n elements.
 
 The `Family of Indexed Functions`, **F<sub>I</sub>**, returns a `Family of Indexed Sets`, indicated as:
 
@@ -533,7 +533,7 @@ Let's discuss the **parent table** case first.
 
 It's clear that the group of permutations **S<sub>3</sub>** gives 6 possible configurations only for tables with distinct values. There is, therefore, **one and only one configuration for the sorted primary key parent table**. Consequently, the permutation that transforms each table to a sorted table is unique. In other words, each initial configuration has one and only one sorting permutation.
 
-In the picture above, a set of 3 distinct primary key values (`100`,`200`,`300`) can be arranged in 6 possible ways and, therefore, `6 different tables`, (illustrated on the left and right hand side of the picture). It follows that only one table or configuration respects the ascending order relation on the primary keys. The sequence (`100`,`200`,`300`) appears only in the column of the first table on the top left hand side.
+In the picture above, a set of 3 distinct primary key values (`100`,`200`,`300`) can be arranged in 6 possible ways and, therefore, `6 different tables`, (illustrated on the left and right hand side of the picture). It follows that only one table or configuration respects the ascending order relation on the primary keys. The sequence (`100`,`200`,`300`) appears only in the column of the first table on the top left hand side. Consequently, the identical permutation keeps the same ordering sequence of table `C1` and returns the same Indexed set.
 
 Hence, each table has one and only one sorting permutation. For instance, the permutation (`1` **->** `3`,`2` **->** `1`, `3` **->** `2`)  transforms the sequence of primary key values (`300`,`100`,`200`) that appears in the second table on the left hand side of the picture, to the sorted sequence (`100`,`200`,`300`).
 
@@ -561,3 +561,7 @@ It follows that the definitive sorting criterion for the parent and child tables
 
 
 It's worth noting that the sorting criterion is not unique in the case of composite primary keys since it depends on the order the primary key columns values are sorted. This limitation can be ignored if we follow the rule to sort the values in the columns respecting the alphabetical order of the columns' name. For instance if the primary key is (`course_id, student_id`), the primary key columns values are sorted following the order `course_id` and `student_id`. It's an arbitrary choice, the point is to be consistent and avoid any ambiguity. In this way, we provide a general rule to represent both tables in the Cartesian plane.  
+
+It follows that the definitive order relation of an ordered set of Tuples is:
+
+![eq4](./images/eq20.png)
