@@ -565,3 +565,13 @@ It's worth noting that the sorting criterion is not unique in the case of compos
 It follows that the definitive order relation of an ordered set of Tuples is:
 
 ![eq4](./images/eq20.png)
+
+The ordered set of Tuples can be easily represented on a cartesian axis by means of a function:
+
+![eq4](./images/eq21.png)
+
+This function assigns to each tuple in the sequence a positive integers. Since there is a correspondence between the set of positive integers **N<sub>p</sub>** and the coordinates on the Cartesian axis, the indexing function establishes a bijection between the tuples in a table and the corresponding point in the coordinate system.
+
+For instance, the representation of table B on the Cartesian axis is given below.
+
+![eq4](./images/40_cartesian.png)
