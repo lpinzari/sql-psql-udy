@@ -457,6 +457,8 @@ The `Family of Indexed Functions`, indicated as **F<sub>I</sub>**, and the corre
 
 ![indexed family](./images/eq15.png)
 
+The `Indexed functions` assign indexed labels to the elements in a set denoting a positional index. In this way, it's possible to identify the first, second and .. n-th element in a set of n elements.
+
 The `Family of Indexed Functions`, **F<sub>I</sub>**, returns a `Family of Indexed Sets`, indicated as:
 
 ![indexed family](./images/eq16.png)
@@ -529,7 +531,7 @@ Let's discuss the **parent table** case first.
 
 ![permutation group](./images/33_permutation2.png)
 
-It's clear that the group of permutations **S<sub>3</sub>** gives 6 possible configurations only for tables with distinct values. There is, therefore, **one and only one configuration for the sorted primary key parent table**. Consequently, the permutation that transforms each table to a sorted table is unique. In other words, each inital configuration has one and only one sorting permutation.
+It's clear that the group of permutations **S<sub>3</sub>** gives 6 possible configurations only for tables with distinct values. There is, therefore, **one and only one configuration for the sorted primary key parent table**. Consequently, the permutation that transforms each table to a sorted table is unique. In other words, each initial configuration has one and only one sorting permutation.
 
 In the picture above, a set of 3 distinct primary key values (`100`,`200`,`300`) can be arranged in 6 possible ways and, therefore, `6 different tables`, (illustrated on the left and right hand side of the picture). It follows that only one table or configuration respects the ascending order relation on the primary keys. The sequence (`100`,`200`,`300`) appears only in the column of the first table on the top left hand side.
 
@@ -541,7 +543,7 @@ It follows that, there is `only one mapping between the primary key values and t
 - `200` **->** `2`
 - `300` **->** `3`
 
-The sorted table representing this mapping is indicated as **A<sub><pk</sub>**, denoting the equivalence class of tables sorted in ascending order of `pk`'s values. In other words, the visual representation of the 6 tables in the Cartesian plane is illustrated by the **A<sub><pk</sub>** and there is no ambiguity for the `INNER` join resulting table. We then remind that a Cartesian plane requires a relation order for its elements.
+The sorted table representing this mapping is indicated as **A<sub><pk</sub>**, denoting the equivalence class of tables sorted in **strict ascending order** of `pk`'s values. There are as many equivalence classes as the number of ways a relation can be sorted in a `strict ascending order`. This number depends on the number of superkeys in the table and the order these columns are sorted. The other two equivalence classes are **A<sub>(pk,n)</sub>**, (sorting by `pk` first and then `n`), and **A<sub>(n,pk)</sub>** (sorting by n first and then `pk`). However, our attention is focused on the `pk` of the parent table only. You could choose other criteria depending on your visualization.  It represents the set of tables sorted  in ascending order of `pk`'s values. In other words, the visual representation of the 6 tables in the Cartesian plane is illustrated by the **A<sub><pk</sub>** and there is no ambiguity for the `INNER` join resulting table. We then remind that a Cartesian plane requires a relation order for its elements.
 
 ![permutation group](./images/34_permutation2.png)
 
