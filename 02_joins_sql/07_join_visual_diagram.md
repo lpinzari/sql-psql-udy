@@ -487,7 +487,7 @@ In the Python array data structure indexing starts from zero and, therefore, any
 print(T_B3[1])
 {id:7,fk:200}
 ```
-Similarly, the acces of any field in the tuple is done with the column's identifiers. For instance the the value of column `id` in the second tuple in the array is:
+Similarly, the access of any field in the tuple is done with the column's identifiers. For instance the value of column `id` in the second tuple in the array is:
 
 ```Python
 print(T_B3[1]["id"])
