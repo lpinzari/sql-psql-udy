@@ -1,4 +1,4 @@
-## Positional representation of a CROSS PRODUCT
+## Positional representation of a CROSS JOIN
 
 The previous section determined a general sorting criterion to uniquely represent any instance table and overcome the ambiguity to interpret the result of an `INNER JOIN` between tables in a cartesian Plane.
 
@@ -53,7 +53,7 @@ A tuple in the `CROSS JOIN` is a combination of Logic AND's conditions in relati
 
 In a Relational database the columns order is not relevant and, therefore, the `CROSS JOIN` of two tables can be generalized to any columns permutation.
 
-## Non Positional representation of a CROSS PRODUCT
+## Non Positional representation of a CROSS JOIN
 
 In the previous section we illustrated the positional representation of the `CROSS JOIN` operator in the Cartesian Plane. The positional indices establish a correspondence between the Cartesian Product **N<sub>p</sub>** **X** **N<sub>q</sub>** and the `CROSS JOIN` tuples.
 
