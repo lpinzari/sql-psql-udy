@@ -91,3 +91,13 @@ The resulting table is a subset of the `CROSS JOIN` table. The corresponding tup
 The non-positional representation of the `EQUI JOIN` table is given below:
 
 ![equijoin representation](./images/43_equijoin.png)
+
+In this picture the table on the left is the resulting relation of the `CROSS JOIN` operator between tables `B` and `A`. The condition specified in the `selection` operator is an equality comparison between the foreign and primary keys columns' values in the child and parent tables.
+
+There are only three tuples satisfying the membership requirement condition of the `INNER JOIN` relation. In these tuples the values in the `fk` and `pk` columns are equal.
+
+Since the `CROSS JOIN` table is a list of all possible combinations between rows in tables B and A, the projection of the `fk` and `pk` columns corresponds to the set of values in the foreign and primary columns of the child and parent tables. Consequently, the common values in those columns belong to the intersection of the set of values in the joining columns `fk` and `pk`.
+
+In the case the joining columns are the foreign and primary keys, the set of values in the joining columns of the child table is a subset of the values in the joining column of the parent table. In general, the joining condition might involve any columns and, therefore, this property is not always satisfied. A basic Veen Diagram, indicated on the bottom of the picture, illustrates the set inclusion of these attributes.
+
+Lastly, the `fk` and `pk` columns in the resulting table convey the same information and, therefore, a final table with a renamed column (`k`), replaces both columns in the last relation `C`. The projection of the `k` column confirms that the set of values in the `INNER JOIN` joining columns is basically the intersection of the set of values in the joining columns `fk` and `pk`. This trivial but important result is the basis for understanding the `Natural JOIN` and the other JOIN operators that will be introduced in the following lessons. 
