@@ -1,6 +1,6 @@
 # Example: Joins with Three tables
 
-In lesson [10_multi_table_join](./10_multi_table_join) we introduce the syntax to join three or more tables. In this lesson we illustrate a number of examples using the `uniy` sample database.
+In lesson [10_multi_table_join](./10_multi_table_join.md) we introduce the syntax to join three or more tables. In this lesson we illustrate a number of examples using the `uniy` sample database.
 
 
 ## Example: Uniy Sample Database
