@@ -8,6 +8,12 @@ For example, the union of two relations `r1` and `r2` on different schemas would
 
 Therefore, in relational algebra, we allow applications of operators of union, intersection and difference only to pairs of relations defined on the same attributes.
 
+- the `union` of two relations `r1(X)` and `r2(X)`, defined on the same set of attributes `X`, is expressed as `r1 ∪ r2` and is also a relation on `X` containing the **tuples that belong to** `r1` **or** to `r2`, or **to both**;
+
+- the `difference` of `r1(X)` and `r2(X)` is expressed as `r1 − r2` and is a relation on `X` containing the **tuples that belong to** `r1` **and not to** `r2`;
+
+- the `intersection` of `r1(X)` and `r2(X)` is expressed as `r1 ∩ r2` and is a relation on `X` containing the **tuples that belong to both** `r1` **and** `r2`.
+
 In this lesson we introduce the main set operators in `SQL`.
 
 - `UNION`
@@ -16,4 +22,4 @@ In this lesson we introduce the main set operators in `SQL`.
 
 We have already used these operators in the definition of `INNER` and `OUTER` JOINS Queries introduced in the previous chapter of this course.
 
-In this chapter we provide a more structured approach to these operators and illustrate how to use the set operators to the implementation of a `division` between Relations in a Database. It's worth noting that `DIVISION` between tables is not implemented in RDMS. 
+In this chapter we provide a more structured approach to these operators and illustrate how to use the set operators to the implementation of a `division` between Relations in a Database. It's worth noting that `DIVISION` between tables is not implemented in RDMS.
