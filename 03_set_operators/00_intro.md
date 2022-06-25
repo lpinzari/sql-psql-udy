@@ -16,4 +16,4 @@ In this lesson we introduce the main set operators in `SQL`.
 
 We have already used these operators in the definition of `INNER` and `OUTER` JOINS Queries introduced in the previous chapter of this course.
 
-In this chapter we provide a more structured approach to these operators and illustrate how to use the set operators to the implementation the `division` between Relations in a Database. It's worth noting that `DIVISION` between tables is not implemented in RDMS. 
+In this chapter we provide a more structured approach to these operators and illustrate how to use the set operators to the implementation of a `division` between Relations in a Database. It's worth noting that `DIVISION` between tables is not implemented in RDMS. 
