@@ -406,6 +406,8 @@ uniy(#                      z.course = y.course));
 
 We can re-write the above to use `EXCEPT` instead of `NOT EXISTS`:
 
+![division example](./images/07_division.png)
+
 **SQL**
 ```SQL
 WITH studentsAndRequired AS (
