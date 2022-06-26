@@ -68,6 +68,13 @@ Suppose we are asked the following two queries:
 1. Find all students who have taken a required course.
 2. Find all students who can graduate (i.e., who have taken all required courses).
 
+![division example](./images/06_division.png)
+
+Just by looking at the Veen Diagram representation of this small instance (illustrated in the picture above), it is easy to see that the answers we want are:
+
+1. `Robert`,`Susie` and `Julie`.
+2. `Robert`.
+
 ## Asking About Some
 
 We have already seen how to do Query 1 using the standard `SELECT ... FROM . . . WHERE` clauses. To remove duplicates from our result, we can use the SQL keyword `DISTINCT`.
