@@ -79,7 +79,7 @@ Just by looking at the Veen Diagram representation of this small instance (illus
 
 We have already seen how to do Query 1 using the standard `SELECT ... FROM . . . WHERE` clauses. To remove duplicates from our result, we can use the SQL keyword `DISTINCT`.
 
-**SQL**
+**SQL1**
 ```SQL
 SELECT DISTINCT student
   FROM taken
@@ -87,6 +87,14 @@ SELECT DISTINCT student
        SELECT *
          FROM required);
 ```
+
+**SQL2**
+```SQL
+SELECT DISTINCT student
+  FROM taken
+NATURAL JOIN required;
+```
+
 
 **Results**
 
