@@ -8,6 +8,10 @@ The syntax of the MAX function is as follows:
 MAX(expression);
 ```
 
+The `MAX` **function ignores** `NULL` values.
+
+Unlike the `SUM`, `COUNT`, and `AVG` functions, the `DISTINCT` option **is not applicable to the** `MAX` function.
+
 Let’s take a look at some examples of using the `MAX` function.
 
 ## PostgreSQL MAX function examples
