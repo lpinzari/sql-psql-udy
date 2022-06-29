@@ -56,7 +56,7 @@ SELECT brand, segment,
 **Results**
 
 | brand | segment | sum|
-|-------+---------+-----|
+|:-----:|:-------:|:----:|
 | XYZ   | Basic   | 300|
 | ABC   | Premium | 100|
 | ABC   | Basic   | 200|
