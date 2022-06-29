@@ -394,3 +394,13 @@ SELECT DATE(payment_date) paid_date,
 | 2007-03-02 |    2550.05|
 | 2007-03-16 |     299.28|
 |...|...|
+
+## GROUP BY - Expert Tips
+
+- The order of column names in your `GROUP BY` clause doesn’t matter—the results will be the same regardless. If we run the same query and reverse the order in the `GROUP BY` clause, you can see we get the same results.
+
+
+- As with `ORDER BY`, you can substitute numbers for column names in the GROUP BY clause. It’s generally recommended to do this only when you’re grouping many columns, or if something else is causing the text in the GROUP BY clause to be excessively long.
+
+
+- A reminder here that any column that is not within an aggregation must show up in your `GROUP BY` statement. If you forget, you will likely get an error. However, in the off chance that your query does work, you might not like the results!
