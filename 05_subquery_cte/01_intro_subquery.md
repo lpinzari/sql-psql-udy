@@ -332,6 +332,15 @@ More subquery examples are illustrated in chapter 1 lesson [16_in_not_in](../01_
 
 ## Subquery example in the FROM clause
 
+You can use a subquery in the `FROM` clause of the `SELECT` statement as follows:
+
+```SQL
+SELECT *
+  FROM (subquery) AS table_name;
+```
+
+In this syntax, the table **alias is mandatory** because all tables in the `FROM` clause **must have a name**.
+
 To demonstrate the use of a subquery in the `FROM` clause we'll be using the `web_events` table in the `parch_posey` sample database.
 
 ```console
