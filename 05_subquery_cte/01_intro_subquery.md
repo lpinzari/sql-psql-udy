@@ -450,3 +450,69 @@ First, your inner query will run. Your inner query must run on its own as the da
 Note that **you should not include an alias when you write a subquery in a conditional statement**. This is because the subquery is treated as an individual value (or set of values in the IN case) rather than as a table.
 
 Also, notice the query here compared a single value. If we returned an entire column IN would need to be used to perform a logical argument. If we are returning an entire table, then we must use an ALIAS for the table, and perform additional logic on the entire table.
+
+## SQL Subquery in the SELECT clause
+
+A subquery can be used anywhere an expression can be used in the `SELECT` clause.
+
+To demonstrate the use of a subquery in the `SELECT` clause we'll be using the `employees` table in the `hr` sample database.
+
+```console
+hr=# \d employees
+                                            Table "public.employees"
+    Column     |          Type          | Collation | Nullable |                    Default
+---------------+------------------------+-----------+----------+------------------------------------------------
+ employee_id   | integer                |           | not null | nextval('employees_employee_id_seq'::regclass)
+ first_name    | character varying(20)  |           |          |
+ last_name     | character varying(25)  |           | not null |
+ email         | character varying(100) |           | not null |
+ phone_number  | character varying(20)  |           |          |
+ hire_date     | date                   |           | not null |
+ job_id        | integer                |           | not null |
+ salary        | numeric(8,2)           |           | not null |
+ manager_id    | integer                |           |          |
+ department_id | integer                |           |          |
+Indexes:
+    "employees_pkey" PRIMARY KEY, btree (employee_id)
+Foreign-key constraints:
+    "employees_fkey_department" FOREIGN KEY (department_id) REFERENCES departments(department_id) ON UPDATE CASCADE ON DELETE CASCADE
+    "employees_fkey_job" FOREIGN KEY (job_id) REFERENCES jobs(job_id) ON UPDATE CASCADE ON DELETE CASCADE
+    "employees_fkey_manager" FOREIGN KEY (manager_id) REFERENCES employees(employee_id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "dependents" CONSTRAINT "dependents_fkey_employee" FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON UPDATE CASCADE ON DELETE CASCADE
+    TABLE "employees" CONSTRAINT "employees_fkey_manager" FOREIGN KEY (manager_id) REFERENCES employees(employee_id) ON UPDATE CASCADE ON DELETE CASCADE
+```
+
+The following example finds the salaries of all employees, their average salary, and the `difference between the salary of each employee and the average salary`.
+
+```SQL
+SELECT employee_id,
+       first_name,
+       last_name,
+       salary,
+       (SELECT ROUND(AVG(salary), 0)
+          FROM employees) average_salary,
+       salary - (SELECT ROUND(AVG(salary), 0)
+                   FROM employees) difference
+  FROM employees
+ ORDER BY first_name , last_name;
+```
+
+**Results**
+
+|employee_id | first_name  |  last_name  |  salary  | average_salary | difference|
+|:----------:|:-----------:|:-----------:|:--------:|:--------------:|:---------:|
+|        121 | Adam        | Fripp       |  8200.00 |           8060 |     140.00|
+|        103 | Alexander   | Hunold      |  9000.00 |           8060 |     940.00|
+|        115 | Alexander   | Khoo        |  3100.00 |           8060 |   -4960.00|
+|        193 | Britney     | Everett     |  3900.00 |           8060 |   -4160.00|
+|        104 | Bruce       | Ernst       |  6000.00 |           8060 |   -2060.00|
+|        179 | Charles     | Johnson     |  6200.00 |           8060 |   -1860.00|
+|        109 | Daniel      | Faviet      |  9000.00 |           8060 |     940.00|
+|        105 | David       | Austin      |  4800.00 |           8060 |   -3260.00|
+|        114 | Den         | Raphaely    | 11000.00 |           8060 |    2940.00|
+|        107 | Diana       | Lorentz     |  4200.00 |           8060 |   -3860.00|
+|        118 | Guy         | Himuro      |  2600.00 |           8060 |   -5460.00|
+|        204 | Hermann     | Baer        | 10000.00 |           8060 |    1940.00|
+|        126 | Irene       | Mikkilineni |  2700.00 |           8060 |   -5360.00|
+|        111 | Ismael      | Sciarra     |  7700.00 |           8060 |    -360.00|
