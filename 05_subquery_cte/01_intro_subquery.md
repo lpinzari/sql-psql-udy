@@ -197,6 +197,37 @@ SELECT *
 
 You can see that these orders took place in December 2013, the same month of the first order. This query works because the result of the subquery is only one cell. Most conditional logic will work with subqueries containing one-cell results. But `IN` is the only type of conditional logic that will work when the inner query contains multiple results.
 
+**Problem**: `which students received a grade higher than the average in their section` and to order the results by course number, you could use the query:
+
+```SQL
+SELECT student_name,
+       grade,
+       course_id,
+       section_id
+  FROM students
+ INNER JOIN enrolls e USING (student_id)
+ WHERE e.grade > (SELECT AVG(grade)
+                    FROM enrolls
+                   WHERE course_id = e.course_id AND
+                         section_id = e.section_id)
+ ORDER BY course_id;    
+```
+
+![subquery ex](./images/08_subquery.png)
+
+**Results**
+
+|student_name    | grade | course_id | section_id|
+|:-----------------:|:------:|:---------:|:-----------:|
+|Joe Adams          |     4 |       290 |          1|
+|Janet Thomas       |     4 |       450 |          1|
+|John Anderson      |     4 |       480 |          1|
+|Howard Mansfield   |     3 |       480 |          2|
+|Susan Powell       |     3 |       730 |          1|
+|Carol Dean         |     3 |       730 |          1|
+|Val Shipp          |     3 |       730 |          1|
+|John Anderson      |     4 |       730 |          1|
+
 
 ## SQL subquery with the IN or NOT IN operator
 
