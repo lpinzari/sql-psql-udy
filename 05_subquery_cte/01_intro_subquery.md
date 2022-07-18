@@ -228,6 +228,7 @@ SELECT student_name,
 |Val Shipp          |     3 |       730 |          1|
 |John Anderson      |     4 |       730 |          1|
 
+Unlike the previous example, the main query accesses two different tables. Coceptually, this query is processed as follows: First, the join of `students` and `enrolls` is formed, yielding a table containing all possible combinations of records from the two tables and selecting only those records in which the key `student_id` matches. For each of these records, the subquery is executed, returning the average grade for the course and section associated with the current record from the `enrolls` table. If the grade in that record is greater than this average, the main's query `WHERE` clause is true and the `student_name`, `grade`, `course_id` and `section_id` of that record is selected. Finally, all selected records are ordered by the value in their `course_id` filed.
 
 ## SQL subquery with the IN or NOT IN operator
 
