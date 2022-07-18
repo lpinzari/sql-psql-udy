@@ -143,6 +143,29 @@ The result of this query would be the names and grades of students meeting the s
 |Janet Thomas       |     4|
 
 
+**Problem**: Which courses have only male students?
+
+```SQL
+SELECT DISTINCT course_name
+  FROM courses c
+ WHERE 'M' = ALL
+       (SELECT s.gender
+          FROM enrolls e
+         INNER JOIN students s USING(student_id)
+         WHERE e.course_id = c.course_id);
+```
+
+**Query Diagram**
+
+![all query](./images/07_all2.png)
+
+**Results**
+
+|course_name|
+|:--------------------:|
+|Art History|
+|English Composition|
+
 ## ALL vs. NOT IN
 
 The `!= ANY` is equivalent to `NOT IN` operator.
