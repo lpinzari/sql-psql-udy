@@ -4,7 +4,7 @@ CASE statements can be used to perform a variety of cleaning, enrichment, and su
 
 Nonstandard values occur for a variety of reasons. Values might come from different systems with slightly different lists of choices, system code might have changed, options might have been presented to the customer in different languages, or the customer might have been able to fill out the value rather than pick from a list.
 
-An introduction to the syntax and use of the `CASE` operator is in chapter 04: [case](../04_sql_aggregation/16_case_grouping.md).
+An introduction to the syntax and use of the `CASE` operator is in chapter 04: [case](../04_sql_aggregations/16_case_grouping.md).
 
 Imagine a field containing information about the gender of a person. Values indicat‐ ing a female person exist as “F,” “female,” and “femme.” We can standardize the values like this:
 
