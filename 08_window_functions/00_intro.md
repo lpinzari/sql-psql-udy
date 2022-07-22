@@ -520,20 +520,24 @@ WINDOW w AS (PARTITION BY c1 ORDER BY c2);
 The window functions are divided into three types **value** window functions, **aggregation** window functions, and **ranking** window functions:
 
 ## Value window functions
-
-- `FIRST_VALUE()`
-- `LAG()`
-- `LAST_VALUE()`
-- `LEAD()`
+|Name| Description|
+|:---:|:---------:|
+|**FIRST_VALUE()**| Return a value evaluated against the first row within its partition.|
+|**LAG()**|Return a value evaluated at the row that is at a specified physical offset row before the current row within the partition.|
+|**LAST_VALUE()**| Return a value evaluated against the last row within its partition.|
+|**LEAD()**| Return a value evaluated at the row that is offset rows after the current row within the partition.|
+|**NTH_VALUE**|Return a value evaluated against the nth row in an ordered partition.|
 
 ## Ranking window functions
 
-- `CUME_DIST()`
-- `DENSE_RANK()`
-- `NTILE()`
-- `PERCENT_RANK()`
-- `RANK()`
-- `ROW_NUMBER()`
+|Name| Description|
+|:---:|:---------:|
+|**CUME_DIST()**|Return the relative rank of the current row.|
+|**DENSE_RANK()**|Rank the current row within its partition without gaps.|
+|**NTILE()**|Divide rows in a partition as equally as possible and assign each row an integer starting from 1 to the argument value.|
+|**PERCENT_RANK()**|Return the relative rank of the current row (rank-1) / (total rows – 1)|
+|**RANK()**|Rank the current row within its partition with gaps.|
+|**ROW_NUMBER()**|Number the current row within its partition starting from 1.|
 
 ## Aggregate window functions
 
