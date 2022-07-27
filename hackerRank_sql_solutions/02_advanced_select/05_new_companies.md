@@ -1,5 +1,7 @@
 # New Companies
 
+[Problem](https://www.hackerrank.com/challenges/the-company/problem?isFullScreen=true)
+
 Amber's conglomerate corporation just acquired some new companies. Each of the companies follows this hierarchy:
 
 ![companies](./images/04_companies.png)
@@ -128,3 +130,20 @@ In company **C2**,
 - There is one senior manager, `SM3`, under LM2.
 - There are two managers, `M2` and `M3`, under senior manager SM3.
 - There is one employee, `E3`, under manager M2, and another employee, `E4`, under manager, M3.
+
+## SOLUTION
+
+```SQL
+SELECT c.company_code,
+       c.founder,
+       COUNT(DISTINCT lm.lead_manager_code),
+       COUNT(DISTINCT sm.senior_manager_code),
+       COUNT(DISTINCT m.manager_code),
+       COUNT(DISTINCT e.employee_code)
+  FROM Company c, Lead_Manager lm, Senior_Manager sm, Manager m, Employee e
+ WHERE c.company_code = lm.company_code AND
+       lm.lead_manager_code = sm.lead_manager_code AND
+       sm.senior_manager_code = m.senior_manager_code AND
+       m.manager_code = e.manager_code
+ GROUP BY c.company_code,c.founder
+ ORDER BY c.company_code ASC;
