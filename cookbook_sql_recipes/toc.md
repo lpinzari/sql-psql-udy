@@ -31,3 +31,16 @@ Extract of CookBook SQL 2nd edition.
 |[11](./01_retrieving_records/11_finding_null_values)|Finding Null Values|
 |[12](./01_retrieving_records/12_transforming_null_values_to_real_values)|Transforming Nulls into Real Values Problem|
 |[13](./01_retrieving_records/13_searching_for_patterns)|Searching for Patterns Problem|
+
+# Chapter 2: Sorting Query Results
+
+[Chapter 2](./02_sorting_query_results) focuses on customizing how your query results look. By understanding how to control how your result set is organized, you can provide more readable and meaningful data.
+
+|file|description|
+|:---:|:--------:|
+|[01](./02_sorting_query_results/01_returning_query_results_in_specified_order)|Returning Query Results in a Specified Order Problem|
+|[02](./02_sorting_query_results/02_sorting_by_multiple_fields)|Sorting by Multiple Fields Problem|
+|[03](./02_sorting_query_results/03_sorting_by_substring)|Sorting by Substrings Problem|
+|[04](./02_sorting_query_results/04_sorting_mixed_alphanumeric_data)|Sorting Mixed Alphanumeric Data Problem|
+|[05](./02_sorting_query_results/05_dealing_with_nulls_sorting)|Dealing with Nulls When Sorting Problem|
+|[06](./02_sorting_query_results/06_sorting_on_data_dependent_key)|Sorting on a Data-Dependent Key Problem|
