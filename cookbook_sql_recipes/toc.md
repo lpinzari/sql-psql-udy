@@ -4,7 +4,7 @@ This file list the chapters and paragraphs of this book.
 
 Extract of CookBook SQL 2nd edition.
 
-## Chapter 0: DATA
+# Chapter 0: DATA
 
 [It](./00_data) contains the instructions to create the database and load the data used in this book.
 
@@ -12,7 +12,7 @@ Extract of CookBook SQL 2nd edition.
 |:-:|:----------:|
 |[01_cbook_db](./00_data/01_cbook_db.md)|create the cookbook database|
 
-## Chapter 1: Retrieving Records
+# Chapter 1: Retrieving Records
 
 [Chapter 1](./01_retrieving_records) focuses on basic SELECT statements.
 
