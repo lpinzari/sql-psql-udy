@@ -61,5 +61,5 @@ Extract of CookBook SQL 2nd edition.
 |[08](./03_working_with_multiple_tables/08_filtering_join.md)|Identyfing and Avoiding Cartesian Product|
 |[09](./03_working_with_multiple_tables/09_performing_join_when_using_aggregates.md)|Performing Joins When Using Aggregates|
 |[10](./03_working_with_multiple_tables/10_performing_outer_join_when_using_aggregates.md)|Performing Outer Joins When using Aggregates|
-|[11](./03_working_with_multiple_tables/11_returning_missing_data_from_multiple_tables.m)|Retruning Missing Data From Multiple Tables|
-|[12](./03_working_with_multiple_tables/12_using_nulls_in_operations_compartison)|Using NULLs in Operations and Comparisons|
+|[11](./03_working_with_multiple_tables/11_returning_missing_data_from_multiple_tables.md)|Retruning Missing Data From Multiple Tables|
+|[12](./03_working_with_multiple_tables/12_using_nulls_in_operations_compartison.md)|Using NULLs in Operations and Comparisons|
