@@ -44,3 +44,22 @@ Extract of CookBook SQL 2nd edition.
 |[04](./02_sorting_query_results/04_sorting_mixed_alphanumeric_data.md)|Sorting Mixed Alphanumeric Data Problem|
 |[05](./02_sorting_query_results/05_dealing_with_nulls_sorting.md)|Dealing with Nulls When Sorting Problem|
 |[06](./02_sorting_query_results/06_sorting_on_data_dependent_key.md)|Sorting on a Data-Dependent Key Problem|
+
+# Chapter 3: Working with Multiple Tables
+
+[Chapter 3](./03_working_with_multiple_tables) introduces the use of joins and set operations to combine data from multiple tables. Joins are the foundation of SQL. Set operations are also important.
+
+|file|description|
+|:---:|:--------:|
+|[01](./03_working_with_multiple_tables/01_stacking_one_rowset_atop_another.md)|Stacking One Rowset A Top Atop another|
+|[02](./03_working_with_multiple_tables/02_combining_related_rows.md)|Combining Related Rows|
+|[03](./03_working_with_multiple_tables/03_finding_rows_in_common_between_two_tables.md)|Finding Rows in common between tables|
+|[04](./03_working_with_multiple_tables/04_retrieving_values_from_table_that_donot_exist_in_another.md)|Retrieving Values From One Table That Do not Exists in Another|
+|[05](./03_working_with_multiple_tables/05_retrieving_rows_from_a_table_that_donot_correspond_to_row_in_another.md)|Retrieving Rows From One Table That Do not correspond To Rows In Another|
+|[06](./03_working_with_multiple_tables/06_adding_join_to_query_without_interferring.md)|Adding Joins to a Query Without Interfering With Other Joins|
+|[07](./03_working_with_multiple_tables/07_determing_whether_two_tables_have_same_data.md)|Determiong Whether Two Tables Have the Same Data|
+|[08](./03_working_with_multiple_tables/08_filtering_join.md)|Identyfing and Avoiding Cartesian Product|
+|[09](./03_working_with_multiple_tables/09_performing_join_when_using_aggregates.md)|Performing Joins When Using Aggregates|
+|[10](./03_working_with_multiple_tables/10_performing_outer_join_when_using_aggregates.md)|Performing Outer Joins When using Aggregates|
+|[11](./03_working_with_multiple_tables/11_returning_missing_data_from_multiple_tables.m)|Retruning Missing Data From Multiple Tables|
+|[12](./03_working_with_multiple_tables/12_using_nulls_in_operations_compartison)|Using NULLs in Operations and Comparisons|
