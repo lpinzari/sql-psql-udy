@@ -63,3 +63,34 @@ Extract of CookBook SQL 2nd edition.
 |[10](./03_working_with_multiple_tables/10_performing_outer_join_when_using_aggregates.md)|Performing Outer Joins When using Aggregates|
 |[11](./03_working_with_multiple_tables/11_returning_missing_data_from_multiple_tables.md)|Retruning Missing Data From Multiple Tables|
 |[12](./03_working_with_multiple_tables/12_using_nulls_in_operations_compartison.md)|Using NULLs in Operations and Comparisons|
+
+# Chapter 4: Working with Strings
+
+This [chapter](./04_working_with_strings) focuses on **string manipulation** in `SQL`. Keep in mind that `SQL` **is not designed to perform complex string manipulation**, and you can (and will) find working with strings in SQL to be cumbersome and frustrating at times.
+
+Despite SQL’s limitations, there are some **useful built-in functions provided by the different DBMSs**, and we’ve tried to use them in creative ways. Hopefully you take away from this chapter a better appreciation for what can and can’t be done in SQL when working with strings.
+
+In many cases you’ll be surprised by how easy parsing and transforming strings can be, while at other times you’ll be aghast by the kind of SQL that is necessary to accomplish a particular task.
+
+Many of the recipes that follow use the `TRANSLATE` and `REPLACE` functions that are now available in all the DBMSs covered in this book, with the exception of MySQL, which only has replace. In this last case, it is worth noting early on that you can replicate the effect of `TRANSLATE` by using nested `REPLACE` functions.
+
+The first recipe in this chapter is critically important, as it is leveraged by several of the subsequent solutions. In many cases, you’d like to have the **ability to traverse a string by moving through it a character at a time**. Unfortunately, SQL does not make this easy. Because there is limited loop functionality in SQL, you need to **mimic a loop to traverse a string**. We call this operation “**walking a string**” or “walking through a string,” and the very first recipe explains the technique. This is a fundamental operation in string parsing when using SQL, and is referenced and used by almost all recipes in this chapter. We strongly suggest becoming comfortable with how the technique works.
+
+|file|description|
+|:---:|:--------:|
+|[01](./04_working_with_strings/01_walking_a_string.md)|Walking a string|
+|[02](./04_working_with_strings/02_embedding_quotes_with_string_literals.md)|Embedding Quotes Within String Literals|
+|[03](./04_working_with_strings/03_counting_occurrences_char_strings.md)|Counting the Occurrences of a Character in a String|
+|[04](./04_working_with_strings/04_removing_unwanted_characters_from_a_string.md)|Removing Unwanted Characters from a String|
+|[05](./04_working_with_strings/05_separating_numeric_and_charater_data.md)|Separating Numeric and Character Data|
+|[06](./04_working_with_strings/06_determining_whether_a_string_is_alphanumeric.md)|Determining Whether a String Is Alphanumeric|
+|[07](./04_working_with_strings/07_extracting_initials_from_a_name.md)|Extracting Initials from a Name|
+|[08](./04_working_with_strings/08_ordering_by_parts_of_a_string.md)|Ordering by Parts of a String|
+|[09](./04_working_with_strings/09_ordering_by_a_number_in_a_string.md)|Ordering by a Number in a String|
+|[10](./04_working_with_strings/10_creating_delimited_list_form_table_rows.md)|Creating a Delimited List from Table Rows|
+|[11](./04_working_with_strings/11_converting_delimited_data_into_multivalue_in_list.md)|Converting Delimited Data into a Multivalued IN-List|
+|[12](./04_working_with_strings/12_alphabetaizing_a_string.md)|Alphabetizing a String|
+|[13](./04_working_with_strings/13_identifying_string_that_can_be_treated_as_numbers.md)|Identifying Strings That Can Be Treated as Numbers|
+|[14](./04_working_with_strings/14_extracting_the_nth_delimited_string.md)|Extracting the nth Delimited Substring|
+|[15](./04_working_with_strings/15_parsing_an_ip_address.md)|Parsing an IP Address|
+|[16](./04_working_with_strings/16_finiding_text_not_matching_a_pattern.md)|Finding Text Not Matching a Pattern|
