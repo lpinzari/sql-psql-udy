@@ -28,4 +28,5 @@ This chapter introduces the most commonly used PostgreSQL string functions that 
 |**SPLIT_PART**|	Split a string on a specified delimiter and return nth substring|	`SPLIT_PART(‘2017-12-31′,’-‘,2)`|	’12’|
 |**SUBSTRING**|	Extract a substring from a string|	`SUBSTRING(‘ABC’,1,1)`|	`A`|
 |**TRIM**|	Remove the longest string that contains specified characters from the left, right or both of the input string|	TRIM(‘ ABC  ‘)|	‘ABC’|
+|**TRANSLATE**|`TRANSLATE()` function performs several single-character, one-to-one translation in one operation.||
 |**UPPER**|	Convert a string to uppercase|	UPPER(‘hI tHERE’)	|‘HI THERE’|
