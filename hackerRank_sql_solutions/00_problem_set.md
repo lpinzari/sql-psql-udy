@@ -60,6 +60,7 @@ The solutions of all the SQL challenges for all easy, medium and hard challenges
 | 14| [Weather Observation Station 17](https://www.hackerrank.com/challenges/weather-observation-station-17/problem) | [SQL](./03_aggregation/13_weather_observation_station_17.md) |
 | 15| [Weather Observation Station 18](https://www.hackerrank.com/challenges/weather-observation-station-18/problem) | [SQL](./03_aggregation/14_weather_observation_station_18.md) |
 | 16| [Weather Observation Station 19](https://www.hackerrank.com/challenges/weather-observation-station-19/problem) | [SQL](./03_aggregation/15_weather_observation_station_19.md) |
+| 17| [Weather Observation Station 19](https://www.hackerrank.com/challenges/weather-observation-station-20/problem) | [SQL](./03_aggregation/16_weather_observation_station_20.md) |
 
 
 ### Basic Join
