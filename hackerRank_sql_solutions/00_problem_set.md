@@ -47,7 +47,7 @@ The solutions of all the SQL challenges for all easy, medium and hard challenges
 | 1 | [Revising Aggregations - The Count Function](https://www.hackerrank.com/challenges/revising-aggregations-the-count-function/problem) | [SQL](./03_aggregation/01_revising_aggregation_count_function.md) |
 | 2 | [Revising Aggregations - The Sum Function](https://www.hackerrank.com/challenges/revising-aggregations-sum/problem) | [SQL](./03_aggregation/02_revising_aggregation_sum_function.md) |
 | 3 | [Revising Aggregations - Averages](https://www.hackerrank.com/challenges/revising-aggregations-the-average-function/problem) | [SQL](./03_aggregation/03_revising_aggregation_average_function.md) |
-| 4 | [Average Population](https://www.hackerrank.com/challenges/average-population/problem) | [SQL](./03_aggregation/)|
+| 4 | [Average Population](https://www.hackerrank.com/challenges/average-population/problem) | [SQL](./03_aggregation/04_avg_pop.md)|
 | 5 | [Japan Population](https://www.hackerrank.com/challenges/japan-population/problem) | [SQL](./03_aggregation/04_japan_population.md)|
 | 6 | [Population Density Difference](https://www.hackerrank.com/challenges/population-density-difference/problem) | [SQL](./03_aggregation/05_population_density_difference.md)|
 | 7 | [The Blunder](https://www.hackerrank.com/challenges/the-blunder/problem) | [SQL](./03_aggregation/06_the_blunder.md)  |
