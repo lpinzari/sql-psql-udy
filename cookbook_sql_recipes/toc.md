@@ -94,3 +94,30 @@ The first recipe in this chapter is critically important, as it is leveraged by 
 |[14](./04_working_with_strings/14_extracting_the_nth_delimited_string.md)|Extracting the nth Delimited Substring|
 |[15](./04_working_with_strings/15_parsing_an_ip_address.md)|Parsing an IP Address|
 |[16](./04_working_with_strings/16_finiding_text_not_matching_a_pattern.md)|Finding Text Not Matching a Pattern|
+
+# Chapter 5: Working with Numbers
+
+This [chapter](./05_working_with_numbers) focuses on common operations involving numbers, including numeric computations. While SQL is not typically considered the first choice for complex computations, it is efficient for day-to-day numeric chores. More importantly, as databases and datawarehouses supporting SQL probably remain the most common place to find an organization’s data, using SQL to explore and evaluate that data is essential for anyone putting that data to work. The **techniques in this section have also been chosen to help data scientists decide which data is the most promising for further analysis**.
+
+Some recipes in this chapter make use of aggregate functions and the GROUP BY clause. If you are not familiar with grouping, please read at least the first major section, called [04-sql-Aggregations](https://github.com/lpinzari/sql-psql-udy/tree/master/04_sql_aggregations).
+
+|file|description|
+|:---:|:--------:|
+|[01](./05_working_with_numbers/01_computing_average.md)|computing an Average|
+|[02](./05_working_with_numbers/02_finind_min_max_value_in_a_column.md)|Finding the Min/Max Value in a Column|
+|[03](./05_working_with_numbers/03_summing_the_values_in_a_column.md)|Summing the Values in a Column|
+|[04](./05_working_with_numbers/04_counting_rows_in_a_table.md)|Counting Rows in a Table|
+|[05](./05_working_with_numbers/05_counting_values_in_a_column.md)|Counting Values in a Column|
+|[06](./05_working_with_numbers/06_counting_values_in_multiple_columns.md)|Counting values in multiple columns|
+|[07](./05_working_with_numbers/07_generating_running_total.md)|Generating a Running Total|
+|[08](./05_working_with_numbers/08_generating_a_running_product.md)|Generating a Running Product|
+|[09](./05_working_with_numbers/09_smoothing_a_series_of_values.md)|Smoothing a Series of Values|
+|[10](./05_working_with_numbers/10_calculating_mode.md)|Calculating a Mode|
+|[11](./05_working_with_numbers/11_calculating_median.md)|Calculating a Median|
+|[12](./05_working_with_numbers/12_determing_the_percentage_of_a_total.md)|Determining the Percentage of a Total|
+|[13](./05_working_with_numbers/13_aggregating_nullable_columns.md)|Aggregating Nullable Columns|
+|[14](./05_working_with_numbers/14_computing_averages_without_high_low_values.md)|Computing Averages Without High and Low Values|
+|[15](./05_working_with_numbers/15_converting_alphanumeric_string_to_numbers.md)|Converting Alphanumeric Strings into Numbers|
+|[16](./05_working_with_numbers/16_changing_values_in_a_running_total.md)|Changing Values in a Running Total|
+|[17](./05_working_with_numbers/17_finding_outliers_using_median_absolute_deviation.md)|Finding Outliers Using the Median Absolute Deviation|
+|[18](./05_working_with_numbers/18_finding_anomalies_using_benford_law.md)|Finding Anomalies Using Benford’s Law|
