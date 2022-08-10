@@ -1,6 +1,6 @@
 # GROUP BY
 
-The **GROUP BY** clause divides the rows returned from the `SELECT` statement into groups. For each group, you can apply an aggregate function e.g.,  `SUM()` to calculate the sum of items or `COUNT()` to get the number of items in the groups.
+The **GROUP BY** clause divides the rows returned from the `SELECT` statement into groups. For each group, you can apply an aggregate function e.g.,  `SUM()` to calculate the sum of items or `COUNT()` to get the number of items in the groups. Additional resources [GROUPING](https://github.com/lpinzari/sql-psql-udy/tree/master/cookbook_sql_recipes/99_appendix_a_grouping).
 
 The following statement illustrates the basic syntax of the `GROUP BY` clause:
 
