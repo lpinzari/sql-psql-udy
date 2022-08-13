@@ -134,7 +134,8 @@ For Additional information about `Date` data type format in PostgreSql please re
 |[01](./06_date_arithmetic/intro.md)| introduction|
 |[02](./06_date_arithmetic/02_add_subtract_days_months_years.md)|Adding and Subtracting Days, Months, and Years|
 |[03](./06_date_arithmetic/03_determining_number_of_days_between_dates.md)|Determining the Number of Days Between Two Dates|
-|[04](./06_date_arithmetic/04_determining_number_of_business_days_between_dates.md)|Determining the Number of Business Days Between Two Dates|
+|[04](./06_date_arithmetic/04_determining_number_of_business_days_between_dates2.md)|Determining the Number of Business Days Between Two Dates for all employees|
+|[04b](./06_date_arithmetic/04_determining_number_of_business_days_between_dates.md)|Determining the Number of Business Days Between Two Dates|
 |[05](./06_date_arithmetic/05_determining_number_of_months_years_between_dates.md)| Determining the Number of Months or Years Between Two Dates|
 |[06](./06_date_arithmetic/06_determining_seconds_minutes_hours_between_dates.md)|Determining the Number of Seconds, Minutes, or Hours Between Two Dates|
 |[07](./06_date_arithmetic/07_counting_occurrence_weekdays_current_year.md)|Counting the Occurrences of Weekdays in a Year|
