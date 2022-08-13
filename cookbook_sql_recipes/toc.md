@@ -121,3 +121,21 @@ Some recipes in this chapter make use of aggregate functions and the GROUP BY cl
 |[16](./05_working_with_numbers/16_changing_values_in_a_running_total.md)|Changing Values in a Running Total|
 |[17](./05_working_with_numbers/17_finding_outliers_using_median_absolute_deviation.md)|Finding Outliers Using the Median Absolute Deviation|
 |[18](./05_working_with_numbers/18_finding_anomalies_using_benford_law.md)|Finding Anomalies Using Benford’s Law|
+
+# Chapter 6: Date Arithmetic
+
+This chapter introduces techniques for performing simple date arithmetic. Recipes cover common tasks such as adding days to dates, finding the number of business days between dates, and finding the difference between dates in days.
+Being able to successfully manipulate dates with your RDBMS’s built-in functions can greatly improve your productivity. For all the recipes in this chapter, we try to take advantage of each RDBMS’s built-in functions.
+
+For Additional information about `Date` data type format in PostgreSql please refer to the following resource: [Date](https://github.com/lpinzari/sql-psql-udy/blob/master/04_sql_aggregations/14_date_grouping.md).
+
+|file|description|
+|:---:|:--------:|
+|[01](./06_date_arithmetic/intro.md)| introduction|
+|[02](./06_date_arithmetic/02_add_subtract_days_months_years.md)|Adding and Subtracting Days, Months, and Years|
+|[03](./06_date_arithmetic/03_determining_number_of_days_between_dates.md)|Determining the Number of Days Between Two Dates|
+|[04](./06_date_arithmetic/04_determining_number_of_business_days_between_dates.md)|Determining the Number of Business Days Between Two Dates|
+|[05](./06_date_arithmetic/05_determining_number_of_months_years_between_dates.md)| Determining the Number of Months or Years Between Two Dates|
+|[06](./06_date_arithmetic/06_determining_seconds_minutes_hours_between_dates.md)|Determining the Number of Seconds, Minutes, or Hours Between Two Dates|
+|[07](./06_date_arithmetic/07_counting_occurrence_weekdays_current_year.md)|Counting the Occurrences of Weekdays in a Year|
+|[08](./06_date_arithmetic/08_determining_date_difference_between_current_record_next_record.md)|Determining the Date Difference Between the Current Record and the Next Record|
