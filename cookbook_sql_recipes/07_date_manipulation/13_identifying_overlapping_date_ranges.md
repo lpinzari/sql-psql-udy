@@ -253,7 +253,35 @@ Once you have the required rows, constructing the messages is just a matter of c
 
 we can use the window function `LEAD OVER` to avoid the `self-join`, **if the maximum number of projects per employee is fixed**.
 
-This can come in handy if the `self-join` is `expensive` for your particular results (if the self-join requires more resources than the sorts needed for `LEAD OVER`). For example, consider the alternative for employee `KING` using `LEAD OVER`:
+This can come in handy if the `self-join` is `expensive` for your particular results (if the self-join requires more resources than the sorts needed for `LEAD OVER`).
+
+
+```SQL
+SELECT empno,
+       ename,
+       proj_id,
+       proj_start,
+       proj_end
+  FROM emp_project
+ WHERE ename = 'KING'
+ ORDER BY proj_start;
+```
+
+```console
+empno | ename | proj_id | proj_start    |  proj_end
+-------+-------+---------+------------+------------        LEAD(project_start,1)
+ 7839 | KING  |       2 | 2005-06-17    | 2005-06-21    2005-06-17----|----2005-06-21
+ 7839 | KING  |       5 | **2005-06-20**| 2005-06-24 <----       2005-06-20 (id = 5)
+
+                                                        2005-06-20----|----2005-06-24
+ 7839 | KING  |       8 | **2005-06-23**| 2005-06-25 <----       2005-06-23 (id = 8)
+
+                                            2005-06-23---2005-06-25---|
+ 7839 | KING  |      11 | 2005-06-26 | 2005-06-27              2005-06-26             
+ 7839 | KING  |      14 | 2005-06-29 | 2005-06-30
+```
+
+For example, consider the alternative for employee `KING` using `LEAD OVER`:
 
 ```SQL
 SELECT empno,
