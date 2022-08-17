@@ -148,7 +148,7 @@ This chapter introduces recipes for searching and modifying dates. Queries invol
 |file|description|
 |:---:|:--------:|
 |[01](./07_date_manipulation/01_determining_whether_a_year_is_leap_year.md)| Determining Whether a Year Is a Leap Year|
-|[02](./07_date_manipulation/02_determining_number_of_days_in _a_year.md)|Determining the Number of Days in a Year |
+|[02](./07_date_manipulation/02_determining_number_of_days_in_a_year.md)|Determining the Number of Days in a Year |
 |[03](./07_date_manipulation/03_extracting_units_of_time_from_a_date.md)| Extracting Units of Time from a Date|
 |[04](./07_date_manipulation/04_determining_first_last_day_of_month.md)| Determining the First and Last Days of a Month|
 |[05](./07_date_manipulation/05_determining_all_dates_for_a_weekday_throughtout_year.md)| Determining All Dates for a Particular Weekday Throughout a Year|
