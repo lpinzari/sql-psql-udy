@@ -140,3 +140,23 @@ For Additional information about `Date` data type format in PostgreSql please re
 |[06](./06_date_arithmetic/06_determining_seconds_minutes_hours_between_dates.md)|Determining the Number of Seconds, Minutes, or Hours Between Two Dates|
 |[07](./06_date_arithmetic/07_counting_occurrence_weekdays_current_year.md)|Counting the Occurrences of Weekdays in a Year|
 |[08](./06_date_arithmetic/08_determining_date_difference_between_current_record_next_record.md)|Determining the Date Difference Between the Current Record and the Next Record|
+
+# Chapter 7: Date Manipulation
+
+This chapter introduces recipes for searching and modifying dates. Queries involving dates are very common. Thus, you need to know how to think when working with dates, and you need to have a good understanding of the functions that your RDBMS platform provides for manipulating them. The recipes in this chapter form an impor‐ tant foundation for future work as you move on to more complex queries involving not only dates, but times, too.
+
+|file|description|
+|:---:|:--------:|
+|[01](./07_date_manipulation/01_determining_whether_a_year_is_leap_year.md)| Determining Whether a Year Is a Leap Year|
+|[02](./07_date_manipulation/02_determining_number_of_days_in _a_year.md)|Determining the Number of Days in a Year |
+|[03](./07_date_manipulation/03_extracting_units_of_time_from_a_date.md)| Extracting Units of Time from a Date|
+|[04](./07_date_manipulation/04_determining_first_last_day_of_month.md)| Determining the First and Last Days of a Month|
+|[05](./07_date_manipulation/05_determining_all_dates_for_a_weekday_throughtout_year.md)| Determining All Dates for a Particular Weekday Throughout a Year|
+|[06](./07_date_manipulation/06_determining_the_day_first_last_occurrences_of_a_weekday_month.md)|Determining the Date of the First and Last Occurrences of a Specific Weekday in a Month |
+|[07](./07_date_manipulation/07_creating_a_calendar.md)| Creating a Calendar|
+|[08](./07_date_manipulation/08_listing_quarter_start_end_of_year.md)| Listing Quarter Start and End Dates for the Year|
+|[09](./07_date_manipulation/09_determining_quarter_start_end_of_given_year_quarter.md)| Determining Quarter Start and End Dates for a Given Quarter|
+|[10](./07_date_manipulation/10_filling_in_missing_dates.md)|Filling In Missing Dates |
+|[11](./07_date_manipulation/11_searching_on_specific_units_of_time.md)|Searching on Specific Units of Time |
+|[12](./07_date_manipulation/12_comparing_records_using_specifc_part_of_a_date.md)| Comparing Records Using Specific Parts of a Date|
+|[13](./07_date_manipulation/13_identifying_overlapping_date_ranges.md)| Identifying Overlapping Date Ranges|
