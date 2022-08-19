@@ -124,7 +124,7 @@ Some recipes in this chapter make use of aggregate functions and the GROUP BY cl
 
 # Chapter 6: Date Arithmetic
 
-This chapter introduces techniques for performing simple date arithmetic. Recipes cover common tasks such as adding days to dates, finding the number of business days between dates, and finding the difference between dates in days.
+This [chapter](./06_date_arithmetic) introduces techniques for performing simple date arithmetic. Recipes cover common tasks such as adding days to dates, finding the number of business days between dates, and finding the difference between dates in days.
 Being able to successfully manipulate dates with your RDBMS’s built-in functions can greatly improve your productivity. For all the recipes in this chapter, we try to take advantage of each RDBMS’s built-in functions.
 
 For Additional information about `Date` data type format in PostgreSql please refer to the following resource: [Date](https://github.com/lpinzari/sql-psql-udy/blob/master/04_sql_aggregations/14_date_grouping.md).
@@ -143,7 +143,7 @@ For Additional information about `Date` data type format in PostgreSql please re
 
 # Chapter 7: Date Manipulation
 
-This chapter introduces recipes for searching and modifying dates. Queries involving dates are very common. Thus, you need to know how to think when working with dates, and you need to have a good understanding of the functions that your RDBMS platform provides for manipulating them. The recipes in this chapter form an impor‐ tant foundation for future work as you move on to more complex queries involving not only dates, but times, too.
+This [chapter](./07_date_manipulation) introduces recipes for searching and modifying dates. Queries involving dates are very common. Thus, you need to know how to think when working with dates, and you need to have a good understanding of the functions that your RDBMS platform provides for manipulating them. The recipes in this chapter form an impor‐ tant foundation for future work as you move on to more complex queries involving not only dates, but times, too.
 
 |file|description|
 |:---:|:--------:|
@@ -179,7 +179,7 @@ This [chapter](./08_working_with_ranges) is about “everyday” queries that in
 
 You’ve seen all sorts of queries that use joins and WHERE clauses and grouping techniques to search out and return the results you need.
 
-Some types of searching operations, though, stand apart from others in that they represent a different way of thinking about searching. Perhaps `you’re displaying a result set one page at a time`. Half of that problem is to identify (search for) the entire set of records that you want to display. The other half of that problem is to repeatedly search for the next page to display as a user cycles through the records on a display. Your first thought may not be to think of **pagination as a searching problem**, but it can be thought of that way, and it can be solved that way; that is the type of searching solution this chapter is all about.
+Some types of searching operations, though, stand apart from others in that they represent a different way of thinking about searching. Perhaps `you’re displaying a result set one page at a time`. Half of that problem is to identify (search for) the entire set of records that you want to display. The other half of that problem is to repeatedly search for the next page to display as a user cycles through the records on a display. Your first thought may not be to think of **pagination as a searching problem**, but it can be thought of that way, and it can be solved that way; that is the type of searching solution this [chapter](./09_advanced_searching) is all about.
 
 |file|description|
 |:---:|:--------:|
