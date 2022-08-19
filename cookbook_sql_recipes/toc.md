@@ -173,3 +173,25 @@ This [chapter](./08_working_with_ranges) is about “everyday” queries that in
 |[03](./08_working_with_ranges/03_finding_differences_between_rows_in_the_same_group.md)| Finding Differences Between Rows in the Same Group or Partition|
 |[04](./08_working_with_ranges/04_filling_in_missing_values_in_a_range_of_values.md)|Filling in Missing Values in a Range of Values |
 |[05](./08_working_with_ranges/05_generating_consecutive_values.md)| Generating Consecutive Numeric Values|
+
+
+# Chapter 9: Advanced Searching
+
+You’ve seen all sorts of queries that use joins and WHERE clauses and grouping techniques to search out and return the results you need.
+
+Some types of searching operations, though, stand apart from others in that they represent a different way of thinking about searching. Perhaps `you’re displaying a result set one page at a time`. Half of that problem is to identify (search for) the entire set of records that you want to display. The other half of that problem is to repeatedly search for the next page to display as a user cycles through the records on a display. Your first thought may not be to think of **pagination as a searching problem**, but it can be thought of that way, and it can be solved that way; that is the type of searching solution this chapter is all about.
+
+|file|description|
+|:---:|:--------:|
+|[01](./09_advanced_searching/01_paginating_through_a_result_set.md)|Paginating Through a Result Set|
+|[02](./09_advanced_searching/02_skipping_n_rows_from_a_table.md)|Skipping n Rows from a Table|
+|[03](./09_advanced_searching/03_incorporating_or_logic_using_outer_join.md)|Incorporating OR Logic When Using Outer Joins|
+|[04](./09_advanced_searching/04_determining_which_rows_are_reciprocals.md)|Determining Which Rows Are Reciprocals|
+|[05](./09_advanced_searching/05_selecting_top_n_records.md)|Selecting the Top n Records|
+|[06](./09_advanced_searching/06_find_records_with_highest_lowest_values.md)|Finding Records with the Highest and Lowest Values|
+|[07](./09_advanced_searching/07_investigating_future_rows.md)|Investigating Future Rows|
+|[08](./09_advanced_searching/08_shifting_row_values.md)|Shifting Row Values|
+|[09](./09_advanced_searching/09_ranking_results.md)|Ranking Results|
+|[10](./09_advanced_searching/10_suppressing_duplicates.md)|Suppressing Duplicates|
+|[11](./09_advanced_searching/11_finding_knight_values.md)|Finding Knight Values|
+|[12](./09_advanced_searching/12_generating_simple_forecast.md)|Generating Simple Forecasts|
