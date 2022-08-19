@@ -169,7 +169,7 @@ This [chapter](./08_working_with_ranges) is about “everyday” queries that in
 |:---:|:--------:|
 |[00](./08_working_with_ranges/00_identify_non_consecutive_values.md)|Identify non-consecutive values |
 |[01](./08_working_with_ranges/01_identify_consecutive_values.md)|Identify consecutive values |
-|[01](./08_working_with_ranges/02_grouping_a_range_consecutive_values.md)| Grouping a Range of Consecutive Values|
-|[01](./08_working_with_ranges/03_finding_differences_between_rows_in_the_same_group.md)| Filling in Missing Values in a Range of Values|
-|[01](./08_working_with_ranges/04_filling_in_missing_values_in_a_range_of_values.md)| |
-|[01](./08_working_with_ranges/05_generating_consecutive_values.md)| Generating Consecutive Numeric Values|
+|[02](./08_working_with_ranges/02_grouping_a_range_consecutive_values.md)| Grouping a Range of Consecutive Values|
+|[03](./08_working_with_ranges/03_finding_differences_between_rows_in_the_same_group.md)| Finding Differences Between Rows in the Same Group or Partition|
+|[04](./08_working_with_ranges/04_filling_in_missing_values_in_a_range_of_values.md)|Filling in Missing Values in a Range of Values |
+|[05](./08_working_with_ranges/05_generating_consecutive_values.md)| Generating Consecutive Numeric Values|
