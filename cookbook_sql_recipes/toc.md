@@ -160,3 +160,16 @@ This chapter introduces recipes for searching and modifying dates. Queries invol
 |[11](./07_date_manipulation/11_searching_on_specific_units_of_time.md)|Searching on Specific Units of Time |
 |[12](./07_date_manipulation/12_comparing_records_using_specifc_part_of_a_date.md)| Comparing Records Using Specific Parts of a Date|
 |[13](./07_date_manipulation/13_identifying_overlapping_date_ranges.md)| Identifying Overlapping Date Ranges|
+
+# Chapter 8: Working with Ranges
+
+This [chapter](./08_working_with_ranges) is about “everyday” queries that involve ranges. Ranges are common in everyday life. For example, projects that we work on range over consecutive periods of time. In SQL, it’s often necessary to search for ranges, or to generate ranges, or to otherwise manipulate range-based data. The queries you’ll read about here are slightly more involved than the queries found in the preceding chapters, but they are just as common, and they’ll begin to give you a sense of what SQL can really do for you when you learn to take full advantage of it.
+
+|file|description|
+|:---:|:--------:|
+|[00](./08_working_with_ranges/00_identify_non_consecutive_values.md)|Identify non-consecutive values |
+|[01](./08_working_with_ranges/01_identify_consecutive_values.md)|Identify consecutive values |
+|[01](./08_working_with_ranges/02_grouping_a_range_consecutive_values.md)| Grouping a Range of Consecutive Values|
+|[01](./08_working_with_ranges/03_finding_differences_between_rows_in_the_same_group.md)| Filling in Missing Values in a Range of Values|
+|[01](./08_working_with_ranges/04_filling_in_missing_values_in_a_range_of_values.md)| |
+|[01](./08_working_with_ranges/05_generating_consecutive_values.md)| Generating Consecutive Numeric Values|
