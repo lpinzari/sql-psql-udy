@@ -195,3 +195,35 @@ Some types of searching operations, though, stand apart from others in that they
 |[10](./09_advanced_searching/10_suppressing_duplicates.md)|Suppressing Duplicates|
 |[11](./09_advanced_searching/11_finding_knight_values.md)|Finding Knight Values|
 |[12](./09_advanced_searching/12_generating_simple_forecast.md)|Generating Simple Forecasts|
+
+# Chapter 10: Reporting and Reshaping
+
+This [chapter](./10_reporting_reshaping) introduces queries you may find helpful for **creating reports**. These typically involve `reporting-specific formatting` considerations along with different levels of aggregation.
+
+Another focus of this chapter is **transposing** or **pivoting result sets**:
+- `reshaping the data by turning rows into columns`.
+
+In general, these recipes have in common that they allow you to present data in for‐ mats or shapes different from the way they are stored.
+
+
+|file|description|
+|:---:|:--------:|
+|[01](./10_reporting_reshaping/01_pivoting_a_result_set_into_one_row.md|Pivoting a Result Set into One Row|
+|[02](./10_reporting_reshaping/02_pivoting_a_result_set_into_multiple_rows.md|Pivoting a Result Set into Multiple Rows|
+|[03](./10_reporting_reshaping/03_reverse_pivoting_a_result_set.md|Reverse Pivoting a Result Set|
+|[04](./10_reporting_reshaping/04_reverse_pivoting_result_set_into_one_column.md|Reverse Pivoting a Result Set into One Column|
+|[05](./10_reporting_reshaping/05_suppressing_repeating_values_in_result_set.md|Suppressing Repeating Values from a Result Set|
+|[06](./10_reporting_reshaping/06_pivoting_result_setto_facilitate_interrow_calculations.md|Pivoting a Result Set to Facilitate Inter-Row Calculations|
+|[07](./10_reporting_reshaping/07_creating_buckets_of_data_of_fixed_sized.md|Creating Buckets of Data, of a Fixed Size|
+|[08](./10_reporting_reshaping/08_creating_predifined_number_of_buckets.md|Creating a Predefined Number of Buckets|
+|[09](./10_reporting_reshaping/09_creating_horizontal_histograms.md|Creating Horizontal Histograms|
+|[10](./10_reporting_reshaping/10_creating_vertical_histograms.md|Creating Vertical Histograms|
+|[11](./10_reporting_reshaping/11_returning_non_groupby_columns.md|Returning Non-GROUP BY Columns|
+|[12](./10_reporting_reshaping/12_calculating_simple_subtotals.md|Calculating Simple Subtotals|
+|[13](./10_reporting_reshaping/13_calculating_subtotals_for_all_possible_expression_combinations.md|Calculating Subtotals for All Possible Expression Combinations|
+|[14](./10_reporting_reshaping/14_using_case_expressions_to_flag_rows.md|Using Case Expressions to Flag Rows|
+|[15](./10_reporting_reshaping/15_creating_a_sparse_matrix.md|Creating a Sparse Matrix|
+|[16](./10_reporting_reshaping/16_grouping_rows_by_units_of_time.md|Grouping Rows by Units of Time|
+|[17](./10_reporting_reshaping/17_performing_aggregation_over_different_group.md|Performing Aggregations over Different Groups/ Partitions Simultaneously|
+|[18](./10_reporting_reshaping/18_performing_aggregations_over_a_moving_range_of_values.md|Performing Aggregations over a Moving Range of Values|
+|[19](./10_reporting_reshaping/19_pivoting_a_result_set_with_subtotals.md|Pivoting a Result Set with Subtotals|
