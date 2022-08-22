@@ -397,7 +397,7 @@ The result set of recursive_cte now looks like this.
 |8 | Lion         |           4 | Panthera    |     3 | Felidae > Pantherinae >Panthera > Lion|
 |9 | Jaguar       |           4 | Panthera    |     3 | Felidae > Pantherinae >Panthera > Jaguar|
 |10 | Snow leopard |           4 | Panthera    |     3 | Felidae > Pantherinae >Panthera > Snow leopard
-|11 | Tiger|        |           4 | Panthera    |     3 | Felidae > Pantherinae >Panthera > Tiger|
+|11 | Tiger|                 4 | Panthera    |     3 | Felidae > Pantherinae >Panthera > Tiger|
 |12 | Cheetah      |           5 | Acinonyx    |     3 | Felidae > Felinae >Acinonyx > Cheetah|
 |13 | Cougar       |           6 | Acinonyxa   |     3 | Felidae > Felinae >Acinonyxa > Cougar|
 
@@ -421,7 +421,7 @@ At this point, the query has reached the bottom of the hierarchy, where no more 
 |8 | Lion         |           4 | Panthera    |     3 | Felidae > Pantherinae >Panthera > Lion|
 |9 | Jaguar       |           4 | Panthera    |     3 | Felidae > Pantherinae >Panthera > Jaguar|
 |10 | Snow leopard |           4 | Panthera    |     3 | Felidae > Pantherinae >Panthera > Snow leopard
-|11 | Tiger|        |           4 | Panthera    |     3 | Felidae > Pantherinae >Panthera > Tiger|
+|11 | Tiger        |          4 | Panthera    |     3 | Felidae > Pantherinae >Panthera > Tiger|
 |12 | Cheetah      |           5 | Acinonyx    |     3 | Felidae > Felinae >Acinonyx > Cheetah|
 |13 | Cougar       |           6 | Acinonyxa   |     3 | Felidae > Felinae >Acinonyxa > Cougar|
 
