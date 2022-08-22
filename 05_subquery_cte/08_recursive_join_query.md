@@ -403,7 +403,7 @@ The result set of recursive_cte now looks like this.
 
 ## Termination Condition
 
-The recursive query ends when there is no more matching in the join between the result set of the last recursive call and the original table.
+The recursive query ends when there is no more matching in the join between the result set of the last recursive call and the original table. I just remind you that a JOIN between tables is a cartesian product followed by a `WHERE` clause. The `WHERE` clause is the **terminal condition**.
 
 
 At this point, the query has reached the bottom of the hierarchy, where no more rows exist, and returns the accumulated result set.
