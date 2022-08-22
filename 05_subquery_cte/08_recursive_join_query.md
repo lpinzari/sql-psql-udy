@@ -328,11 +328,6 @@ recursive_cte: LEVEL 0
 `recursive_cte` is **joined to the original data**. The effect of this is a result set of **descendants of rows from the previous step**.
 
 
-|cat_id |     cat      | ancestor_id |  ancestor   | level |  lineage|
-|:-----:|:------------:|------------:|:-----------:|:-----:|:---------:|
-|1 | Felidae      |             |             |     0 | Felidae|
-|2 | Pantherinae  |           1 | Felidae     |     1 | Felidae > Pantherinae|
-
 
 ## Recursion 2
 
