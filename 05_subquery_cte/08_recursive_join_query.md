@@ -452,7 +452,7 @@ WITH RECURSIVE recursive_cte AS (
          (recursive_cte.lineage || ' > ' || c.cat)::VARCHAR(50)
     FROM cats c
    INNER JOIN recursive_cte
-      ON (recursive_cte.cat_id = c.ancestor_id  AND recursive_cte.cat_id = 1)  
+      ON (recursive_cte.cat_id = c.ancestor_id  AND recursive_cte.level = 1)  
 )
 SELECT cat_id,
        cat,
