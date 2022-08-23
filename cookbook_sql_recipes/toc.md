@@ -227,3 +227,17 @@ In general, these recipes have in common that they allow you to present data in 
 |[17](./10_reporting_reshaping/17_performing_aggregation_over_different_group.md)|Performing Aggregations over Different Groups/ Partitions Simultaneously|
 |[18](./10_reporting_reshaping/18_performing_aggregations_over_a_moving_range_of_values.md)|Performing Aggregations over a Moving Range of Values|
 |[19](./10_reporting_reshaping/19_pivoting_a_result_set_with_subtotals.md)|Pivoting a Result Set with Subtotals|
+
+# Chapter 11: Hierarchical Queries
+
+This chapter introduces recipes for expressing hierarchical relationships that you may have in your data. It is typical when working with hierarchical data to have more difficulty retrieving and displaying the data (as a hierarchy) than storing it.
+
+|file|description|
+|:---:|:--------:|
+|[00](./11_hierarchical_queries/00_recursive_query_hirerchical_data.md)|Recursive Query Hierarchical data Intro|
+|[01](./11_hierarchical_queries/01_parent_child_relationship.md)|Expressing a Parent-Child Relationship|
+|[02](./11_hierarchical_queries/02_child_parent_grandparent_relationship.md)|Expressing a Child-Parent-Grandparent Relationship|
+|[03](./11_hierarchical_queries/03_creating_hierarchical_view_table.md)|Creating a Hierarchical View of a Table|
+|[04](./11_hierarchical_queries/04_finding_all_child_rows_for_a_given_parent_row.md)|Finding All Child Rows for a Given Parent Row|
+|[05](./11_hierarchical_queries/05_determining_which_rows_leaf_root_branch.md)|Determining Which Rows Are Leaf, Branch, or Root Nodes|
+|[06](./11_hierarchical_queries/06_determining_paths_root_leaves.md)|Determining paths Tree from Root to leaves|
