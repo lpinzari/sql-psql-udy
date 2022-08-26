@@ -241,3 +241,17 @@ This chapter introduces recipes for expressing hierarchical relationships that y
 |[04](./11_hierarchical_queries/04_finding_all_child_rows_for_a_given_parent_row.md)|Finding All Child Rows for a Given Parent Row|
 |[05](./11_hierarchical_queries/05_determining_which_rows_leaf_root_branch.md)|Determining Which Rows Are Leaf, Branch, or Root Nodes|
 |[06](./11_hierarchical_queries/06_determining_paths_root_leaves.md)|Determining paths Tree from Root to leaves|
+
+# Chapter 12: Miscellaneous
+
+This [chapter](./12_miscellaneous) contains queries that didn’t fit in any other chapter, either because the chapter they would belong to is already long enough, or because the problems they solve are more fun than realistic.
+
+|file|description|
+|:---:|:--------:|
+|[01](./12_miscellaneous/01_separated_delimited_values_into_rows_with_recursion.md)|Separate delimited values into rows with a Recursive CTE|
+|[02](./12_miscellaneous/02_extracting_elements_of_a_string_from_unfixed_locations.md)|Extracting Elements of a String from Unfixed Locations|
+|[03](./12_miscellaneous/03_searching_for_mixed_alphanumeric_strings.md)|Searching for Mixed Alphanumeric Strings|
+|[04](./12_miscellaneous/04_converting_whole_numbers_to_binary.md)|Converting Whole Numbers to Binary|
+|[05](./12_miscellaneous/05_pivoting_a_ranked_result_set.md)|Pivoting a Ranked Result Set|
+|[06](./12_miscellaneous/06_parsing_serialized_data_into_rows.md)|Parsing Serialized Data into Rows|
+|[07](./12_miscellaneous/07_testing_for_exisiting_a_value_within_group.md)|Testing for Existence of a Value Within a Group|
