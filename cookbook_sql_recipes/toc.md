@@ -276,7 +276,7 @@ SQL even has a way, a relatively new addition to the standard, letting you inser
 |[01](./13_inserting_updating_deleting/01_inserting_a_new_record.md)|Inserting a New Record|
 |[02](./13_inserting_updating_deleting/02_inserting_default_values.md)|Inserting Default Values|
 |[03](./13_inserting_updating_deleting/03_override_a_default_value_with_null.md)|Overriding a Default Value with NULL|
-|[04](./13_inserting_updating_deleting/04_copying_rows_from_one_table_into_another.md)||
+|[04](./13_inserting_updating_deleting/04_copying_rows_from_one_table_into_another.md)|Copying Rows from One Table into Another|
 |[05](./13_inserting_updating_deleting/05_copying_a_table_definition.md)|Copying a Table Definition|
 |[06](./13_inserting_updating_deleting/06_inserting_into_multiple_tables_at_once.md)|Inserting into Multiple Tables at Once|
 |[07](./13_inserting_updating_deleting/07_blocking_inserts_to_certain_columns.md)|Blocking Inserts to Certain Columns Problem|
