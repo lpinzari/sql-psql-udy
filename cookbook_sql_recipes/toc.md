@@ -255,3 +255,38 @@ This [chapter](./12_miscellaneous) contains queries that didn’t fit in any oth
 |[05](./12_miscellaneous/05_pivoting_a_ranked_result_set.md)|Pivoting a Ranked Result Set|
 |[06](./12_miscellaneous/06_parsing_serialized_data_into_rows.md)|Parsing Serialized Data into Rows|
 |[07](./12_miscellaneous/07_testing_for_exisiting_a_value_within_group.md)|Testing for Existence of a Value Within a Group|
+
+# Chapter 13: INSERTING UPDATING DELETING
+
+The past few chapters have focused on basic query techniques, all centered around the task of getting data out of a database. This chapter turns the tables and focuses on the following three topic areas:
+
+- **Inserting** new records into your database
+- **Updating** existing records
+- **Deleting** records that you no longer want
+
+For ease in finding them when you need them, recipes in this chapter have been grouped by topic: all the `insertion` recipes come first, followed by the `update` recipes, and finally recipes for `deleting data`.
+
+Inserting is usually a straightforward task. It begins with the simple problem of inserting a single row. Many times, however, it is more efficient to use a set-based approach to create new rows. To that end, you’ll also find techniques for inserting many rows at a time.
+
+Likewise, updating and deleting start out as simple tasks. You can update one record, and you can delete one record. But you can also update whole sets of records at once, and in very powerful ways. And there are many handy ways to delete records. For example, you can delete rows in one table depending on whether they exist in another table.
+SQL even has a way, a relatively new addition to the standard, letting you insert, update all at once, also known as `UPSERT` or `MERGE`.
+
+|file|description|
+|:---:|:--------:|
+|[01](./13_inserting_updating_deleting/01_inserting_a_new_record.md)|Inserting a New Record|
+|[02](./13_inserting_updating_deleting/02_inserting_default_values.md)|Inserting Default Values|
+|[03](./13_inserting_updating_deleting/03_override_a_default_value_with_null.md)|Overriding a Default Value with NULL|
+|[04](./13_inserting_updating_deleting/04_copying_rows_from_one_table_into_another.md)||
+|[05](./13_inserting_updating_deleting/05_copying_a_table_definition.md)|Copying a Table Definition|
+|[06](./13_inserting_updating_deleting/06_inserting_into_multiple_tables_at_once.md)|Inserting into Multiple Tables at Once|
+|[07](./13_inserting_updating_deleting/07_blocking_inserts_to_certain_columns.md)|Blocking Inserts to Certain Columns Problem|
+|[08](./13_inserting_updating_deleting/08_modifying_records_in_a_table.md)|Modifying Records in a Table|
+|[09](./13_inserting_updating_deleting/09_updating_when_corresponding_rows_exists.md)|Updating When Corresponding Rows Exist|
+|[10](./13_inserting_updating_deleting/10_updating_with_values_from_another_table.md)|Updating with Values from Another Table|
+|[11](./13_inserting_updating_deleting/11_upsert_records.md)|UPSERT (UP-dating AND In-SERT)|
+|[12](./13_inserting_updating_deleting/12_deleting_all_records_from_a_table.md)|Deleting All Records from a Table|
+|[13](./13_inserting_updating_deleting/13_deleting_specific_records.md)|Deleting Specific Records|
+|[14](./13_inserting_updating_deleting/14_deleting_a_single_record.md)|Deleting a Single Record|
+|[15](./13_inserting_updating_deleting/15_deleting_referential_integrity_violations.md)|Deleting Referential Integrity Violations|
+|[16](./13_inserting_updating_deleting/16_delete_duplicate_records.md)|Deleting Duplicate Records|
+|[17](./13_inserting_updating_deleting/17_deleting_records_referenced_from_another_table.md)|Deleting Records Referenced from Another Table|
