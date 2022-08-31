@@ -321,10 +321,6 @@ If you don’t want to export the header, which contains the column names of the
 I just remind you to write the **sql query** without the semicolon in the enclosing parentheses.
 
 
-COPY (SELECT query FROM my_query) TO '/Users/ludovicopinzari/Documents/Udacity/Sql_udacity/cnt_rows.sql' DELIMITER ',' QUOTE ' ' CSV;
-
-/Users/ludovicopinzari/Documents/Udacity/Sql_udacity
-
 ```console
 dvdrental=# COPY (SELECT query FROM my_query) TO 'your_path/cnt_rows.sql' DELIMITER ',' QUOTE ' ' CSV;
 COPY 1
