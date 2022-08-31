@@ -1,4 +1,4 @@
-# Using SQL to generate INSERT statements
+# Using SQL to generate Random Sampling record INSERT statements
 
 You want to create `dynamic SQL statements`, to populate your tables for testing purposes.
 

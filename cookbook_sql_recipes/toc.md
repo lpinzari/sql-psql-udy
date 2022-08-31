@@ -290,3 +290,27 @@ SQL even has a way, a relatively new addition to the standard, letting you inser
 |[15](./13_inserting_updating_deleting/15_deleting_referential_integrity_violations.md)|Deleting Referential Integrity Violations|
 |[16](./13_inserting_updating_deleting/16_delete_duplicate_records.md)|Deleting Duplicate Records|
 |[17](./13_inserting_updating_deleting/17_deleting_records_referenced_from_another_table.md)|Deleting Records Referenced from Another Table|
+
+## Chapter 14
+
+This [chapter](./14_metadata_queries) presents recipes that allow you to find information about a given **schema**.
+
+For example, you may want to know **what tables you’ve created or which foreign keys are not indexed**.  
+
+The recipes in this chapter will get you started on gleaning information from those tables and views.
+
+Although at a high level the strategy of storing metadata in tables and views within the RDBMS is common, the ultimate implementation is not standardized to the same degree as most of the SQL language features covered in this book. Therefore, com‐ pared to other chapters, in this chapter having a different solution for each RDBMS is far more common.
+
+|file|description|
+|:---:|:--------:|
+|[00](./14_metadata_queries/00_intro.md)|Intro to metadata schema|
+|[01](./14_metadata_queries/01_get_name_of_connected_database.md)| Get the name of the connected Database|
+|[02](./14_metadata_queries/02_get_names_of_postgres_databases.md)| Get names of PostgreSql databases|
+|[03](./14_metadata_queries/03_list_tables_in_a_schema.md)| Listing Tables in a Schema|
+|[04](./14_metadata_queries/04_listing_a_table_columns.md)| Listing a Table’s Columns|
+|[05](./14_metadata_queries/05_listing_indexed_columns_for_a_table.md)| Listing Indexed Columns for a Table|
+|[06](./14_metadata_queries/06_listing_constraints_on_a_table.md)| Listing Constraints on a Table|
+|[07](./14_metadata_queries/07_create_dat_dictionary_view.md)| Pg_catalog: DATA DICTIONARY|
+|[08](./14_metadata_queries/08_erd_graph.md)| Entity Relationship Graph|
+|[09](./14_metadata_queries/09_using_sql_to_geenrate_sql.md)| Using SQL to Generate SQL|
+|[10](./14_metadata_queries/10_using_sql_to_generate_random_sampling_insert.md)| Using SQL to generate Random Sampling record INSERT statements|
